@@ -11,6 +11,9 @@
 	--font-serif: "Tiempos Text", Iowan Old Style, Times New Roman, Times, serif;
 	--font-mono: Menlo, Consolas, Monaco, monospace;
 
+	/* font sizes*/
+	--p-font-size: 1.25rem;
+
 	/* z-index */
 	--z-bottom: -1;
 	--z-base: 1;
@@ -91,6 +94,11 @@ h6 {
 	font-size: var(--20px, 20px);
 }
 
+p, li{
+	font-size: var(--p-font-size, 1.25rem);
+	margin-bottom: 2rem;
+}
+
 svg {
 	display: block;
 	width: 100%;
@@ -104,5 +112,15 @@ svg {
 
 .ngsl{
 	font-style: italic;
+}
+
+.story-section {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.content-container{
+	max-width: 720px;
 }
 

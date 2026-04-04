@@ -1,6 +1,7 @@
 <script>
     import { getContext } from "svelte";
     import {
+        INTRO_SCREEN_LONG,
         INTRO_SCREEN_SETS,
         pickWordsForScreen,
         placeWordsInGrid
@@ -25,7 +26,7 @@
     const grid = $derived(placeWordsInGrid(words, screenIndex, 12, 12));
 </script>
 
-<div class="intro-screen">
+<div class="intro-screen" class:intro-screen--long={longForm}>
     {#if pools}
         <div 
             class="intro-screen-grid"
@@ -76,18 +77,20 @@
         opacity: 0.75;
     }
     .intro-screen {
-        min-height: 100vh;
-        height: auto;
-        overflow-x: hidden;
+        box-sizing: border-box;
+        position: relative;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        margin-top: -8rem;
-        position: relative;
+        height: 100vh;
+        overflow: hidden;
     }
 
-    .intro-screen--long{
+    .intro-screen--long {
+        height: auto;
+        min-height: 100vh;
+        overflow: hidden visible;
         justify-content: flex-start;
         padding-block: clamp(2rem, 8vh, 5rem);
     }
@@ -95,10 +98,26 @@
     .intro-screen-grid {
         display: grid;
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        inset: 0;
         z-index: 0;
+        overflow: hidden;
+        pointer-events: none;
+    }
+
+    .intro-screen-cell {
+        min-width: 0;
+        min-height: 0;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .intro-screen-cell .word {
+        display: block;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 </style>
