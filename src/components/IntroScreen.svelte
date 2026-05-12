@@ -11,8 +11,8 @@
     const showOverlay = $derived(screenIndex === 3);
     const longForm = $derived(INTRO_SCREEN_LONG[screenIndex] ?? false);
 
-    const data = getContext("data");
-    const pools = data?.introWordPools;
+    const getData = getContext("data");
+    const pools = $derived(getData?.()?.introWordPools ?? null);
 
 
     const allowedSets = $derived(

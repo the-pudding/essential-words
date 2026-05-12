@@ -7,12 +7,13 @@
 /* colors defined in variables.css */
 :root {
 	/* font */
-	--font-sans: "Atlas Grotesk", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
-	--font-serif: "Tiempos Text", Iowan Old Style, Times New Roman, Times, serif;
-	--font-mono: Menlo, Consolas, Monaco, monospace;
+	--font-sans: "Source Sans 3", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+	--font-serif: "Source Serif 4", Times New Roman, Times, serif;
+	--font-mono: "Source Code Pro", Menlo, Consolas, Monaco, monospace;
 
 	/* font sizes*/
 	--p-font-size: 1.25rem;
+	--chart-header-font-size: 1.75rem;
 
 	/* z-index */
 	--z-bottom: -1;
@@ -29,12 +30,17 @@
 	--radius-sm: 0.25rem;
 	--radius-md: 0.5rem;
 	--radius-lg: 1rem;
+
+	--max-prose-width: 650px;
+	--max-wide-width: 850px;
 	
 	--color-bg: #FFFFF1;
 	--color-fg: var(--color-gray-900);
 	--color-fg-light: var(--color-gray-500);
 	--color-primary: #5B5B5B;
-	--color-link: var(--color-black);
+	--color-secondary: #8F8A77;
+	--color-accent: #BACB73;
+	--color-link: var(--color-primary);
 	--color-link-hover: var(--color-black);
 	--color-focus: var(--color-gray-500);
 	--color-mark: var(--color-yellow);
@@ -47,8 +53,11 @@
 	--color-input-bg: var(--color-gray-50);
 	--color-input-fg: var(--color-gray-900);
 	--color-placeholder: var(--color-gray-500);
-	--color-gsl: #FFAA4A;
-	--color-ngsl: #F493FF;
+	--color-gsl: #ED9027;
+	--color-gsl-highlight: #FFAA4A;
+	--color-ngsl: #DB6AE8;
+	--color-ngsl-highlight: #F493FF;
+	--color-remained-highlight: #DBD4BC;
 	--color-highlight-text: #494949;
 
 	/* "1" second duration */
@@ -71,6 +80,8 @@
 body{
 	background-color: var(--color-bg, white);
 	color: var(--color-primary, black);
+	font-size: var(--p-font-size);
+	line-height: 1.45;
 }
 
 h1 {
@@ -100,7 +111,7 @@ h6 {
 p, li{
 	font-size: var(--p-font-size, 1.25rem);
 	margin-bottom: 2rem;
-	line-height: 1.5;
+	line-height: 1.45;
 }
 
 svg {
@@ -112,12 +123,12 @@ svg {
 /* global styles */
 .gsl{
 	font-style: italic;
-	background-color: var(--color-gsl);
+	background-color: var(--color-gsl-highlight);
 }
 
 .ngsl{
 	font-style: italic;
-	background-color: var(--color-ngsl);
+	background-color: var(--color-ngsl-highlight);
 }
 
 .gsl, .ngsl{
@@ -131,7 +142,62 @@ svg {
 	align-items: center;
 }
 
-.content-container{
-	max-width: 720px;
+.story-section--hero{
+	text-align: center;
+	margin: 0 auto;
+	max-width: var(--max-wide-width);
+}
+
+.story-section--hero h1{
+	font-size: 100px;
+	font-weight: 200;
+	line-height: 0.9;
+	margin-bottom: 3rem;
+}
+
+.story-section--hero .story-dek{
+	font-family: var(--font-serif);
+	font-weight: 300;
+	font-size: 2.5rem;
+	line-height: 1.05;
+	letter-spacing: 2%;
+	text-transform: uppercase;
+	color: var(--color-primary);
+}
+
+.story-prose{
+	max-width: var(--max-prose-width);
+}
+
+
+.chart-header {
+	max-width: var(--max-prose-width);
+	margin-bottom: 1.5rem;
+}
+
+.story-heading{
+	font-size: var(--chart-header-font-size);
+	font-weight: 500;
+	line-height: 1.2;
+}
+
+.chart-subhead {
+	
+}
+
+.chart-placeholder {
+	border: 1px dashed var(--color-border);
+	border-radius: var(--radius-md);
+	padding: 2rem;
+	margin: 40px auto;
+	text-align: center;
+	font-family: var(--font-mono);
+	font-size: var(--14px, 0.875rem);
+	color: var(--color-fg-light);
+}
+
+.story-empty {
+	text-align: center;
+	padding: 3rem 1rem;
 }
 

@@ -1,0 +1,3423 @@
+word,set,usas_tag,usas_top_level,usas_top_level_name
+a,remained,Z5,Z,Names and Grammar
+ability,remained,X9.1+,X,"Psychological Actions, States and Processes"
+able,remained,X9.1+,X,"Psychological Actions, States and Processes"
+about,remained,Z5,Z,Names and Grammar
+above,remained,Z5,Z,Names and Grammar
+abroad,remained,M7,M,"Movement, Location, Travel and Transport"
+absence,remained,S1.1.3-,S,"Social Actions, States and Processes"
+absolute,remained,A5.1+++,A,General and Abstract Terms
+accept,remained,A9+,A,General and Abstract Terms
+accident,remained,A1.1.2,A,General and Abstract Terms
+accord,remained,Q2.2,Q,Language and Communication
+account,remained,Q2.2,Q,Language and Communication
+accuse,remained,Q2.2,Q,Language and Communication
+across,remained,Z5,Z,Names and Grammar
+act,remained,A1.1.1,A,General and Abstract Terms
+action,remained,A1.1.1,A,General and Abstract Terms
+active,remained,A1.1.1,A,General and Abstract Terms
+actor,remained,K4/S2.2m,K,"Entertainment, Sports and Games"
+actual,remained,A5.4+,A,General and Abstract Terms
+add,remained,N5+/A2.1,N,Numbers and Measurement
+address,remained,H4,H,"Architecture, Housing and the Home"
+admire,remained,S7.2+,S,"Social Actions, States and Processes"
+admit,remained,Q2.2,Q,Language and Communication
+adopt,remained,A9+,A,General and Abstract Terms
+advance,remained,I1.1,I,Money and Commerce in Industry
+advantage,remained,A5.1+,A,General and Abstract Terms
+adventure,remained,X8+,X,"Psychological Actions, States and Processes"
+advertise,remained,I2.2/Q2.1,I,Money and Commerce in Industry
+advice,remained,Q2.2/S8+,Q,Language and Communication
+advise,remained,Q2.2/S8+,Q,Language and Communication
+affair,remained,A1.1.1,A,General and Abstract Terms
+afford,remained,I1.1,I,Money and Commerce in Industry
+afraid,remained,E5-,E,Emotion
+after,remained,Z5,Z,Names and Grammar
+afternoon,remained,T1.3,T,Time
+again,remained,N6+,N,Numbers and Measurement
+against,remained,A5.1-,A,General and Abstract Terms
+age,remained,T3++,T,Time
+agency,remained,I2.2/S5+c,I,Money and Commerce in Industry
+agent,remained,I2.1/S2mf,I,Money and Commerce in Industry
+ago,remained,T1.1.1,T,Time
+agree,remained,A6.1+,A,General and Abstract Terms
+ahead,remained,M6,M,"Movement, Location, Travel and Transport"
+aim,remained,X7+,X,"Psychological Actions, States and Processes"
+air,remained,O1.3,O,"Substances, Materials, Objects and Equipment"
+alive,remained,L1+,L,Life and Living Things
+all,remained,A13.2,A,General and Abstract Terms
+allow,remained,S7.4+,S,"Social Actions, States and Processes"
+almost,remained,A13.4,A,General and Abstract Terms
+alone,remained,A14,A,General and Abstract Terms
+along,remained,M6,M,"Movement, Location, Travel and Transport"
+already,remained,T1.1.1,T,Time
+also,remained,N5++,N,Numbers and Measurement
+although,remained,Z5,Z,Names and Grammar
+altogether,remained,A13.2,A,General and Abstract Terms
+always,remained,N6+++,N,Numbers and Measurement
+among,remained,Z5,Z,Names and Grammar
+amount,remained,N5,N,Numbers and Measurement
+ancient,remained,T3++,T,Time
+and,remained,Z5,Z,Names and Grammar
+anger,remained,E3-,E,Emotion
+angle,remained,O4.4,O,"Substances, Materials, Objects and Equipment"
+angry,remained,E3-,E,Emotion
+animal,remained,L2,L,Life and Living Things
+another,remained,A6.1-,A,General and Abstract Terms
+answer,remained,Q2.2,Q,Language and Communication
+anxiety,remained,E6-,E,Emotion
+anxious,remained,E6-,E,Emotion
+any,remained,A13.3,A,General and Abstract Terms
+anybody,remained,Z8mfc,Z,Names and Grammar
+anyone,remained,Z8mfc,Z,Names and Grammar
+anything,remained,Z8,Z,Names and Grammar
+anyway,remained,Z4,Z,Names and Grammar
+anywhere,remained,M6,M,"Movement, Location, Travel and Transport"
+apart,remained,N3.3+,N,Numbers and Measurement
+appear,remained,A8,A,General and Abstract Terms
+appearance,remained,A10+,A,General and Abstract Terms
+application,remained,Q1.2,Q,Language and Communication
+apply,remained,Q2.2,Q,Language and Communication
+appoint,remained,S7.1+,S,"Social Actions, States and Processes"
+approve,remained,S7.4+,S,"Social Actions, States and Processes"
+argue,remained,Q2.1,Q,Language and Communication
+arise,remained,A1.1.1,A,General and Abstract Terms
+arm,remained,G3,G,Government and Public
+army,remained,G3c,G,Government and Public
+around,remained,Z5,Z,Names and Grammar
+arrange,remained,S7.1+,S,"Social Actions, States and Processes"
+arrest,remained,G2.1,G,Government and Public
+arrive,remained,M1,M,"Movement, Location, Travel and Transport"
+art,remained,C1,C,Arts and Crafts
+article,remained,Q4.2,Q,Language and Communication
+ashamed,remained,G2.2-,G,Government and Public
+aside,remained,Q2.1/A1.2-,Q,Language and Communication
+ask,remained,Q2.2,Q,Language and Communication
+association,remained,S5+c,S,"Social Actions, States and Processes"
+at,remained,Z5,Z,Names and Grammar
+attack,remained,E3-,E,Emotion
+attempt,remained,X8+,X,"Psychological Actions, States and Processes"
+attend,remained,S1.1.3+,S,"Social Actions, States and Processes"
+attention,remained,X5.1+,X,"Psychological Actions, States and Processes"
+attract,remained,O4.2+,O,"Substances, Materials, Objects and Equipment"
+attraction,remained,O4.2+,O,"Substances, Materials, Objects and Equipment"
+attractive,remained,O4.2+,O,"Substances, Materials, Objects and Equipment"
+audience,remained,K1/S2mfc,K,"Entertainment, Sports and Games"
+aunt,remained,S4f,S,"Social Actions, States and Processes"
+autumn,remained,T1.3,T,Time
+average,remained,N2,N,Numbers and Measurement
+avoid,remained,A1.9,A,General and Abstract Terms
+away,remained,M6,M,"Movement, Location, Travel and Transport"
+baby,remained,T3--/S2mf,T,Time
+back,remained,B1,B,The Body and the Individual
+bad,remained,A5.1-,A,General and Abstract Terms
+bag,remained,B5,B,The Body and the Individual
+balance,remained,O4.1/B1,O,"Substances, Materials, Objects and Equipment"
+ball,remained,O2/O4.4,O,"Substances, Materials, Objects and Equipment"
+band,remained,K2c,K,"Entertainment, Sports and Games"
+bank,remained,I1/H1,I,Money and Commerce in Industry
+bar,remained,F2/H1c,F,Food and Farming
+base,remained,T2+,T,Time
+basic,remained,A6.2+,A,General and Abstract Terms
+basis,remained,A2.2,A,General and Abstract Terms
+bath,remained,H5/B4,H,"Architecture, Housing and the Home"
+battle,remained,X8+,X,"Psychological Actions, States and Processes"
+be,remained,A3+,A,General and Abstract Terms
+bear,remained,M2,M,"Movement, Location, Travel and Transport"
+beat,remained,X9.2+/S7.3,X,"Psychological Actions, States and Processes"
+beauty,remained,O4.2+,O,"Substances, Materials, Objects and Equipment"
+because,remained,Z5/A2.2,Z,Names and Grammar
+become,remained,A2.1+,A,General and Abstract Terms
+bed,remained,H5,H,"Architecture, Housing and the Home"
+bedroom,remained,H2,H,"Architecture, Housing and the Home"
+before,remained,Z5,Z,Names and Grammar
+begin,remained,T2+,T,Time
+behave,remained,S1.1.1,S,"Social Actions, States and Processes"
+behavior,remained,S1.1.1,S,"Social Actions, States and Processes"
+behind,remained,M6,M,"Movement, Location, Travel and Transport"
+belief,remained,X2.1,X,"Psychological Actions, States and Processes"
+believe,remained,X2.1,X,"Psychological Actions, States and Processes"
+bell,remained,O2/X3.2,O,"Substances, Materials, Objects and Equipment"
+belong,remained,A9+,A,General and Abstract Terms
+below,remained,Z5,Z,Names and Grammar
+belt,remained,E3-,E,Emotion
+bend,remained,O4.4,O,"Substances, Materials, Objects and Equipment"
+beneath,remained,M6,M,"Movement, Location, Travel and Transport"
+beside,remained,M6,M,"Movement, Location, Travel and Transport"
+besides,remained,Z5,Z,Names and Grammar
+between,remained,Z5,Z,Names and Grammar
+beyond,remained,Z5,Z,Names and Grammar
+big,remained,N3.2+,N,Numbers and Measurement
+bill,remained,I1.3,I,Money and Commerce in Industry
+bind,remained,E2-,E,Emotion
+bird,remained,L2mfn,L,Life and Living Things
+birth,remained,B1,B,The Body and the Individual
+bit,remained,N5-,N,Numbers and Measurement
+bite,remained,B1,B,The Body and the Individual
+black,remained,O4.3,O,"Substances, Materials, Objects and Equipment"
+blame,remained,G2.1,G,Government and Public
+bless,remained,S9,S,"Social Actions, States and Processes"
+blind,remained,X3.4-,X,"Psychological Actions, States and Processes"
+block,remained,O2,O,"Substances, Materials, Objects and Equipment"
+blood,remained,B1,B,The Body and the Individual
+blow,remained,A1.1.1,A,General and Abstract Terms
+blue,remained,I1.2,I,Money and Commerce in Industry
+board,remained,S7.1+/S5+c,S,"Social Actions, States and Processes"
+boat,remained,M4,M,"Movement, Location, Travel and Transport"
+body,remained,B1,B,The Body and the Individual
+bone,remained,B1,B,The Body and the Individual
+book,remained,A9+/Q2.2,A,General and Abstract Terms
+border,remained,M7/G1.1,M,"Movement, Location, Travel and Transport"
+borrow,remained,A9+,A,General and Abstract Terms
+both,remained,Z5,Z,Names and Grammar
+bottle,remained,O2,O,"Substances, Materials, Objects and Equipment"
+bottom,remained,N4,N,Numbers and Measurement
+boundary,remained,M7,M,"Movement, Location, Travel and Transport"
+bowl,remained,K5.1,K,"Entertainment, Sports and Games"
+box,remained,K5.1,K,"Entertainment, Sports and Games"
+boy,remained,Z4,Z,Names and Grammar
+brain,remained,E3-,E,Emotion
+branch,remained,N5+,N,Numbers and Measurement
+bread,remained,F1,F,Food and Farming
+break,remained,A1.1.2,A,General and Abstract Terms
+breakfast,remained,F1,F,Food and Farming
+breath,remained,B1,B,The Body and the Individual
+breathe,remained,B1,B,The Body and the Individual
+bridge,remained,H1,H,"Architecture, Housing and the Home"
+bright,remained,O4.3,O,"Substances, Materials, Objects and Equipment"
+bring,remained,M2,M,"Movement, Location, Travel and Transport"
+broad,remained,A4.2-,A,General and Abstract Terms
+broadcast,remained,Q4.3,Q,Language and Communication
+brother,remained,S4m,S,"Social Actions, States and Processes"
+brown,remained,O4.3,O,"Substances, Materials, Objects and Equipment"
+brush,remained,B4,B,The Body and the Individual
+build,remained,H1,H,"Architecture, Housing and the Home"
+bunch,remained,S5+,S,"Social Actions, States and Processes"
+burn,remained,O4.6+,O,"Substances, Materials, Objects and Equipment"
+burst,remained,A1.1.2,A,General and Abstract Terms
+bury,remained,A10-,A,General and Abstract Terms
+bus,remained,M3,M,"Movement, Location, Travel and Transport"
+business,remained,I2.1,I,Money and Commerce in Industry
+busy,remained,A1.1.1,A,General and Abstract Terms
+but,remained,A13.6,A,General and Abstract Terms
+button,remained,B5,B,The Body and the Individual
+buy,remained,I2.2,I,Money and Commerce in Industry
+by,remained,M6,M,"Movement, Location, Travel and Transport"
+cake,remained,O4.1,O,"Substances, Materials, Objects and Equipment"
+calculate,remained,N2,N,Numbers and Measurement
+call,remained,Q2.2,Q,Language and Communication
+calm,remained,E3+,E,Emotion
+camera,remained,C1,C,Arts and Crafts
+camp,remained,H4,H,"Architecture, Housing and the Home"
+can,remained,O2,O,"Substances, Materials, Objects and Equipment"
+cap,remained,B5,B,The Body and the Individual
+capital,remained,I1.1,I,Money and Commerce in Industry
+car,remained,M3fn,M,"Movement, Location, Travel and Transport"
+card,remained,B5,B,The Body and the Individual
+care,remained,E6-,E,Emotion
+carry,remained,M2,M,"Movement, Location, Travel and Transport"
+case,remained,A4.1,A,General and Abstract Terms
+castle,remained,H1,H,"Architecture, Housing and the Home"
+cat,remained,L2,L,Life and Living Things
+catch,remained,A9+,A,General and Abstract Terms
+cause,remained,A2.2,A,General and Abstract Terms
+cent,remained,I1,I,Money and Commerce in Industry
+center,remained,M6,M,"Movement, Location, Travel and Transport"
+century,remained,T1.3,T,Time
+ceremony,remained,S1.1.1,S,"Social Actions, States and Processes"
+certain,remained,A4.2+,A,General and Abstract Terms
+chain,remained,A1.7+,A,General and Abstract Terms
+chair,remained,S7.1+,S,"Social Actions, States and Processes"
+chairman,remained,S7.1+/S2mf,S,"Social Actions, States and Processes"
+chance,remained,A1.4,A,General and Abstract Terms
+change,remained,A2.1+,A,General and Abstract Terms
+character,remained,S2mf,S,"Social Actions, States and Processes"
+charge,remained,I1.3,I,Money and Commerce in Industry
+charm,remained,O4.2+,O,"Substances, Materials, Objects and Equipment"
+cheap,remained,I1.3-,I,Money and Commerce in Industry
+check,remained,X2.4/A5.3,X,"Psychological Actions, States and Processes"
+cheese,remained,F1,F,Food and Farming
+chest,remained,B1,B,The Body and the Individual
+chicken,remained,E5-,E,Emotion
+chief,remained,S7.1+,S,"Social Actions, States and Processes"
+child,remained,S2mf/T3-,S,"Social Actions, States and Processes"
+childhood,remained,T1.3/T3-,T,Time
+choice,remained,X7+,X,"Psychological Actions, States and Processes"
+choose,remained,X7+,X,"Psychological Actions, States and Processes"
+church,remained,S9/H1c,S,"Social Actions, States and Processes"
+circle,remained,M1,M,"Movement, Location, Travel and Transport"
+citizen,remained,G1.1/S2mf,G,Government and Public
+city,remained,M7c,M,"Movement, Location, Travel and Transport"
+claim,remained,Q2.2,Q,Language and Communication
+class,remained,A4.1,A,General and Abstract Terms
+clean,remained,O4.2+,O,"Substances, Materials, Objects and Equipment"
+clear,remained,K5.1/X9.2+,K,"Entertainment, Sports and Games"
+climb,remained,M1,M,"Movement, Location, Travel and Transport"
+clock,remained,O2/T1,O,"Substances, Materials, Objects and Equipment"
+close,remained,N3.3-,N,Numbers and Measurement
+clothe,remained,B5,B,The Body and the Individual
+cloud,remained,W4,W,World and Environment
+club,remained,S5+c,S,"Social Actions, States and Processes"
+coal,remained,O1.1,O,"Substances, Materials, Objects and Equipment"
+coast,remained,W3/M4,W,World and Environment
+coat,remained,B5,B,The Body and the Individual
+coffee,remained,F2,F,Food and Farming
+coin,remained,A1.1.1,A,General and Abstract Terms
+cold,remained,B2-,B,The Body and the Individual
+collect,remained,S9/Q1.1,S,"Social Actions, States and Processes"
+collection,remained,A9+,A,General and Abstract Terms
+college,remained,P1/H1c,P,Education
+color,remained,O4.3,O,"Substances, Materials, Objects and Equipment"
+combine,remained,S5+c,S,"Social Actions, States and Processes"
+come,remained,M1,M,"Movement, Location, Travel and Transport"
+comfort,remained,S8+,S,"Social Actions, States and Processes"
+command,remained,S7.1+,S,"Social Actions, States and Processes"
+commercial,remained,I2.2/Q2.2,I,Money and Commerce in Industry
+committee,remained,S7.1+/S5+c,S,"Social Actions, States and Processes"
+common,remained,M7,M,"Movement, Location, Travel and Transport"
+company,remained,I2.1/S5+c,I,Money and Commerce in Industry
+compare,remained,A6,A,General and Abstract Terms
+comparison,remained,A6.1,A,General and Abstract Terms
+compete,remained,S7.3+,S,"Social Actions, States and Processes"
+competition,remained,K1,K,"Entertainment, Sports and Games"
+competitor,remained,S7.3+/S2mf,S,"Social Actions, States and Processes"
+complain,remained,Q2.2/E2-,Q,Language and Communication
+complaint,remained,Q2.2/E2-,Q,Language and Communication
+complete,remained,T2-,T,Time
+complicate,remained,A12-,A,General and Abstract Terms
+compose,remained,N5.1+,N,Numbers and Measurement
+composition,remained,N5.1+,N,Numbers and Measurement
+concern,remained,E6-,E,Emotion
+condition,remained,O4.1,O,"Substances, Materials, Objects and Equipment"
+confidence,remained,E6+,E,Emotion
+confident,remained,E6+,E,Emotion
+confuse,remained,X2.5-,X,"Psychological Actions, States and Processes"
+confusion,remained,X2.5-,X,"Psychological Actions, States and Processes"
+connect,remained,A2.2,A,General and Abstract Terms
+connection,remained,A2.2,A,General and Abstract Terms
+consider,remained,X2.1,X,"Psychological Actions, States and Processes"
+contain,remained,A1.8+,A,General and Abstract Terms
+content,remained,E4.2+,E,Emotion
+continue,remained,T2++,T,Time
+control,remained,S7.1+,S,"Social Actions, States and Processes"
+conversation,remained,Q2.1,Q,Language and Communication
+cook,remained,F1,F,Food and Farming
+cool,remained,O4.6-/A2.1,O,"Substances, Materials, Objects and Equipment"
+copy,remained,A5.4-,A,General and Abstract Terms
+corner,remained,A1.7+,A,General and Abstract Terms
+correct,remained,A5.3+/A2.1,A,General and Abstract Terms
+cost,remained,I1.3,I,Money and Commerce in Industry
+cough,remained,B2,B,The Body and the Individual
+could,remained,A7+,A,General and Abstract Terms
+council,remained,G1.1c,G,Government and Public
+count,remained,N2,N,Numbers and Measurement
+country,remained,G1.1c,G,Government and Public
+course,remained,M6,M,"Movement, Location, Travel and Transport"
+court,remained,S3.2,S,"Social Actions, States and Processes"
+cousin,remained,S4mf,S,"Social Actions, States and Processes"
+cover,remained,A10-,A,General and Abstract Terms
+cow,remained,L2fn,L,Life and Living Things
+crack,remained,A1.1.2,A,General and Abstract Terms
+crash,remained,A1.1.2,A,General and Abstract Terms
+cream,remained,F1,F,Food and Farming
+creature,remained,L2,L,Life and Living Things
+crime,remained,G2.1-,G,Government and Public
+criminal,remained,G2.1-/S2mf,G,Government and Public
+critic,remained,Q2.2/S2mf,Q,Language and Communication
+crop,remained,F4,F,Food and Farming
+cross,remained,M1,M,"Movement, Location, Travel and Transport"
+crowd,remained,N5++,N,Numbers and Measurement
+cry,remained,E4.1-,E,Emotion
+cup,remained,O4.4,O,"Substances, Materials, Objects and Equipment"
+curious,remained,X5.2+,X,"Psychological Actions, States and Processes"
+current,remained,W3/M4,W,World and Environment
+curtain,remained,A10-,A,General and Abstract Terms
+curve,remained,O4.4,O,"Substances, Materials, Objects and Equipment"
+custom,remained,A6.2+,A,General and Abstract Terms
+customer,remained,I2.2/S2mf,I,Money and Commerce in Industry
+cut,remained,A1.1.1,A,General and Abstract Terms
+daily,remained,Q4.2,Q,Language and Communication
+damage,remained,A1.1.2,A,General and Abstract Terms
+dance,remained,K1,K,"Entertainment, Sports and Games"
+danger,remained,A15-,A,General and Abstract Terms
+dare,remained,E5+,E,Emotion
+dark,remained,W2-,W,World and Environment
+date,remained,T1.2,T,Time
+daughter,remained,S4f,S,"Social Actions, States and Processes"
+day,remained,T1.3,T,Time
+dead,remained,A13.3,A,General and Abstract Terms
+deal,remained,A1.1.1,A,General and Abstract Terms
+dear,remained,E2+,E,Emotion
+death,remained,L1-,L,Life and Living Things
+debt,remained,I1.2,I,Money and Commerce in Industry
+decide,remained,X6+,X,"Psychological Actions, States and Processes"
+decision,remained,X6+,X,"Psychological Actions, States and Processes"
+declare,remained,Q2.2,Q,Language and Communication
+decrease,remained,N5-/A2.1,N,Numbers and Measurement
+deep,remained,W3/M4,W,World and Environment
+defeat,remained,X9.2-,X,"Psychological Actions, States and Processes"
+defend,remained,S8+,S,"Social Actions, States and Processes"
+defense,remained,S8+,S,"Social Actions, States and Processes"
+degree,remained,A13.1,A,General and Abstract Terms
+delay,remained,T4-,T,Time
+delight,remained,E4.1+,E,Emotion
+deliver,remained,M2,M,"Movement, Location, Travel and Transport"
+delivery,remained,M2,M,"Movement, Location, Travel and Transport"
+demand,remained,Q2.2,Q,Language and Communication
+department,remained,H2/S5+c,H,"Architecture, Housing and the Home"
+depend,remained,A2.2,A,General and Abstract Terms
+dependent,remained,S7.1-/S2mf,S,"Social Actions, States and Processes"
+depth,remained,N3.3+,N,Numbers and Measurement
+describe,remained,Q2.2,Q,Language and Communication
+description,remained,Q2.2,Q,Language and Communication
+desert,remained,M1,M,"Movement, Location, Travel and Transport"
+deserve,remained,S1.1.4+,S,"Social Actions, States and Processes"
+desire,remained,X7+,X,"Psychological Actions, States and Processes"
+desk,remained,H5,H,"Architecture, Housing and the Home"
+destroy,remained,A1.1.2,A,General and Abstract Terms
+destruction,remained,A1.1.2,A,General and Abstract Terms
+detail,remained,Q2.2,Q,Language and Communication
+determine,remained,A2.2,A,General and Abstract Terms
+develop,remained,A2.1+,A,General and Abstract Terms
+die,remained,L1-,L,Life and Living Things
+difference,remained,A6.1-,A,General and Abstract Terms
+different,remained,A6.1-,A,General and Abstract Terms
+difficult,remained,A12-,A,General and Abstract Terms
+difficulty,remained,A12-,A,General and Abstract Terms
+dig,remained,A1.1.1,A,General and Abstract Terms
+dinner,remained,F1,F,Food and Farming
+direct,remained,M6,M,"Movement, Location, Travel and Transport"
+direction,remained,M6,M,"Movement, Location, Travel and Transport"
+director,remained,S7.1+/S2mf,S,"Social Actions, States and Processes"
+disagree,remained,A6.1-,A,General and Abstract Terms
+disappear,remained,A10-,A,General and Abstract Terms
+disappoint,remained,E4.2-,E,Emotion
+discipline,remained,G2.1,G,Government and Public
+discover,remained,A10+,A,General and Abstract Terms
+discovery,remained,A10+,A,General and Abstract Terms
+discus,remained,K5.1/O2,K,"Entertainment, Sports and Games"
+discussion,remained,Q2.1,Q,Language and Communication
+disease,remained,B2-,B,The Body and the Individual
+dish,remained,F1/A1.1.1,F,Food and Farming
+dismiss,remained,A11.1-,A,General and Abstract Terms
+distance,remained,N3.3+,N,Numbers and Measurement
+distant,remained,N3.3+,N,Numbers and Measurement
+distinguish,remained,A6.1-,A,General and Abstract Terms
+district,remained,M7,M,"Movement, Location, Travel and Transport"
+disturb,remained,X5.1-,X,"Psychological Actions, States and Processes"
+divide,remained,A6.1-,A,General and Abstract Terms
+division,remained,A6.1-,A,General and Abstract Terms
+do,remained,S1.1.3+,S,"Social Actions, States and Processes"
+doctor,remained,B3,B,The Body and the Individual
+dog,remained,E6-,E,Emotion
+dollar,remained,I1,I,Money and Commerce in Industry
+door,remained,H2,H,"Architecture, Housing and the Home"
+double,remained,N5+/A2.1,N,Numbers and Measurement
+doubt,remained,A7-,A,General and Abstract Terms
+down,remained,M6,M,"Movement, Location, Travel and Transport"
+dozen,remained,N5,N,Numbers and Measurement
+drag,remained,S8-,S,"Social Actions, States and Processes"
+draw,remained,A1.4,A,General and Abstract Terms
+dream,remained,X4.1,X,"Psychological Actions, States and Processes"
+dress,remained,B5,B,The Body and the Individual
+drink,remained,F2/B1,F,Food and Farming
+drive,remained,M3,M,"Movement, Location, Travel and Transport"
+drop,remained,M2,M,"Movement, Location, Travel and Transport"
+dry,remained,O1.2-,O,"Substances, Materials, Objects and Equipment"
+due,remained,X2.6+,X,"Psychological Actions, States and Processes"
+during,remained,Z5,Z,Names and Grammar
+dust,remained,B4,B,The Body and the Individual
+duty,remained,S6+,S,"Social Actions, States and Processes"
+each,remained,S1.1.2+,S,"Social Actions, States and Processes"
+ear,remained,B1,B,The Body and the Individual
+early,remained,T4+,T,Time
+earn,remained,A9+/I1,A,General and Abstract Terms
+earth,remained,O3,O,"Substances, Materials, Objects and Equipment"
+ease,remained,A12+/A2.1,A,General and Abstract Terms
+east,remained,M6,M,"Movement, Location, Travel and Transport"
+eastern,remained,Z99,Z,Names and Grammar
+easy,remained,A12+,A,General and Abstract Terms
+eat,remained,F1/B1,F,Food and Farming
+edge,remained,A1.1.1,A,General and Abstract Terms
+educate,remained,P1,P,Education
+education,remained,P1,P,Education
+effect,remained,A2.2,A,General and Abstract Terms
+effective,remained,X9.2+,X,"Psychological Actions, States and Processes"
+efficiency,remained,X9.1+/I3.2,X,"Psychological Actions, States and Processes"
+efficient,remained,X9.1+/I3.2,X,"Psychological Actions, States and Processes"
+effort,remained,X8+,X,"Psychological Actions, States and Processes"
+egg,remained,Q2.2,Q,Language and Communication
+either,remained,Z5,Z,Names and Grammar
+elect,remained,G1.2/X7+,G,Government and Public
+election,remained,G1.2/X7+,G,Government and Public
+electric,remained,O3,O,"Substances, Materials, Objects and Equipment"
+else,remained,A6.1-,A,General and Abstract Terms
+elsewhere,remained,M6/A6.1-,M,"Movement, Location, Travel and Transport"
+empire,remained,G1.1,G,Government and Public
+employ,remained,I3.1,I,Money and Commerce in Industry
+employee,remained,I3.1/S2mf,I,Money and Commerce in Industry
+empty,remained,O2/N5---,O,"Substances, Materials, Objects and Equipment"
+encourage,remained,S8+,S,"Social Actions, States and Processes"
+end,remained,T2-,T,Time
+enemy,remained,S1.2.1-/S2mfc,S,"Social Actions, States and Processes"
+engine,remained,O2,O,"Substances, Materials, Objects and Equipment"
+engineer,remained,Y1/I3.2/S2mf,Y,Science and Technology
+enjoy,remained,E2+,E,Emotion
+enough,remained,N5+,N,Numbers and Measurement
+enter,remained,M1,M,"Movement, Location, Travel and Transport"
+entertain,remained,K1,K,"Entertainment, Sports and Games"
+entire,remained,N5.1+,N,Numbers and Measurement
+entrance,remained,M7,M,"Movement, Location, Travel and Transport"
+envelope,remained,O2,O,"Substances, Materials, Objects and Equipment"
+equal,remained,A6.1+,A,General and Abstract Terms
+escape,remained,A1.7-,A,General and Abstract Terms
+especially,remained,A14,A,General and Abstract Terms
+essential,remained,S6+,S,"Social Actions, States and Processes"
+even,remained,A6.1+,A,General and Abstract Terms
+event,remained,A3+/A11.1+,A,General and Abstract Terms
+ever,remained,T1.1,T,Time
+every,remained,N5.1+,N,Numbers and Measurement
+everybody,remained,Z8/N5.1+c,Z,Names and Grammar
+everyday,remained,T1.1.2,T,Time
+everyone,remained,Z8/N5.1+c,Z,Names and Grammar
+everything,remained,Z8/N5.1+,Z,Names and Grammar
+everywhere,remained,M6/N5.1+,M,"Movement, Location, Travel and Transport"
+evil,remained,G2.2-,G,Government and Public
+exact,remained,A5.3+,A,General and Abstract Terms
+examine,remained,X2.4,X,"Psychological Actions, States and Processes"
+example,remained,A4.1,A,General and Abstract Terms
+excellent,remained,A5.1+++,A,General and Abstract Terms
+except,remained,Z5,Z,Names and Grammar
+exception,remained,A6.1-,A,General and Abstract Terms
+excess,remained,N5.2+,N,Numbers and Measurement
+exchange,remained,A9/S1.1.2+,A,General and Abstract Terms
+excite,remained,X5.2+,X,"Psychological Actions, States and Processes"
+excuse,remained,Q2.2,Q,Language and Communication
+exercise,remained,K5.1,K,"Entertainment, Sports and Games"
+exist,remained,A3+,A,General and Abstract Terms
+existence,remained,A3+,A,General and Abstract Terms
+expect,remained,X2.6+,X,"Psychological Actions, States and Processes"
+expense,remained,I1.3,I,Money and Commerce in Industry
+expensive,remained,I1.3+,I,Money and Commerce in Industry
+experience,remained,A2.1+/A3+,A,General and Abstract Terms
+experiment,remained,X2.4,X,"Psychological Actions, States and Processes"
+explain,remained,Q2.2/A7+,Q,Language and Communication
+explore,remained,M1,M,"Movement, Location, Travel and Transport"
+express,remained,A4.2+,A,General and Abstract Terms
+expression,remained,Q3,Q,Language and Communication
+extend,remained,N3.3,N,Numbers and Measurement
+extension,remained,H1,H,"Architecture, Housing and the Home"
+extensive,remained,N5+,N,Numbers and Measurement
+extent,remained,N5,N,Numbers and Measurement
+extra,remained,N5++,N,Numbers and Measurement
+extraordinary,remained,A6.2-,A,General and Abstract Terms
+extreme,remained,N5.1+++,N,Numbers and Measurement
+eye,remained,X3.4,X,"Psychological Actions, States and Processes"
+face,remained,M6,M,"Movement, Location, Travel and Transport"
+fact,remained,A5.2+,A,General and Abstract Terms
+factory,remained,I4/H1c,I,Money and Commerce in Industry
+fade,remained,O4.3,O,"Substances, Materials, Objects and Equipment"
+fail,remained,X9.2-,X,"Psychological Actions, States and Processes"
+failure,remained,X9.2-,X,"Psychological Actions, States and Processes"
+fair,remained,K1/S1.1.1,K,"Entertainment, Sports and Games"
+faith,remained,E6+,E,Emotion
+fall,remained,M1,M,"Movement, Location, Travel and Transport"
+false,remained,A5.2-,A,General and Abstract Terms
+familiar,remained,A6.2+,A,General and Abstract Terms
+family,remained,S4c,S,"Social Actions, States and Processes"
+fan,remained,E2+/S2mf,E,Emotion
+fancy,remained,E2+,E,Emotion
+far,remained,N3.3+,N,Numbers and Measurement
+farm,remained,F4,F,Food and Farming
+fashion,remained,B5,B,The Body and the Individual
+fast,remained,F1-,F,Food and Farming
+fat,remained,O1,O,"Substances, Materials, Objects and Equipment"
+father,remained,S4m,S,"Social Actions, States and Processes"
+fault,remained,A5.3-,A,General and Abstract Terms
+favor,remained,E2++,E,Emotion
+favorite,remained,E2+++,E,Emotion
+fear,remained,E5-,E,Emotion
+fee,remained,I1.3,I,Money and Commerce in Industry
+feel,remained,X2.1,X,"Psychological Actions, States and Processes"
+fellow,remained,S2.2m,S,"Social Actions, States and Processes"
+female,remained,S2.1,S,"Social Actions, States and Processes"
+fence,remained,G2.1-,G,Government and Public
+few,remained,N5-,N,Numbers and Measurement
+field,remained,F4,F,Food and Farming
+fight,remained,S8-,S,"Social Actions, States and Processes"
+figure,remained,X2.1,X,"Psychological Actions, States and Processes"
+fill,remained,N5.1+,N,Numbers and Measurement
+film,remained,Q4.3,Q,Language and Communication
+find,remained,A10+,A,General and Abstract Terms
+fine,remained,G2.1/I1.3,G,Government and Public
+finger,remained,B1,B,The Body and the Individual
+finish,remained,T2-,T,Time
+fire,remained,O4.6+,O,"Substances, Materials, Objects and Equipment"
+firm,remained,O4.5,O,"Substances, Materials, Objects and Equipment"
+first,remained,N4,N,Numbers and Measurement
+fish,remained,K5.1/L2,K,"Entertainment, Sports and Games"
+fit,remained,N3.2/A5.1+,N,Numbers and Measurement
+fix,remained,A12-,A,General and Abstract Terms
+flag,remained,Q1.1,Q,Language and Communication
+flash,remained,O4.3/N6,O,"Substances, Materials, Objects and Equipment"
+flat,remained,O4.4,O,"Substances, Materials, Objects and Equipment"
+float,remained,O2,O,"Substances, Materials, Objects and Equipment"
+flood,remained,W4,W,World and Environment
+floor,remained,X9.2-,X,"Psychological Actions, States and Processes"
+flow,remained,M4,M,"Movement, Location, Travel and Transport"
+flower,remained,L3,L,Life and Living Things
+fly,remained,M5,M,"Movement, Location, Travel and Transport"
+fold,remained,A1.1.1,A,General and Abstract Terms
+follow,remained,M1,M,"Movement, Location, Travel and Transport"
+food,remained,F1,F,Food and Farming
+fool,remained,S1.2.6-,S,"Social Actions, States and Processes"
+foot,remained,B1,B,The Body and the Individual
+for,remained,M6,M,"Movement, Location, Travel and Transport"
+force,remained,S7.1+,S,"Social Actions, States and Processes"
+foreign,remained,M7,M,"Movement, Location, Travel and Transport"
+forest,remained,W3/L3,W,World and Environment
+forget,remained,X2.2-,X,"Psychological Actions, States and Processes"
+form,remained,A4.1,A,General and Abstract Terms
+formal,remained,S1.2.1-,S,"Social Actions, States and Processes"
+former,remained,T2-,T,Time
+forth,remained,M6,M,"Movement, Location, Travel and Transport"
+fortunate,remained,A1.4+,A,General and Abstract Terms
+fortune,remained,I1.1+++,I,Money and Commerce in Industry
+forward,remained,M2,M,"Movement, Location, Travel and Transport"
+frame,remained,O2,O,"Substances, Materials, Objects and Equipment"
+framework,remained,X4.2,X,"Psychological Actions, States and Processes"
+free,remained,S6-,S,"Social Actions, States and Processes"
+freedom,remained,A1.7-,A,General and Abstract Terms
+freeze,remained,O4.6-,O,"Substances, Materials, Objects and Equipment"
+frequency,remained,N6,N,Numbers and Measurement
+frequent,remained,N6+,N,Numbers and Measurement
+fresh,remained,T3-,T,Time
+friend,remained,S3.1/S2mf,S,"Social Actions, States and Processes"
+friendly,remained,K5.1,K,"Entertainment, Sports and Games"
+friendship,remained,S3.1,S,"Social Actions, States and Processes"
+frighten,remained,E5-,E,Emotion
+from,remained,Z5,Z,Names and Grammar
+front,remained,M6,M,"Movement, Location, Travel and Transport"
+fruit,remained,F1,F,Food and Farming
+full,remained,N5.1+,N,Numbers and Measurement
+fun,remained,E4.1+,E,Emotion
+funny,remained,E4.1+,E,Emotion
+furniture,remained,H5,H,"Architecture, Housing and the Home"
+future,remained,T1.1.3,T,Time
+gain,remained,A9+,A,General and Abstract Terms
+game,remained,X5.2+,X,"Psychological Actions, States and Processes"
+gap,remained,M1,M,"Movement, Location, Travel and Transport"
+garden,remained,F4,F,Food and Farming
+gas,remained,E3-,E,Emotion
+gate,remained,H2,H,"Architecture, Housing and the Home"
+gather,remained,S5+,S,"Social Actions, States and Processes"
+gay,remained,S3.2/S2.2m,S,"Social Actions, States and Processes"
+general,remained,G3/S7.1+/S2mf,G,Government and Public
+gentle,remained,E3+,E,Emotion
+gentleman,remained,S2.2m,S,"Social Actions, States and Processes"
+get,remained,A9+,A,General and Abstract Terms
+gift,remained,A9-,A,General and Abstract Terms
+girl,remained,S2.1f,S,"Social Actions, States and Processes"
+give,remained,O4.5,O,"Substances, Materials, Objects and Equipment"
+glad,remained,E4.2+,E,Emotion
+glass,remained,O1.1,O,"Substances, Materials, Objects and Equipment"
+go,remained,M1,M,"Movement, Location, Travel and Transport"
+god,remained,Z4,Z,Names and Grammar
+gold,remained,O1.1,O,"Substances, Materials, Objects and Equipment"
+golden,remained,O4.3,O,"Substances, Materials, Objects and Equipment"
+good,remained,A5.1+,A,General and Abstract Terms
+govern,remained,S7.1+,S,"Social Actions, States and Processes"
+governor,remained,S7.1+/S2mf,S,"Social Actions, States and Processes"
+grain,remained,N5-,N,Numbers and Measurement
+grammar,remained,Q3,Q,Language and Communication
+grand,remained,N1,N,Numbers and Measurement
+grass,remained,Q2.2,Q,Language and Communication
+grateful,remained,S1.2.4+,S,"Social Actions, States and Processes"
+gray,remained,O4.3,O,"Substances, Materials, Objects and Equipment"
+great,remained,A5.1+,A,General and Abstract Terms
+green,remained,O4.3,O,"Substances, Materials, Objects and Equipment"
+greet,remained,Q2.2/S1.2.4+,Q,Language and Communication
+grind,remained,A1.1.1,A,General and Abstract Terms
+group,remained,S5+,S,"Social Actions, States and Processes"
+grow,remained,N3.2+/A2.1,N,Numbers and Measurement
+growth,remained,N3.2+/A2.1,N,Numbers and Measurement
+guard,remained,A15+/I3.2/S2mf,A,General and Abstract Terms
+guess,remained,X2.1/A7-,X,"Psychological Actions, States and Processes"
+guest,remained,H4/S2mf,H,"Architecture, Housing and the Home"
+guide,remained,S8+,S,"Social Actions, States and Processes"
+gun,remained,G3,G,Government and Public
+habit,remained,S1.1.1,S,"Social Actions, States and Processes"
+hair,remained,B1,B,The Body and the Individual
+half,remained,N5c,N,Numbers and Measurement
+hall,remained,H2,H,"Architecture, Housing and the Home"
+hand,remained,B1,B,The Body and the Individual
+handle,remained,A1.1.1,A,General and Abstract Terms
+hang,remained,M2,M,"Movement, Location, Travel and Transport"
+happen,remained,A2.1+,A,General and Abstract Terms
+happy,remained,E4.1+,E,Emotion
+harbor,remained,Z99,Z,Names and Grammar
+hard,remained,O4.1,O,"Substances, Materials, Objects and Equipment"
+hardly,remained,A13.7,A,General and Abstract Terms
+harm,remained,A1.1.2,A,General and Abstract Terms
+hat,remained,B5,B,The Body and the Individual
+hate,remained,E2-,E,Emotion
+have,remained,A9+,A,General and Abstract Terms
+he,remained,Z8m,Z,Names and Grammar
+head,remained,S7.1+,S,"Social Actions, States and Processes"
+health,remained,B2,B,The Body and the Individual
+hear,remained,X3.2,X,"Psychological Actions, States and Processes"
+heart,remained,B1,B,The Body and the Individual
+heat,remained,O4.6+,O,"Substances, Materials, Objects and Equipment"
+heavy,remained,N3.5+,N,Numbers and Measurement
+height,remained,N3.7,N,Numbers and Measurement
+hello,remained,S1.1.1,S,"Social Actions, States and Processes"
+help,remained,S8+,S,"Social Actions, States and Processes"
+here,remained,M6,M,"Movement, Location, Travel and Transport"
+hesitate,remained,A7-,A,General and Abstract Terms
+hide,remained,A10-,A,General and Abstract Terms
+high,remained,N3.7+,N,Numbers and Measurement
+hill,remained,W3,W,World and Environment
+hire,remained,I2.2,I,Money and Commerce in Industry
+history,remained,T1.1.1,T,Time
+hit,remained,E3-,E,Emotion
+hold,remained,M2,M,"Movement, Location, Travel and Transport"
+hole,remained,A1.1.1,A,General and Abstract Terms
+holiday,remained,K1/T1.3,K,"Entertainment, Sports and Games"
+home,remained,M1/M6,M,"Movement, Location, Travel and Transport"
+honest,remained,A5.2+,A,General and Abstract Terms
+honor,remained,Z99,Z,Names and Grammar
+hook,remained,A9+,A,General and Abstract Terms
+hope,remained,X2.6+,X,"Psychological Actions, States and Processes"
+horse,remained,L2mfn,L,Life and Living Things
+hospital,remained,B3/H1c,B,The Body and the Individual
+host,remained,S2mf,S,"Social Actions, States and Processes"
+hot,remained,O4.6+,O,"Substances, Materials, Objects and Equipment"
+hotel,remained,H4/H1,H,"Architecture, Housing and the Home"
+hour,remained,T1.3,T,Time
+house,remained,H4,H,"Architecture, Housing and the Home"
+how,remained,Z5,Z,Names and Grammar
+however,remained,Z4,Z,Names and Grammar
+human,remained,S2mf,S,"Social Actions, States and Processes"
+hunger,remained,F1-/B1,F,Food and Farming
+hunt,remained,L2,L,Life and Living Things
+hurry,remained,N3.8+,N,Numbers and Measurement
+hurt,remained,B2-,B,The Body and the Individual
+husband,remained,A1.5.1/A1.3+,A,General and Abstract Terms
+i,remained,Z99,Z,Names and Grammar
+ice,remained,F1,F,Food and Farming
+idea,remained,X4.1,X,"Psychological Actions, States and Processes"
+ideal,remained,X4.1,X,"Psychological Actions, States and Processes"
+if,remained,Z7,Z,Names and Grammar
+ill,remained,B2-,B,The Body and the Individual
+imagine,remained,X2.1,X,"Psychological Actions, States and Processes"
+immediate,remained,N3.8+,N,Numbers and Measurement
+importance,remained,A11.1+,A,General and Abstract Terms
+important,remained,A11.1+,A,General and Abstract Terms
+impossible,remained,A7-,A,General and Abstract Terms
+improve,remained,A5.1+/A2.1,A,General and Abstract Terms
+in,remained,M6,M,"Movement, Location, Travel and Transport"
+inch,remained,M1,M,"Movement, Location, Travel and Transport"
+include,remained,A1.8+,A,General and Abstract Terms
+increase,remained,N5+/A2.1,N,Numbers and Measurement
+indeed,remained,A13.3,A,General and Abstract Terms
+industry,remained,I4c,I,Money and Commerce in Industry
+influence,remained,A2.2,A,General and Abstract Terms
+inform,remained,X2.2+,X,"Psychological Actions, States and Processes"
+inquiry,remained,Q2.2,Q,Language and Communication
+inside,remained,M6,M,"Movement, Location, Travel and Transport"
+instead,remained,A6.1-,A,General and Abstract Terms
+instrument,remained,O2,O,"Substances, Materials, Objects and Equipment"
+insurance,remained,I1/A15-,I,Money and Commerce in Industry
+insure,remained,I1/A15-,I,Money and Commerce in Industry
+intend,remained,X7+,X,"Psychological Actions, States and Processes"
+intention,remained,X7+,X,"Psychological Actions, States and Processes"
+interest,remained,X5.2+,X,"Psychological Actions, States and Processes"
+international,remained,M7/S5+c,M,"Movement, Location, Travel and Transport"
+into,remained,Z5,Z,Names and Grammar
+introduce,remained,S1.1.1,S,"Social Actions, States and Processes"
+introduction,remained,T2+,T,Time
+invent,remained,X2.1,X,"Psychological Actions, States and Processes"
+invite,remained,Q2.2,Q,Language and Communication
+iron,remained,O1.1,O,"Substances, Materials, Objects and Equipment"
+island,remained,W3,W,World and Environment
+it,remained,Z8,Z,Names and Grammar
+join,remained,A2.2,A,General and Abstract Terms
+joint,remained,F1,F,Food and Farming
+joke,remained,E4.1+,E,Emotion
+journey,remained,M1,M,"Movement, Location, Travel and Transport"
+joy,remained,Z1f,Z,Names and Grammar
+judge,remained,G2.1,G,Government and Public
+jump,remained,M1,M,"Movement, Location, Travel and Transport"
+just,remained,S1.2,S,"Social Actions, States and Processes"
+justice,remained,G2.1+,G,Government and Public
+keep,remained,H1,H,"Architecture, Housing and the Home"
+key,remained,A11.1+,A,General and Abstract Terms
+kick,remained,E3-,E,Emotion
+kill,remained,L1-,L,Life and Living Things
+kind,remained,S1.2/S8+,S,"Social Actions, States and Processes"
+king,remained,S7.1+/S2.2m,S,"Social Actions, States and Processes"
+kiss,remained,S3.2,S,"Social Actions, States and Processes"
+kitchen,remained,F1/H2,F,Food and Farming
+knee,remained,E3-,E,Emotion
+knife,remained,E3-,E,Emotion
+knock,remained,X3.2,X,"Psychological Actions, States and Processes"
+know,remained,X2.2+,X,"Psychological Actions, States and Processes"
+knowledge,remained,X2.2+,X,"Psychological Actions, States and Processes"
+lack,remained,A9-,A,General and Abstract Terms
+lady,remained,S2.1f,S,"Social Actions, States and Processes"
+lake,remained,W3/M4,W,World and Environment
+land,remained,M1,M,"Movement, Location, Travel and Transport"
+language,remained,Q3,Q,Language and Communication
+large,remained,N3.2+,N,Numbers and Measurement
+last,remained,O2,O,"Substances, Materials, Objects and Equipment"
+late,remained,T4-,T,Time
+latter,remained,N4,N,Numbers and Measurement
+laugh,remained,E4.1+/X3.2,E,Emotion
+laughter,remained,E4.1+/X3.2,E,Emotion
+law,remained,G2.1,G,Government and Public
+lawyer,remained,G2.1/I3.2/S2mf,G,Government and Public
+lay,remained,M2,M,"Movement, Location, Travel and Transport"
+lazy,remained,X5.2-/S1.2,X,"Psychological Actions, States and Processes"
+lead,remained,S7.1+,S,"Social Actions, States and Processes"
+leadership,remained,S7.1+,S,"Social Actions, States and Processes"
+lean,remained,M6,M,"Movement, Location, Travel and Transport"
+learn,remained,X2.3+,X,"Psychological Actions, States and Processes"
+least,remained,N5.1-,N,Numbers and Measurement
+leather,remained,O1.1,O,"Substances, Materials, Objects and Equipment"
+leave,remained,M1,M,"Movement, Location, Travel and Transport"
+left,remained,M1,M,"Movement, Location, Travel and Transport"
+leg,remained,M1/N3.8+,M,"Movement, Location, Travel and Transport"
+lend,remained,A9-,A,General and Abstract Terms
+length,remained,N3.7,N,Numbers and Measurement
+less,remained,Z5,Z,Names and Grammar
+lesson,remained,P1,P,Education
+let,remained,S7.4+,S,"Social Actions, States and Processes"
+letter,remained,Q1.2,Q,Language and Communication
+level,remained,O4.4,O,"Substances, Materials, Objects and Equipment"
+library,remained,Q4.1/H1c,Q,Language and Communication
+lie,remained,A5.2-,A,General and Abstract Terms
+life,remained,L1+,L,Life and Living Things
+lift,remained,M2,M,"Movement, Location, Travel and Transport"
+light,remained,W2,W,World and Environment
+like,remained,E2+,E,Emotion
+likely,remained,A7+,A,General and Abstract Terms
+limit,remained,A1.7+,A,General and Abstract Terms
+line,remained,O4.4,O,"Substances, Materials, Objects and Equipment"
+lip,remained,B1,B,The Body and the Individual
+liquid,remained,O1.2,O,"Substances, Materials, Objects and Equipment"
+list,remained,Q1.2,Q,Language and Communication
+listen,remained,X3.2,X,"Psychological Actions, States and Processes"
+literary,remained,Q4.1,Q,Language and Communication
+literature,remained,Q4.1,Q,Language and Communication
+little,remained,N3.2-,N,Numbers and Measurement
+live,remained,H4,H,"Architecture, Housing and the Home"
+load,remained,N5+,N,Numbers and Measurement
+loan,remained,I1.2,I,Money and Commerce in Industry
+local,remained,M7,M,"Movement, Location, Travel and Transport"
+lock,remained,A1.7+,A,General and Abstract Terms
+log,remained,O2,O,"Substances, Materials, Objects and Equipment"
+long,remained,T1.3+,T,Time
+look,remained,A8,A,General and Abstract Terms
+loose,remained,A1.7-,A,General and Abstract Terms
+lose,remained,X9.2-,X,"Psychological Actions, States and Processes"
+loss,remained,I1.2,I,Money and Commerce in Industry
+lot,remained,N5,N,Numbers and Measurement
+loud,remained,X3.2+,X,"Psychological Actions, States and Processes"
+love,remained,E2+,E,Emotion
+lovely,remained,S3.2,S,"Social Actions, States and Processes"
+low,remained,N3.7-,N,Numbers and Measurement
+luck,remained,A1.4,A,General and Abstract Terms
+lunch,remained,F1,F,Food and Farming
+machine,remained,A1.1.1,A,General and Abstract Terms
+mad,remained,A13.3,A,General and Abstract Terms
+mail,remained,Q1.2,Q,Language and Communication
+main,remained,A11.1+,A,General and Abstract Terms
+make,remained,A4.1,A,General and Abstract Terms
+male,remained,S2.2m,S,"Social Actions, States and Processes"
+man,remained,I3.1,I,Money and Commerce in Industry
+manage,remained,S7.1+,S,"Social Actions, States and Processes"
+manner,remained,S1.1.1,S,"Social Actions, States and Processes"
+manufacture,remained,A1.1.1,A,General and Abstract Terms
+many,remained,N5+,N,Numbers and Measurement
+map,remained,Q1.2,Q,Language and Communication
+march,remained,T1.3,T,Time
+mark,remained,O4.2-,O,"Substances, Materials, Objects and Equipment"
+market,remained,I2.2,I,Money and Commerce in Industry
+marriage,remained,S4,S,"Social Actions, States and Processes"
+marry,remained,S4,S,"Social Actions, States and Processes"
+mass,remained,N5+,N,Numbers and Measurement
+master,remained,X9.1+,X,"Psychological Actions, States and Processes"
+match,remained,A6.1+,A,General and Abstract Terms
+material,remained,O1,O,"Substances, Materials, Objects and Equipment"
+matter,remained,X4.1,X,"Psychological Actions, States and Processes"
+may,remained,A7+,A,General and Abstract Terms
+maybe,remained,A7,A,General and Abstract Terms
+meal,remained,F1,F,Food and Farming
+mean,remained,S1.2.2+,S,"Social Actions, States and Processes"
+meanwhile,remained,T1.1.2,T,Time
+measure,remained,N3.1,N,Numbers and Measurement
+meat,remained,F1,F,Food and Farming
+mechanism,remained,O2,O,"Substances, Materials, Objects and Equipment"
+medical,remained,B3,B,The Body and the Individual
+medicine,remained,B3,B,The Body and the Individual
+meet,remained,S3.1,S,"Social Actions, States and Processes"
+member,remained,S5+/S2mf,S,"Social Actions, States and Processes"
+membership,remained,S5+c,S,"Social Actions, States and Processes"
+memory,remained,X2,X,"Psychological Actions, States and Processes"
+mention,remained,Q2.1,Q,Language and Communication
+mere,remained,A11.1-,A,General and Abstract Terms
+message,remained,Q1.1,Q,Language and Communication
+metal,remained,O1.1,O,"Substances, Materials, Objects and Equipment"
+middle,remained,N4,N,Numbers and Measurement
+might,remained,S1.2.5+,S,"Social Actions, States and Processes"
+mile,remained,N3.3,N,Numbers and Measurement
+milk,remained,F2,F,Food and Farming
+mind,remained,E6+,E,Emotion
+mine,remained,I4,I,Money and Commerce in Industry
+minister,remained,G1.1/S2mf,G,Government and Public
+minute,remained,N3.2-,N,Numbers and Measurement
+miss,remained,S2.1f,S,"Social Actions, States and Processes"
+mistake,remained,A5.3-,A,General and Abstract Terms
+mix,remained,A2.1+,A,General and Abstract Terms
+mixture,remained,O1.1,O,"Substances, Materials, Objects and Equipment"
+model,remained,A5.4-,A,General and Abstract Terms
+moderate,remained,N5-/A2.1,N,Numbers and Measurement
+modern,remained,T3-,T,Time
+moment,remained,T1.2,T,Time
+money,remained,I1,I,Money and Commerce in Industry
+month,remained,T1.3,T,Time
+moon,remained,X5.2-/E4.1-,X,"Psychological Actions, States and Processes"
+moral,remained,G2.2+,G,Government and Public
+more,remained,A13.3,A,General and Abstract Terms
+moreover,remained,Z5,Z,Names and Grammar
+morning,remained,T1.3,T,Time
+most,remained,A13.2,A,General and Abstract Terms
+mother,remained,S4,S,"Social Actions, States and Processes"
+motion,remained,Q1.1,Q,Language and Communication
+motor,remained,M3,M,"Movement, Location, Travel and Transport"
+mountain,remained,W3,W,World and Environment
+mouse,remained,L2mfn,L,Life and Living Things
+mouth,remained,B1,B,The Body and the Individual
+move,remained,M2,M,"Movement, Location, Travel and Transport"
+much,remained,N5+,N,Numbers and Measurement
+murder,remained,L1-,L,Life and Living Things
+music,remained,K2,K,"Entertainment, Sports and Games"
+musician,remained,K2/S2mf,K,"Entertainment, Sports and Games"
+must,remained,S6+,S,"Social Actions, States and Processes"
+mystery,remained,X2.2-,X,"Psychological Actions, States and Processes"
+name,remained,Q2.2,Q,Language and Communication
+narrow,remained,N3.7-,N,Numbers and Measurement
+nation,remained,G1.1c,G,Government and Public
+native,remained,M6/S2mf,M,"Movement, Location, Travel and Transport"
+nature,remained,W5,W,World and Environment
+near,remained,M1/N3.3-,M,"Movement, Location, Travel and Transport"
+necessary,remained,S6+,S,"Social Actions, States and Processes"
+neck,remained,S3.2,S,"Social Actions, States and Processes"
+need,remained,S6+,S,"Social Actions, States and Processes"
+neglect,remained,A1.9,A,General and Abstract Terms
+neighbor,remained,M6,M,"Movement, Location, Travel and Transport"
+neighborhood,remained,N3.3-/H3c,N,Numbers and Measurement
+neither,remained,Z6,Z,Names and Grammar
+net,remained,A9+,A,General and Abstract Terms
+network,remained,S5+c,S,"Social Actions, States and Processes"
+never,remained,T1/Z6,T,Time
+new,remained,T3-,T,Time
+news,remained,X2.2+/T3-,X,"Psychological Actions, States and Processes"
+newspaper,remained,Q4.2,Q,Language and Communication
+next,remained,N4,N,Numbers and Measurement
+nice,remained,O4.2+,O,"Substances, Materials, Objects and Equipment"
+night,remained,T1.3,T,Time
+no,remained,Z4,Z,Names and Grammar
+nobody,remained,Z8/Z6cmf,Z,Names and Grammar
+noise,remained,X3.2,X,"Psychological Actions, States and Processes"
+none,remained,Z6/Z8c,Z,Names and Grammar
+nor,remained,Z6,Z,Names and Grammar
+north,remained,M6,M,"Movement, Location, Travel and Transport"
+northern,remained,M6,M,"Movement, Location, Travel and Transport"
+nose,remained,B1,B,The Body and the Individual
+not,remained,Z6,Z,Names and Grammar
+note,remained,Q2.1,Q,Language and Communication
+nothing,remained,Z6/Z8,Z,Names and Grammar
+notice,remained,X3.4+,X,"Psychological Actions, States and Processes"
+noun,remained,Q3,Q,Language and Communication
+now,remained,Z4,Z,Names and Grammar
+nowadays,remained,T1.1.2,T,Time
+nowhere,remained,M6/Z6,M,"Movement, Location, Travel and Transport"
+number,remained,N1,N,Numbers and Measurement
+numerous,remained,N5+,N,Numbers and Measurement
+nurse,remained,B3,B,The Body and the Individual
+object,remained,O2,O,"Substances, Materials, Objects and Equipment"
+observe,remained,X3.4,X,"Psychological Actions, States and Processes"
+occasion,remained,A2.2,A,General and Abstract Terms
+ocean,remained,W3/M4,W,World and Environment
+of,remained,Z5,Z,Names and Grammar
+off,remained,M6,M,"Movement, Location, Travel and Transport"
+offense,remained,G2.1-,G,Government and Public
+offer,remained,A9-,A,General and Abstract Terms
+office,remained,I2.1/H1c,I,Money and Commerce in Industry
+officer,remained,G3/S7.1+/S2mf,G,Government and Public
+official,remained,G1.1/S2mf,G,Government and Public
+often,remained,N6+,N,Numbers and Measurement
+oil,remained,A1.1.1,A,General and Abstract Terms
+old,remained,T3+,T,Time
+on,remained,A5.1+,A,General and Abstract Terms
+once,remained,N6-,N,Numbers and Measurement
+one,remained,Z8,Z,Names and Grammar
+only,remained,A14,A,General and Abstract Terms
+onto,remained,Z5,Z,Names and Grammar
+open,remained,A10+,A,General and Abstract Terms
+operate,remained,A1.1.1,A,General and Abstract Terms
+operation,remained,A1.1.1,A,General and Abstract Terms
+operator,remained,Q1.3/S2mf,Q,Language and Communication
+opinion,remained,X2.1,X,"Psychological Actions, States and Processes"
+opportunity,remained,A1.4,A,General and Abstract Terms
+oppose,remained,S8-/E2-,S,"Social Actions, States and Processes"
+opposite,remained,M6,M,"Movement, Location, Travel and Transport"
+opposition,remained,S8-/E2-,S,"Social Actions, States and Processes"
+or,remained,Z5,Z,Names and Grammar
+orange,remained,F1,F,Food and Farming
+order,remained,S7.1+/Q2.2,S,"Social Actions, States and Processes"
+ordinary,remained,A6.2+,A,General and Abstract Terms
+organize,remained,S7.1+,S,"Social Actions, States and Processes"
+origin,remained,T2+,T,Time
+other,remained,A6.1-/Z8,A,General and Abstract Terms
+otherwise,remained,A6.1-,A,General and Abstract Terms
+ought,remained,S6+,S,"Social Actions, States and Processes"
+out,remained,M6,M,"Movement, Location, Travel and Transport"
+outline,remained,Q2.1,Q,Language and Communication
+outside,remained,Z5,Z,Names and Grammar
+over,remained,K5.1,K,"Entertainment, Sports and Games"
+overcome,remained,X9.2+/S7.3,X,"Psychological Actions, States and Processes"
+owe,remained,I1.2,I,Money and Commerce in Industry
+own,remained,A9+,A,General and Abstract Terms
+ownership,remained,A9+,A,General and Abstract Terms
+pack,remained,A1.1.1,A,General and Abstract Terms
+package,remained,A1.1.1,A,General and Abstract Terms
+page,remained,Q1.3,Q,Language and Communication
+pain,remained,B2-,B,The Body and the Individual
+paint,remained,C1,C,Arts and Crafts
+pair,remained,N5,N,Numbers and Measurement
+pale,remained,A11.1-,A,General and Abstract Terms
+paper,remained,H5,H,"Architecture, Housing and the Home"
+parent,remained,S4mf,S,"Social Actions, States and Processes"
+park,remained,M2,M,"Movement, Location, Travel and Transport"
+part,remained,N5.1-,N,Numbers and Measurement
+particular,remained,A4.2+,A,General and Abstract Terms
+partner,remained,S3.1,S,"Social Actions, States and Processes"
+party,remained,K1/S1.1.3+c,K,"Entertainment, Sports and Games"
+pas,remained,K4,K,"Entertainment, Sports and Games"
+passage,remained,H2,H,"Architecture, Housing and the Home"
+passenger,remained,M3/S2mf,M,"Movement, Location, Travel and Transport"
+past,remained,Z5,Z,Names and Grammar
+path,remained,M3,M,"Movement, Location, Travel and Transport"
+patient,remained,B2-/S2mf,B,The Body and the Individual
+pattern,remained,X4.2,X,"Psychological Actions, States and Processes"
+pause,remained,T2-/T1.3,T,Time
+pay,remained,I1.1/I3.1,I,Money and Commerce in Industry
+peace,remained,E3+,E,Emotion
+pen,remained,Q1.2,Q,Language and Communication
+people,remained,S2mfc,S,"Social Actions, States and Processes"
+per,remained,Z5,Z,Names and Grammar
+perfect,remained,A5.1+++,A,General and Abstract Terms
+perform,remained,A1.1.1,A,General and Abstract Terms
+performance,remained,K4,K,"Entertainment, Sports and Games"
+perhaps,remained,A7,A,General and Abstract Terms
+permanent,remained,T2+++,T,Time
+permission,remained,S7.4+,S,"Social Actions, States and Processes"
+permit,remained,S7.4+,S,"Social Actions, States and Processes"
+person,remained,S2mfc,S,"Social Actions, States and Processes"
+persuade,remained,Q2.2,Q,Language and Communication
+photograph,remained,C1,C,Arts and Crafts
+pick,remained,X7+,X,"Psychological Actions, States and Processes"
+picture,remained,X2.1,X,"Psychological Actions, States and Processes"
+piece,remained,N5.1-,N,Numbers and Measurement
+pig,remained,L2mf,L,Life and Living Things
+pile,remained,N5+,N,Numbers and Measurement
+pink,remained,B5,B,The Body and the Individual
+pipe,remained,M2,M,"Movement, Location, Travel and Transport"
+place,remained,M2,M,"Movement, Location, Travel and Transport"
+plain,remained,A13.3,A,General and Abstract Terms
+plan,remained,X7+,X,"Psychological Actions, States and Processes"
+plant,remained,L3,L,Life and Living Things
+plate,remained,O2,O,"Substances, Materials, Objects and Equipment"
+play,remained,K1,K,"Entertainment, Sports and Games"
+pleasant,remained,O4.2+,O,"Substances, Materials, Objects and Equipment"
+please,remained,E4.2+,E,Emotion
+pleasure,remained,E4.2+,E,Emotion
+plenty,remained,N5++,N,Numbers and Measurement
+pocket,remained,B5,B,The Body and the Individual
+poem,remained,Q3,Q,Language and Communication
+poet,remained,Q4.1/S2mf,Q,Language and Communication
+point,remained,A10+,A,General and Abstract Terms
+police,remained,G2.1,G,Government and Public
+political,remained,G1.2,G,Government and Public
+politician,remained,G1.2/S2mf,G,Government and Public
+politics,remained,G1.2c,G,Government and Public
+pool,remained,S1.1.2+,S,"Social Actions, States and Processes"
+poor,remained,I1.1-,I,Money and Commerce in Industry
+popular,remained,E2+,E,Emotion
+population,remained,S2/N5c,S,"Social Actions, States and Processes"
+position,remained,M6,M,"Movement, Location, Travel and Transport"
+possess,remained,A9+,A,General and Abstract Terms
+possession,remained,A9+,A,General and Abstract Terms
+possible,remained,A7+,A,General and Abstract Terms
+post,remained,Q1.2,Q,Language and Communication
+pot,remained,O2,O,"Substances, Materials, Objects and Equipment"
+pound,remained,A1.1.1,A,General and Abstract Terms
+pour,remained,A1.1.1/O1.2,A,General and Abstract Terms
+poverty,remained,I1.1-,I,Money and Commerce in Industry
+power,remained,S7.1+,S,"Social Actions, States and Processes"
+practical,remained,Y1/P1,Y,Science and Technology
+practice,remained,A1.1.1,A,General and Abstract Terms
+praise,remained,S7.2+/Q2.2,S,"Social Actions, States and Processes"
+pray,remained,S9/Q2.2,S,"Social Actions, States and Processes"
+prefer,remained,E2++,E,Emotion
+preference,remained,E2++,E,Emotion
+prepare,remained,A1.1.1,A,General and Abstract Terms
+presence,remained,M6,M,"Movement, Location, Travel and Transport"
+present,remained,A9-,A,General and Abstract Terms
+preserve,remained,S8+,S,"Social Actions, States and Processes"
+president,remained,G1.1/S7.1+/S2mf,G,Government and Public
+press,remained,A1.1.1,A,General and Abstract Terms
+pressure,remained,S7.1+,S,"Social Actions, States and Processes"
+pretend,remained,A5.4-,A,General and Abstract Terms
+pretty,remained,O4.2+,O,"Substances, Materials, Objects and Equipment"
+prevent,remained,S8-,S,"Social Actions, States and Processes"
+price,remained,I1.3,I,Money and Commerce in Industry
+pride,remained,E4.2+,E,Emotion
+print,remained,Q1.2,Q,Language and Communication
+prison,remained,G2.1/H1,G,Government and Public
+private,remained,G3/S2mf,G,Government and Public
+prize,remained,X7+,X,"Psychological Actions, States and Processes"
+problem,remained,A12-,A,General and Abstract Terms
+produce,remained,F1,F,Food and Farming
+product,remained,O2,O,"Substances, Materials, Objects and Equipment"
+production,remained,A1.1.1,A,General and Abstract Terms
+profession,remained,I3.1,I,Money and Commerce in Industry
+profit,remained,S8+,S,"Social Actions, States and Processes"
+program,remained,Y2,Y,Science and Technology
+progress,remained,A5.1+/A2.1,A,General and Abstract Terms
+promise,remained,S6+,S,"Social Actions, States and Processes"
+prompt,remained,N3.8+,N,Numbers and Measurement
+proof,remained,A15+,A,General and Abstract Terms
+proper,remained,S9,S,"Social Actions, States and Processes"
+property,remained,A9+,A,General and Abstract Terms
+proposal,remained,Q2.2,Q,Language and Communication
+propose,remained,Q2.2/X7+,Q,Language and Communication
+protect,remained,S8+/A15+,S,"Social Actions, States and Processes"
+protection,remained,S8+/A15+,S,"Social Actions, States and Processes"
+proud,remained,E4.2+/S1.2,E,Emotion
+prove,remained,A5.2+,A,General and Abstract Terms
+provide,remained,A9-,A,General and Abstract Terms
+public,remained,A10+,A,General and Abstract Terms
+pull,remained,M2,M,"Movement, Location, Travel and Transport"
+pump,remained,M2,M,"Movement, Location, Travel and Transport"
+pupil,remained,P1/S2mf,P,Education
+pure,remained,A5.4+,A,General and Abstract Terms
+purpose,remained,X7+,X,"Psychological Actions, States and Processes"
+push,remained,M2,M,"Movement, Location, Travel and Transport"
+put,remained,M2,M,"Movement, Location, Travel and Transport"
+qualification,remained,P1,P,Education
+qualify,remained,A1.2+,A,General and Abstract Terms
+quality,remained,A5.1,A,General and Abstract Terms
+quantity,remained,N5,N,Numbers and Measurement
+quarter,remained,N1,N,Numbers and Measurement
+question,remained,Q2.2,Q,Language and Communication
+quick,remained,N3.8+,N,Numbers and Measurement
+quiet,remained,X3.2-,X,"Psychological Actions, States and Processes"
+quite,remained,A13.5,A,General and Abstract Terms
+race,remained,S7.3+,S,"Social Actions, States and Processes"
+radio,remained,Q1.3,Q,Language and Communication
+rail,remained,Q2.2,Q,Language and Communication
+rain,remained,W4,W,World and Environment
+raise,remained,M2,M,"Movement, Location, Travel and Transport"
+rank,remained,A5.1,A,General and Abstract Terms
+rapid,remained,W3/M4,W,World and Environment
+rare,remained,N6-,N,Numbers and Measurement
+rate,remained,A5.1,A,General and Abstract Terms
+rather,remained,Z4,Z,Names and Grammar
+raw,remained,O4.6-,O,"Substances, Materials, Objects and Equipment"
+reach,remained,N3.3,N,Numbers and Measurement
+read,remained,Q3,Q,Language and Communication
+ready,remained,A1.1.1,A,General and Abstract Terms
+real,remained,A5.4+,A,General and Abstract Terms
+realize,remained,X2.5+,X,"Psychological Actions, States and Processes"
+reason,remained,X2.1,X,"Psychological Actions, States and Processes"
+reasonable,remained,S1.2.6+,S,"Social Actions, States and Processes"
+receive,remained,A9+,A,General and Abstract Terms
+recent,remained,T3-,T,Time
+recognition,remained,X2.2+,X,"Psychological Actions, States and Processes"
+recognize,remained,X2.2+,X,"Psychological Actions, States and Processes"
+recommend,remained,Q2.2,Q,Language and Communication
+record,remained,Q1.2,Q,Language and Communication
+red,remained,O4.3,O,"Substances, Materials, Objects and Equipment"
+reduce,remained,N5-/A2.1,N,Numbers and Measurement
+reduction,remained,N5-/A2.1,N,Numbers and Measurement
+refer,remained,Q2.2,Q,Language and Communication
+reference,remained,Q2.2,Q,Language and Communication
+reflect,remained,A10+,A,General and Abstract Terms
+reflection,remained,X3.4,X,"Psychological Actions, States and Processes"
+refuse,remained,Q2.2/Z6,Q,Language and Communication
+regard,remained,X2.1,X,"Psychological Actions, States and Processes"
+regret,remained,E4.1-,E,Emotion
+regular,remained,N6+/S2mf,N,Numbers and Measurement
+relate,remained,A2.2,A,General and Abstract Terms
+relation,remained,A2.2,A,General and Abstract Terms
+relative,remained,S4mf,S,"Social Actions, States and Processes"
+relief,remained,E4.1+,E,Emotion
+religion,remained,S9,S,"Social Actions, States and Processes"
+remain,remained,T2++,T,Time
+remark,remained,Q2.2,Q,Language and Communication
+remember,remained,X2.2+,X,"Psychological Actions, States and Processes"
+remind,remained,X4.1,X,"Psychological Actions, States and Processes"
+rent,remained,I2.2,I,Money and Commerce in Industry
+repair,remained,A5.1+/A2.1,A,General and Abstract Terms
+repeat,remained,N6+,N,Numbers and Measurement
+replace,remained,A2.1+,A,General and Abstract Terms
+reply,remained,Q2.2,Q,Language and Communication
+report,remained,Q2.2,Q,Language and Communication
+represent,remained,Q1.1,Q,Language and Communication
+representative,remained,Q2.1/S2mf,Q,Language and Communication
+reputation,remained,I3.2,I,Money and Commerce in Industry
+request,remained,Q2.2,Q,Language and Communication
+rescue,remained,S8+,S,"Social Actions, States and Processes"
+reserve,remained,A9+,A,General and Abstract Terms
+resign,remained,A9-,A,General and Abstract Terms
+resist,remained,S8-,S,"Social Actions, States and Processes"
+resistance,remained,S8-,S,"Social Actions, States and Processes"
+respect,remained,S7.2+,S,"Social Actions, States and Processes"
+responsible,remained,A2.2,A,General and Abstract Terms
+rest,remained,E3+,E,Emotion
+restaurant,remained,F1/H1,F,Food and Farming
+result,remained,A2.2,A,General and Abstract Terms
+retire,remained,I3.1-,I,Money and Commerce in Industry
+return,remained,M1,M,"Movement, Location, Travel and Transport"
+review,remained,X2.4/A5,X,"Psychological Actions, States and Processes"
+reward,remained,A5.1+/A2.2,A,General and Abstract Terms
+rice,remained,F1,F,Food and Farming
+rich,remained,I1.1+,I,Money and Commerce in Industry
+rid,remained,A9-,A,General and Abstract Terms
+ride,remained,K5.1/L2,K,"Entertainment, Sports and Games"
+right,remained,Z4,Z,Names and Grammar
+ring,remained,Q1.3,Q,Language and Communication
+rise,remained,M1,M,"Movement, Location, Travel and Transport"
+risk,remained,A15-,A,General and Abstract Terms
+rival,remained,S7.3,S,"Social Actions, States and Processes"
+river,remained,W3/M4,W,World and Environment
+road,remained,M3,M,"Movement, Location, Travel and Transport"
+rock,remained,O2,O,"Substances, Materials, Objects and Equipment"
+roll,remained,M1,M,"Movement, Location, Travel and Transport"
+roof,remained,H2,H,"Architecture, Housing and the Home"
+room,remained,H2,H,"Architecture, Housing and the Home"
+root,remained,L3,L,Life and Living Things
+rough,remained,M7/K5.1,M,"Movement, Location, Travel and Transport"
+round,remained,N5,N,Numbers and Measurement
+row,remained,E3-,E,Emotion
+royal,remained,S7.1+/S2mf,S,"Social Actions, States and Processes"
+ruin,remained,A1.1.2,A,General and Abstract Terms
+rule,remained,G2.1,G,Government and Public
+run,remained,M1/N3.8+,M,"Movement, Location, Travel and Transport"
+rush,remained,N3.8+,N,Numbers and Measurement
+sad,remained,E4.1-,E,Emotion
+safe,remained,A15+,A,General and Abstract Terms
+safety,remained,A15+,A,General and Abstract Terms
+sail,remained,M4,M,"Movement, Location, Travel and Transport"
+sake,remained,A2.2,A,General and Abstract Terms
+salary,remained,I1.1/I3.1,I,Money and Commerce in Industry
+sale,remained,I2.2,I,Money and Commerce in Industry
+salt,remained,F1,F,Food and Farming
+same,remained,A6.1+++,A,General and Abstract Terms
+sample,remained,A4.1,A,General and Abstract Terms
+sand,remained,O1.1,O,"Substances, Materials, Objects and Equipment"
+satisfaction,remained,E4.2+,E,Emotion
+satisfy,remained,E4.2+,E,Emotion
+save,remained,Z5,Z,Names and Grammar
+say,remained,Q2.1,Q,Language and Communication
+scale,remained,N3.2,N,Numbers and Measurement
+scene,remained,K4,K,"Entertainment, Sports and Games"
+school,remained,P1/H1c,P,Education
+science,remained,Y1,Y,Science and Technology
+scientific,remained,Y1,Y,Science and Technology
+scientist,remained,Y1/S2mf,Y,Science and Technology
+screen,remained,Y2,Y,Science and Technology
+sea,remained,W3/M4,W,World and Environment
+search,remained,X2.4,X,"Psychological Actions, States and Processes"
+season,remained,F1,F,Food and Farming
+seat,remained,M2,M,"Movement, Location, Travel and Transport"
+second,remained,S8+,S,"Social Actions, States and Processes"
+secret,remained,A10-,A,General and Abstract Terms
+secretary,remained,I3.2/S2mf,I,Money and Commerce in Industry
+see,remained,X3.4,X,"Psychological Actions, States and Processes"
+seed,remained,F4,F,Food and Farming
+seem,remained,A8,A,General and Abstract Terms
+self,remained,S5-,S,"Social Actions, States and Processes"
+sell,remained,I2.2,I,Money and Commerce in Industry
+send,remained,M2,M,"Movement, Location, Travel and Transport"
+sense,remained,A4.1,A,General and Abstract Terms
+sensitive,remained,X2.5+/E1,X,"Psychological Actions, States and Processes"
+sentence,remained,G2.1,G,Government and Public
+separate,remained,A6.1-,A,General and Abstract Terms
+serious,remained,A11.1+,A,General and Abstract Terms
+servant,remained,S7.1-/S2mf,S,"Social Actions, States and Processes"
+serve,remained,S8+,S,"Social Actions, States and Processes"
+service,remained,A1.1.1,A,General and Abstract Terms
+set,remained,M2,M,"Movement, Location, Travel and Transport"
+settle,remained,H5,H,"Architecture, Housing and the Home"
+several,remained,N5,N,Numbers and Measurement
+severe,remained,A5.1-,A,General and Abstract Terms
+shade,remained,A10-,A,General and Abstract Terms
+shadow,remained,O4.3,O,"Substances, Materials, Objects and Equipment"
+shake,remained,M2,M,"Movement, Location, Travel and Transport"
+shall,remained,T1.1.3,T,Time
+shape,remained,O4.4,O,"Substances, Materials, Objects and Equipment"
+share,remained,S1.1.2+,S,"Social Actions, States and Processes"
+sharp,remained,N3.8+,N,Numbers and Measurement
+she,remained,Z8f,Z,Names and Grammar
+sheep,remained,L2mfnc,L,Life and Living Things
+sheet,remained,B5,B,The Body and the Individual
+shelf,remained,H5,H,"Architecture, Housing and the Home"
+shell,remained,F1,F,Food and Farming
+shelter,remained,H1/A10-,H,"Architecture, Housing and the Home"
+shine,remained,W2,W,World and Environment
+ship,remained,M2,M,"Movement, Location, Travel and Transport"
+shirt,remained,B5,B,The Body and the Individual
+shock,remained,E5-,E,Emotion
+shoe,remained,B5,B,The Body and the Individual
+shoot,remained,G3,G,Government and Public
+shop,remained,I2.2/H1c,I,Money and Commerce in Industry
+shore,remained,W3/M4,W,World and Environment
+short,remained,O3,O,"Substances, Materials, Objects and Equipment"
+should,remained,S6+,S,"Social Actions, States and Processes"
+shoulder,remained,B1,B,The Body and the Individual
+shout,remained,Q2.2/X3.2++,Q,Language and Communication
+show,remained,A8,A,General and Abstract Terms
+shower,remained,B4,B,The Body and the Individual
+shut,remained,A10-,A,General and Abstract Terms
+sick,remained,B2-,B,The Body and the Individual
+side,remained,S5+,S,"Social Actions, States and Processes"
+sight,remained,X3.4,X,"Psychological Actions, States and Processes"
+sign,remained,Q1.2,Q,Language and Communication
+signal,remained,A11.1+,A,General and Abstract Terms
+silence,remained,X3.2-,X,"Psychological Actions, States and Processes"
+silent,remained,X3.2-,X,"Psychological Actions, States and Processes"
+silver,remained,O1.1,O,"Substances, Materials, Objects and Equipment"
+simple,remained,A12+,A,General and Abstract Terms
+since,remained,N4,N,Numbers and Measurement
+sing,remained,K2,K,"Entertainment, Sports and Games"
+single,remained,N5---,N,Numbers and Measurement
+sink,remained,B4/H5,B,The Body and the Individual
+sir,remained,S7.1+/S2.2m,S,"Social Actions, States and Processes"
+sister,remained,S4f,S,"Social Actions, States and Processes"
+sit,remained,M8,M,"Movement, Location, Travel and Transport"
+situation,remained,A3+,A,General and Abstract Terms
+size,remained,N3.2,N,Numbers and Measurement
+skill,remained,X9.1+,X,"Psychological Actions, States and Processes"
+skin,remained,A1.1.1/L2,A,General and Abstract Terms
+skirt,remained,M1,M,"Movement, Location, Travel and Transport"
+sky,remained,W1,W,World and Environment
+slave,remained,S7.1-/S2mf,S,"Social Actions, States and Processes"
+sleep,remained,B1,B,The Body and the Individual
+slide,remained,M1,M,"Movement, Location, Travel and Transport"
+slight,remained,N5-,N,Numbers and Measurement
+slip,remained,M1,M,"Movement, Location, Travel and Transport"
+slope,remained,O4.4,O,"Substances, Materials, Objects and Equipment"
+slow,remained,N3.8-,N,Numbers and Measurement
+small,remained,N3.2-,N,Numbers and Measurement
+smell,remained,X3.5,X,"Psychological Actions, States and Processes"
+smile,remained,E4.1+,E,Emotion
+smoke,remained,F3,F,Food and Farming
+smooth,remained,O4.5,O,"Substances, Materials, Objects and Equipment"
+snow,remained,W4,W,World and Environment
+so,remained,Z5,Z,Names and Grammar
+social,remained,S1.1.1,S,"Social Actions, States and Processes"
+society,remained,S5+c,S,"Social Actions, States and Processes"
+soft,remained,O4.5,O,"Substances, Materials, Objects and Equipment"
+soil,remained,O1.1/W3,O,"Substances, Materials, Objects and Equipment"
+soldier,remained,A1.1.1,A,General and Abstract Terms
+solid,remained,O1.1,O,"Substances, Materials, Objects and Equipment"
+solution,remained,X4.2,X,"Psychological Actions, States and Processes"
+solve,remained,X9.2+,X,"Psychological Actions, States and Processes"
+some,remained,A13.5,A,General and Abstract Terms
+somebody,remained,Z8,Z,Names and Grammar
+somehow,remained,X4.2,X,"Psychological Actions, States and Processes"
+someone,remained,Z8mfc,Z,Names and Grammar
+something,remained,Z8,Z,Names and Grammar
+sometimes,remained,N6,N,Numbers and Measurement
+somewhere,remained,M6,M,"Movement, Location, Travel and Transport"
+son,remained,S4m,S,"Social Actions, States and Processes"
+song,remained,K2,K,"Entertainment, Sports and Games"
+soon,remained,T1.1.3/N3.8+,T,Time
+sorry,remained,Z4,Z,Names and Grammar
+sort,remained,A4.1,A,General and Abstract Terms
+soul,remained,S9,S,"Social Actions, States and Processes"
+sound,remained,X3.2,X,"Psychological Actions, States and Processes"
+south,remained,M6,M,"Movement, Location, Travel and Transport"
+space,remained,N3.6,N,Numbers and Measurement
+spare,remained,A9+,A,General and Abstract Terms
+speak,remained,Q2.1,Q,Language and Communication
+special,remained,A4.2+,A,General and Abstract Terms
+speech,remained,Q2.1,Q,Language and Communication
+speed,remained,N3.8+,N,Numbers and Measurement
+spell,remained,T1.3,T,Time
+spend,remained,I1.2,I,Money and Commerce in Industry
+spin,remained,M1,M,"Movement, Location, Travel and Transport"
+spirit,remained,S9,S,"Social Actions, States and Processes"
+split,remained,A6.1-,A,General and Abstract Terms
+sport,remained,K5.1,K,"Entertainment, Sports and Games"
+spot,remained,A14,A,General and Abstract Terms
+spread,remained,F1,F,Food and Farming
+spring,remained,M1,M,"Movement, Location, Travel and Transport"
+square,remained,O4.4,O,"Substances, Materials, Objects and Equipment"
+staff,remained,I3.1/S2mfc,I,Money and Commerce in Industry
+stage,remained,T1.2,T,Time
+stain,remained,O4.3,O,"Substances, Materials, Objects and Equipment"
+stair,remained,H2,H,"Architecture, Housing and the Home"
+stamp,remained,Q1.2,Q,Language and Communication
+stand,remained,I2.2/H5,I,Money and Commerce in Industry
+standard,remained,A5.1,A,General and Abstract Terms
+star,remained,Z3c,Z,Names and Grammar
+start,remained,T2+,T,Time
+state,remained,Q2.1,Q,Language and Communication
+station,remained,G3/H4,G,Government and Public
+stay,remained,M8,M,"Movement, Location, Travel and Transport"
+steady,remained,A2.1-,A,General and Abstract Terms
+steel,remained,S1.2.5+,S,"Social Actions, States and Processes"
+stem,remained,T2+,T,Time
+step,remained,M1,M,"Movement, Location, Travel and Transport"
+stick,remained,M2,M,"Movement, Location, Travel and Transport"
+still,remained,C1,C,Arts and Crafts
+stir,remained,A1.1.1,A,General and Abstract Terms
+stock,remained,A6.2+,A,General and Abstract Terms
+stomach,remained,B1,B,The Body and the Individual
+stone,remained,F1,F,Food and Farming
+stop,remained,M3,M,"Movement, Location, Travel and Transport"
+store,remained,A9+,A,General and Abstract Terms
+storm,remained,E3-,E,Emotion
+story,remained,Q2.1,Q,Language and Communication
+straight,remained,O4.4,O,"Substances, Materials, Objects and Equipment"
+strange,remained,A6.2-,A,General and Abstract Terms
+stream,remained,N5+,N,Numbers and Measurement
+street,remained,M3/H3,M,"Movement, Location, Travel and Transport"
+strength,remained,S1.2.5+,S,"Social Actions, States and Processes"
+strengthen,remained,S1.2.5+/A2.1,S,"Social Actions, States and Processes"
+stretch,remained,N3.6,N,Numbers and Measurement
+strict,remained,S1.2.5+,S,"Social Actions, States and Processes"
+strike,remained,I3.1-,I,Money and Commerce in Industry
+string,remained,O1.1,O,"Substances, Materials, Objects and Equipment"
+strip,remained,O2,O,"Substances, Materials, Objects and Equipment"
+stroke,remained,B2-,B,The Body and the Individual
+strong,remained,S1.2.5+,S,"Social Actions, States and Processes"
+struggle,remained,X8+,X,"Psychological Actions, States and Processes"
+student,remained,P1/S2mf,P,Education
+study,remained,P1,P,Education
+stuff,remained,M2,M,"Movement, Location, Travel and Transport"
+stupid,remained,S1.2.6-,S,"Social Actions, States and Processes"
+subject,remained,A1.1.1,A,General and Abstract Terms
+substance,remained,O1,O,"Substances, Materials, Objects and Equipment"
+succeed,remained,X9.2+,X,"Psychological Actions, States and Processes"
+success,remained,X9.2+,X,"Psychological Actions, States and Processes"
+such,remained,Z5,Z,Names and Grammar
+sudden,remained,N3.8+,N,Numbers and Measurement
+suffer,remained,E4.1-,E,Emotion
+sugar,remained,F1,F,Food and Farming
+suggest,remained,Q2.2,Q,Language and Communication
+suggestion,remained,Q2.2,Q,Language and Communication
+suit,remained,B5,B,The Body and the Individual
+summer,remained,T1.3,T,Time
+sun,remained,K1/W4,K,"Entertainment, Sports and Games"
+supply,remained,A9-,A,General and Abstract Terms
+support,remained,S8+,S,"Social Actions, States and Processes"
+suppose,remained,X2.1,X,"Psychological Actions, States and Processes"
+sure,remained,A7+,A,General and Abstract Terms
+surface,remained,M6,M,"Movement, Location, Travel and Transport"
+surprise,remained,X2.6-,X,"Psychological Actions, States and Processes"
+surround,remained,M6,M,"Movement, Location, Travel and Transport"
+suspect,remained,A5.1-,A,General and Abstract Terms
+swear,remained,Q2.2/S1.2.4-,Q,Language and Communication
+sweep,remained,B4,B,The Body and the Individual
+sweet,remained,F1,F,Food and Farming
+swim,remained,M4,M,"Movement, Location, Travel and Transport"
+swing,remained,M1,M,"Movement, Location, Travel and Transport"
+system,remained,X4.2,X,"Psychological Actions, States and Processes"
+table,remained,Q2.2,Q,Language and Communication
+tail,remained,L2,L,Life and Living Things
+take,remained,Q4.3,Q,Language and Communication
+talk,remained,Q2.1,Q,Language and Communication
+tall,remained,N3.7+,N,Numbers and Measurement
+tap,remained,O2,O,"Substances, Materials, Objects and Equipment"
+taste,remained,X3.1,X,"Psychological Actions, States and Processes"
+tax,remained,I1.1/G1.1,I,Money and Commerce in Industry
+taxi,remained,M3fn,M,"Movement, Location, Travel and Transport"
+tea,remained,F2,F,Food and Farming
+teach,remained,P1,P,Education
+tear,remained,A1.1.1,A,General and Abstract Terms
+telephone,remained,Q1.3,Q,Language and Communication
+tell,remained,Q2.2,Q,Language and Communication
+temperature,remained,O4.6,O,"Substances, Materials, Objects and Equipment"
+tend,remained,A6.2+,A,General and Abstract Terms
+tender,remained,I2.2,I,Money and Commerce in Industry
+tent,remained,K1,K,"Entertainment, Sports and Games"
+term,remained,Q2.2,Q,Language and Communication
+terrible,remained,A5.1-,A,General and Abstract Terms
+test,remained,P1,P,Education
+than,remained,Z5,Z,Names and Grammar
+thank,remained,S1.2.4+,S,"Social Actions, States and Processes"
+that,remained,A13.3,A,General and Abstract Terms
+the,remained,Z5,Z,Names and Grammar
+theater,remained,K4/H1,K,"Entertainment, Sports and Games"
+then,remained,T1.1.1,T,Time
+there,remained,Z5,Z,Names and Grammar
+therefore,remained,Z5,Z,Names and Grammar
+they,remained,Z8mfn,Z,Names and Grammar
+thick,remained,N3.7+,N,Numbers and Measurement
+thin,remained,N5-/A2.1,N,Numbers and Measurement
+thing,remained,O2,O,"Substances, Materials, Objects and Equipment"
+think,remained,X2.1,X,"Psychological Actions, States and Processes"
+thirst,remained,B1/F2,B,The Body and the Individual
+this,remained,A13.3,A,General and Abstract Terms
+though,remained,Z5,Z,Names and Grammar
+threat,remained,E3-/Q2.2,E,Emotion
+threaten,remained,E3-/Q2.2,E,Emotion
+throat,remained,B1,B,The Body and the Individual
+through,remained,M6,M,"Movement, Location, Travel and Transport"
+throw,remained,M2,M,"Movement, Location, Travel and Transport"
+thus,remained,Z5/A2.2,Z,Names and Grammar
+ticket,remained,Q1.2,Q,Language and Communication
+tie,remained,A2.2,A,General and Abstract Terms
+tight,remained,A1.7+,A,General and Abstract Terms
+till,remained,I1/O2,I,Money and Commerce in Industry
+time,remained,X7+/T1,X,"Psychological Actions, States and Processes"
+tip,remained,M2,M,"Movement, Location, Travel and Transport"
+tire,remained,B1,B,The Body and the Individual
+title,remained,Q2.2,Q,Language and Communication
+to,remained,Z5,Z,Names and Grammar
+today,remained,T1.1.2,T,Time
+together,remained,S5+,S,"Social Actions, States and Processes"
+tomorrow,remained,T1.1.3,T,Time
+tongue,remained,Q2.1,Q,Language and Communication
+tonight,remained,T1.1.2,T,Time
+too,remained,N5++,N,Numbers and Measurement
+tool,remained,C1,C,Arts and Crafts
+tooth,remained,B1,B,The Body and the Individual
+top,remained,A11.1++,A,General and Abstract Terms
+total,remained,A13.2,A,General and Abstract Terms
+touch,remained,X3.3,X,"Psychological Actions, States and Processes"
+tough,remained,E3-/S2mf,E,Emotion
+tour,remained,M1,M,"Movement, Location, Travel and Transport"
+toward,remained,Z5,Z,Names and Grammar
+tower,remained,H1,H,"Architecture, Housing and the Home"
+town,remained,M7,M,"Movement, Location, Travel and Transport"
+toy,remained,X2.1,X,"Psychological Actions, States and Processes"
+track,remained,X2.4,X,"Psychological Actions, States and Processes"
+trade,remained,I2.2,I,Money and Commerce in Industry
+train,remained,P1,P,Education
+translate,remained,Q3,Q,Language and Communication
+trap,remained,A1.7+,A,General and Abstract Terms
+travel,remained,M1,M,"Movement, Location, Travel and Transport"
+treat,remained,E4.2+,E,Emotion
+tree,remained,L3,L,Life and Living Things
+trial,remained,X2.4,X,"Psychological Actions, States and Processes"
+trick,remained,G2.2-,G,Government and Public
+trip,remained,M1,M,"Movement, Location, Travel and Transport"
+trouble,remained,E6-,E,Emotion
+true,remained,A5.2+,A,General and Abstract Terms
+trust,remained,E6+,E,Emotion
+truth,remained,A5.2+,A,General and Abstract Terms
+try,remained,X8+,X,"Psychological Actions, States and Processes"
+tube,remained,O2,O,"Substances, Materials, Objects and Equipment"
+tune,remained,K2,K,"Entertainment, Sports and Games"
+turn,remained,N4,N,Numbers and Measurement
+twist,remained,M2,M,"Movement, Location, Travel and Transport"
+type,remained,A4.1,A,General and Abstract Terms
+ugly,remained,O4.2-,O,"Substances, Materials, Objects and Equipment"
+uncle,remained,S4m,S,"Social Actions, States and Processes"
+under,remained,A13.6,A,General and Abstract Terms
+understand,remained,X2.5+,X,"Psychological Actions, States and Processes"
+union,remained,I3.1/S5+c,I,Money and Commerce in Industry
+unit,remained,S5+c,S,"Social Actions, States and Processes"
+unite,remained,S5+,S,"Social Actions, States and Processes"
+universal,remained,W3,W,World and Environment
+universe,remained,W1,W,World and Environment
+university,remained,P1/H1c,P,Education
+unless,remained,Z5,Z,Names and Grammar
+until,remained,Z5,Z,Names and Grammar
+up,remained,N5+/A2.1,N,Numbers and Measurement
+upon,remained,Z5,Z,Names and Grammar
+upper,remained,M6,M,"Movement, Location, Travel and Transport"
+upset,remained,E4.1-,E,Emotion
+urge,remained,Q2.2,Q,Language and Communication
+use,remained,A1.5.1,A,General and Abstract Terms
+usual,remained,A6.2+,A,General and Abstract Terms
+valley,remained,W3,W,World and Environment
+valuable,remained,I1.3+,I,Money and Commerce in Industry
+value,remained,A11.1+,A,General and Abstract Terms
+variety,remained,A6.3+,A,General and Abstract Terms
+various,remained,A6.3+,A,General and Abstract Terms
+verb,remained,Q3,Q,Language and Communication
+very,remained,A13.3,A,General and Abstract Terms
+vessel,remained,M4fn,M,"Movement, Location, Travel and Transport"
+victory,remained,X9.2+,X,"Psychological Actions, States and Processes"
+view,remained,X2.1,X,"Psychological Actions, States and Processes"
+village,remained,M7,M,"Movement, Location, Travel and Transport"
+violence,remained,E3-,E,Emotion
+violent,remained,E3-,E,Emotion
+visit,remained,S1.1.1,S,"Social Actions, States and Processes"
+visitor,remained,S1.1.1/S2mf,S,"Social Actions, States and Processes"
+voice,remained,Q2.1,Q,Language and Communication
+vote,remained,G1.2,G,Government and Public
+wage,remained,I1.1/I3.1,I,Money and Commerce in Industry
+wait,remained,T1.3,T,Time
+wake,remained,B1,B,The Body and the Individual
+walk,remained,M1,M,"Movement, Location, Travel and Transport"
+wall,remained,H2,H,"Architecture, Housing and the Home"
+wander,remained,M1,M,"Movement, Location, Travel and Transport"
+want,remained,X7+,X,"Psychological Actions, States and Processes"
+war,remained,G3,G,Government and Public
+warm,remained,O4.6+,O,"Substances, Materials, Objects and Equipment"
+warn,remained,X2.2+/A15-,X,"Psychological Actions, States and Processes"
+wash,remained,B4,B,The Body and the Individual
+waste,remained,N5.2+,N,Numbers and Measurement
+watch,remained,X3.4,X,"Psychological Actions, States and Processes"
+water,remained,O1.2,O,"Substances, Materials, Objects and Equipment"
+wave,remained,W3/M4,W,World and Environment
+way,remained,A13.3,A,General and Abstract Terms
+we,remained,Z8,Z,Names and Grammar
+weak,remained,S1.2.5-,S,"Social Actions, States and Processes"
+wealth,remained,I1.1+,I,Money and Commerce in Industry
+weapon,remained,G3,G,Government and Public
+wear,remained,B5,B,The Body and the Individual
+weather,remained,A1.1.1,A,General and Abstract Terms
+week,remained,T1.3,T,Time
+weekend,remained,T1.3,T,Time
+weigh,remained,N3.5,N,Numbers and Measurement
+weight,remained,N3.5+,N,Numbers and Measurement
+welcome,remained,Z4,Z,Names and Grammar
+well,remained,Z4,Z,Names and Grammar
+west,remained,M6,M,"Movement, Location, Travel and Transport"
+western,remained,Q4.3,Q,Language and Communication
+wet,remained,O1.2,O,"Substances, Materials, Objects and Equipment"
+what,remained,Z8,Z,Names and Grammar
+whatever,remained,Z8,Z,Names and Grammar
+wheel,remained,M2,M,"Movement, Location, Travel and Transport"
+when,remained,Z5,Z,Names and Grammar
+whenever,remained,Z5,Z,Names and Grammar
+where,remained,M6,M,"Movement, Location, Travel and Transport"
+wherever,remained,M6,M,"Movement, Location, Travel and Transport"
+whether,remained,Z5,Z,Names and Grammar
+which,remained,Z5,Z,Names and Grammar
+while,remained,Z5,Z,Names and Grammar
+whisper,remained,Q2.1/X3.2-,Q,Language and Communication
+white,remained,O4.3,O,"Substances, Materials, Objects and Equipment"
+who,remained,Z8,Z,Names and Grammar
+whole,remained,N5.1+,N,Numbers and Measurement
+why,remained,A2.2,A,General and Abstract Terms
+wide,remained,N3.7+,N,Numbers and Measurement
+wife,remained,S4f,S,"Social Actions, States and Processes"
+wild,remained,E3-,E,Emotion
+will,remained,X7+,X,"Psychological Actions, States and Processes"
+win,remained,X9.2+/S7.3,X,"Psychological Actions, States and Processes"
+wind,remained,M2,M,"Movement, Location, Travel and Transport"
+window,remained,H2,H,"Architecture, Housing and the Home"
+wine,remained,F2,F,Food and Farming
+wing,remained,E3-,E,Emotion
+winter,remained,H4/T1.3,H,"Architecture, Housing and the Home"
+wipe,remained,B4,B,The Body and the Individual
+wire,remained,A1.7+,A,General and Abstract Terms
+wise,remained,S1.2.6+,S,"Social Actions, States and Processes"
+wish,remained,X7+,X,"Psychological Actions, States and Processes"
+with,remained,Z5,Z,Names and Grammar
+within,remained,Z5,Z,Names and Grammar
+without,remained,Z5,Z,Names and Grammar
+witness,remained,G2.1/S2mf,G,Government and Public
+woman,remained,S2.1f,S,"Social Actions, States and Processes"
+wonder,remained,A5.1+,A,General and Abstract Terms
+wood,remained,O1.1,O,"Substances, Materials, Objects and Equipment"
+wooden,remained,O1.1,O,"Substances, Materials, Objects and Equipment"
+word,remained,Q3,Q,Language and Communication
+work,remained,I3.1,I,Money and Commerce in Industry
+world,remained,W1,W,World and Environment
+worry,remained,E6-,E,Emotion
+worth,remained,I1.3,I,Money and Commerce in Industry
+would,remained,A7+,A,General and Abstract Terms
+wrap,remained,B5,B,The Body and the Individual
+write,remained,Q1.2,Q,Language and Communication
+wrong,remained,G2.2-,G,Government and Public
+yard,remained,H3,H,"Architecture, Housing and the Home"
+year,remained,T1.3,T,Time
+yellow,remained,O4.3,O,"Substances, Materials, Objects and Equipment"
+yes,remained,Z4,Z,Names and Grammar
+yesterday,remained,T1.1.1,T,Time
+yet,remained,T1.1.2,T,Time
+yield,remained,I1.1,I,Money and Commerce in Industry
+you,remained,Z8mf,Z,Names and Grammar
+young,remained,T3-,T,Time
+youth,remained,T3-/S2mf,T,Time
+abandon,added,A1.7-,A,General and Abstract Terms
+abortion,added,B3,B,The Body and the Individual
+absolutely,added,A13.2,A,General and Abstract Terms
+abstract,added,A1.6,A,General and Abstract Terms
+abuse,added,E3-,E,Emotion
+academic,added,P1,P,Education
+acceptable,added,A5.1+,A,General and Abstract Terms
+access,added,M1,M,"Movement, Location, Travel and Transport"
+accommodation,added,H4,H,"Architecture, Housing and the Home"
+accompany,added,S3.1,S,"Social Actions, States and Processes"
+accomplish,added,X9.2+,X,"Psychological Actions, States and Processes"
+accurate,added,A5.3+,A,General and Abstract Terms
+achieve,added,A9+,A,General and Abstract Terms
+achievement,added,X9.2+,X,"Psychological Actions, States and Processes"
+acknowledge,added,Q2.2,Q,Language and Communication
+acquire,added,A9+,A,General and Abstract Terms
+acquisition,added,A9+,A,General and Abstract Terms
+activity,added,A1.1.1,A,General and Abstract Terms
+actually,added,A5.4+,A,General and Abstract Terms
+ad,added,A13.4,A,General and Abstract Terms
+adapt,added,A2.1+,A,General and Abstract Terms
+addition,added,N5++,N,Numbers and Measurement
+additional,added,N5++,N,Numbers and Measurement
+adequate,added,N5+,N,Numbers and Measurement
+adjust,added,A2.1+,A,General and Abstract Terms
+adjustment,added,A2.1+,A,General and Abstract Terms
+administration,added,S7.1+c,S,"Social Actions, States and Processes"
+adult,added,T3+/S2mf,T,Time
+advertisement,added,I2.2/Q2.1,I,Money and Commerce in Industry
+adviser,added,S8+/S2mf,S,"Social Actions, States and Processes"
+advocate,added,Q2.2,Q,Language and Communication
+affect,added,A2.2/E1,A,General and Abstract Terms
+agenda,added,Q1.2/X7+,Q,Language and Communication
+aggressive,added,E3-,E,Emotion
+agreement,added,A6.1+,A,General and Abstract Terms
+agricultural,added,F4,F,Food and Farming
+aid,added,S8+,S,"Social Actions, States and Processes"
+aircraft,added,M5fnc,M,"Movement, Location, Travel and Transport"
+airline,added,M5/S5c,M,"Movement, Location, Travel and Transport"
+alarm,added,E5-,E,Emotion
+album,added,K2,K,"Entertainment, Sports and Games"
+alcohol,added,F2,F,Food and Farming
+allege,added,Q2.2/A5.2,Q,Language and Communication
+ally,added,S1.1.3+,S,"Social Actions, States and Processes"
+alongside,added,M6,M,"Movement, Location, Travel and Transport"
+alright,added,A5.1+,A,General and Abstract Terms
+alter,added,A2.1+,A,General and Abstract Terms
+alternative,added,A6.1-,A,General and Abstract Terms
+amaze,added,X2.6-,X,"Psychological Actions, States and Processes"
+amendment,added,A2.1+,A,General and Abstract Terms
+analysis,added,X2.4,X,"Psychological Actions, States and Processes"
+analyst,added,Y2/S2mf,Y,Science and Technology
+analyze,added,X2.4,X,"Psychological Actions, States and Processes"
+announce,added,Q2.2,Q,Language and Communication
+announcement,added,Q2.2,Q,Language and Communication
+annual,added,Q4.1,Q,Language and Communication
+anticipate,added,X2.1,X,"Psychological Actions, States and Processes"
+anymore,added,Z5,Z,Names and Grammar
+apartment,added,H1/H4,H,"Architecture, Housing and the Home"
+apologize,added,Q2.2/S1.2.4+,Q,Language and Communication
+apparent,added,A8,A,General and Abstract Terms
+apparently,added,A8,A,General and Abstract Terms
+appeal,added,O4.2+,O,"Substances, Materials, Objects and Equipment"
+appointment,added,T1.1,T,Time
+appreciate,added,E2+,E,Emotion
+approach,added,X4.2,X,"Psychological Actions, States and Processes"
+appropriate,added,A9+,A,General and Abstract Terms
+approval,added,S7.4+,S,"Social Actions, States and Processes"
+approximately,added,A13.4,A,General and Abstract Terms
+architecture,added,H1,H,"Architecture, Housing and the Home"
+area,added,M7,M,"Movement, Location, Travel and Transport"
+argument,added,Q2.1,Q,Language and Communication
+arrangement,added,Q2.2,Q,Language and Communication
+arrival,added,M1,M,"Movement, Location, Travel and Transport"
+artist,added,C1/S2mf,C,Arts and Crafts
+assess,added,X2.4/A5,X,"Psychological Actions, States and Processes"
+assessment,added,X2.4/A5,X,"Psychological Actions, States and Processes"
+asset,added,A1.5.2+,A,General and Abstract Terms
+assign,added,A9-,A,General and Abstract Terms
+assist,added,S8+,S,"Social Actions, States and Processes"
+assistance,added,S8+,S,"Social Actions, States and Processes"
+assistant,added,S8+/S2mf,S,"Social Actions, States and Processes"
+associate,added,S5+/S2mf,S,"Social Actions, States and Processes"
+assume,added,X2.1,X,"Psychological Actions, States and Processes"
+assumption,added,X2.1,X,"Psychological Actions, States and Processes"
+assure,added,A7+,A,General and Abstract Terms
+athlete,added,K5.1/S2mf,K,"Entertainment, Sports and Games"
+atmosphere,added,W3,W,World and Environment
+attach,added,A1.7+,A,General and Abstract Terms
+attachment,added,O2,O,"Substances, Materials, Objects and Equipment"
+attendance,added,S1.1.3+,S,"Social Actions, States and Processes"
+attitude,added,X2.1/E1,X,"Psychological Actions, States and Processes"
+attribute,added,O4.1,O,"Substances, Materials, Objects and Equipment"
+author,added,Q1.2,Q,Language and Communication
+automatically,added,O2/S5-,O,"Substances, Materials, Objects and Equipment"
+available,added,A3+,A,General and Abstract Terms
+award,added,A9-,A,General and Abstract Terms
+aware,added,X2.2+,X,"Psychological Actions, States and Processes"
+awareness,added,X2.2+,X,"Psychological Actions, States and Processes"
+awful,added,A13.3,A,General and Abstract Terms
+background,added,T1.1.1,T,Time
+badly,added,A5.1-,A,General and Abstract Terms
+ban,added,S7.4-,S,"Social Actions, States and Processes"
+barely,added,A13.7,A,General and Abstract Terms
+barrier,added,S8-,S,"Social Actions, States and Processes"
+basically,added,Z4,Z,Names and Grammar
+beach,added,M4,M,"Movement, Location, Travel and Transport"
+beautiful,added,O4.2+,O,"Substances, Materials, Objects and Equipment"
+beer,added,F2,F,Food and Farming
+benefit,added,S8+,S,"Social Actions, States and Processes"
+bet,added,I1/A1.4,I,Money and Commerce in Industry
+bias,added,A2.2/E2++,A,General and Abstract Terms
+bid,added,I2.2,I,Money and Commerce in Industry
+bike,added,M3,M,"Movement, Location, Travel and Transport"
+bin,added,O2,O,"Substances, Materials, Objects and Equipment"
+biological,added,L1,L,Life and Living Things
+blog,added,Z99,Z,Names and Grammar
+bloody,added,A13.3,A,General and Abstract Terms
+bomb,added,G3,G,Government and Public
+bond,added,A1.7+,A,General and Abstract Terms
+boom,added,N5+++,N,Numbers and Measurement
+boost,added,S8+,S,"Social Actions, States and Processes"
+boot,added,E3-,E,Emotion
+bore,added,X5.2-,X,"Psychological Actions, States and Processes"
+boss,added,S7.1+,S,"Social Actions, States and Processes"
+bother,added,E6-,E,Emotion
+brand,added,A4.1,A,General and Abstract Terms
+breast,added,B1,B,The Body and the Individual
+breed,added,F4,F,Food and Farming
+brief,added,Q2.1,Q,Language and Communication
+briefly,added,T1.3-,T,Time
+brilliant,added,A5.1+++,A,General and Abstract Terms
+budget,added,I1,I,Money and Commerce in Industry
+burden,added,A12-,A,General and Abstract Terms
+buyer,added,I2.2/S2mf,I,Money and Commerce in Industry
+cable,added,Q1.3,Q,Language and Communication
+campaign,added,X7+/Q2.2,X,"Psychological Actions, States and Processes"
+cancel,added,T2-,T,Time
+cancer,added,B2-,B,The Body and the Individual
+candidate,added,G1.2/S2mf,G,Government and Public
+capability,added,X9.1+,X,"Psychological Actions, States and Processes"
+capable,added,X9.1+,X,"Psychological Actions, States and Processes"
+capacity,added,N3.2,N,Numbers and Measurement
+capture,added,A9+,A,General and Abstract Terms
+carbon,added,O1.1,O,"Substances, Materials, Objects and Equipment"
+career,added,N3.8+,N,Numbers and Measurement
+careful,added,A1.3+,A,General and Abstract Terms
+carefully,added,A1.3+,A,General and Abstract Terms
+carpet,added,H5,H,"Architecture, Housing and the Home"
+cash,added,I1,I,Money and Commerce in Industry
+cast,added,K4,K,"Entertainment, Sports and Games"
+catalog,added,Q4.1,Q,Language and Communication
+category,added,A4.1,A,General and Abstract Terms
+celebrate,added,E4.1+,E,Emotion
+celebration,added,E4.1+,E,Emotion
+cell,added,B1,B,The Body and the Individual
+central,added,A11.1+,A,General and Abstract Terms
+certainly,added,A7+,A,General and Abstract Terms
+challenge,added,A6.1-,A,General and Abstract Terms
+chamber,added,H2,H,"Architecture, Housing and the Home"
+champion,added,X9.2+/S7.3/S2mf,X,"Psychological Actions, States and Processes"
+championship,added,K5/S7.3+,K,"Entertainment, Sports and Games"
+channel,added,Z2,Z,Names and Grammar
+chapter,added,Q4.1,Q,Language and Communication
+characteristic,added,A6.2+,A,General and Abstract Terms
+characterize,added,A4.1,A,General and Abstract Terms
+charity,added,S8+/S5+c,S,"Social Actions, States and Processes"
+chart,added,Q1.2,Q,Language and Communication
+chase,added,M1,M,"Movement, Location, Travel and Transport"
+chat,added,Q2.1,Q,Language and Communication
+cheek,added,B1,B,The Body and the Individual
+chemical,added,O1,O,"Substances, Materials, Objects and Equipment"
+chip,added,A1.1.1,A,General and Abstract Terms
+chocolate,added,F1,F,Food and Farming
+cigarette,added,F3,F,Food and Farming
+circumstance,added,O4.1,O,"Substances, Materials, Objects and Equipment"
+cite,added,Q2.2,Q,Language and Communication
+civil,added,G1.1,G,Government and Public
+civilian,added,G3-,G,Government and Public
+classic,added,A4.1,A,General and Abstract Terms
+classical,added,T3+,T,Time
+clause,added,Q1.2,Q,Language and Communication
+clearly,added,A7+,A,General and Abstract Terms
+click,added,X3.2,X,"Psychological Actions, States and Processes"
+climate,added,W4,W,World and Environment
+clinical,added,B3,B,The Body and the Individual
+closely,added,A13.4,A,General and Abstract Terms
+cluster,added,S5+,S,"Social Actions, States and Processes"
+coach,added,K5.1,K,"Entertainment, Sports and Games"
+code,added,G2.1,G,Government and Public
+collapse,added,A1.1.2,A,General and Abstract Terms
+colleague,added,I3.2/S2mf,I,Money and Commerce in Industry
+column,added,O2,O,"Substances, Materials, Objects and Equipment"
+combination,added,A6.3+,A,General and Abstract Terms
+comedy,added,E4.1+,E,Emotion
+comfortable,added,O4.2+,O,"Substances, Materials, Objects and Equipment"
+comment,added,Q2.1,Q,Language and Communication
+commission,added,I2.2,I,Money and Commerce in Industry
+commit,added,A1.1.1,A,General and Abstract Terms
+commitment,added,S6+,S,"Social Actions, States and Processes"
+communicate,added,Q2.1,Q,Language and Communication
+communication,added,Q2.1,Q,Language and Communication
+community,added,S5+c,S,"Social Actions, States and Processes"
+compensation,added,S8+,S,"Social Actions, States and Processes"
+competitive,added,S7.3+,S,"Social Actions, States and Processes"
+completely,added,A13.2,A,General and Abstract Terms
+complex,added,H1,H,"Architecture, Housing and the Home"
+complexity,added,A12-,A,General and Abstract Terms
+component,added,O2,O,"Substances, Materials, Objects and Equipment"
+compound,added,A2.1+,A,General and Abstract Terms
+comprehensive,added,A1.8+,A,General and Abstract Terms
+comprise,added,A1.8+,A,General and Abstract Terms
+compromise,added,A6.1+/S1.1.2+,A,General and Abstract Terms
+compute,added,Y2,Y,Science and Technology
+computer,added,Y2,Y,Science and Technology
+concentrate,added,X5.1+,X,"Psychological Actions, States and Processes"
+concentration,added,X5.1+,X,"Psychological Actions, States and Processes"
+concept,added,X4.1,X,"Psychological Actions, States and Processes"
+concert,added,K2,K,"Entertainment, Sports and Games"
+conclude,added,X6+,X,"Psychological Actions, States and Processes"
+conclusion,added,X6+,X,"Psychological Actions, States and Processes"
+concrete,added,O1,O,"Substances, Materials, Objects and Equipment"
+conduct,added,S1.1.1,S,"Social Actions, States and Processes"
+conference,added,S1.1.3+,S,"Social Actions, States and Processes"
+confirm,added,A7+,A,General and Abstract Terms
+conflict,added,A6.1-,A,General and Abstract Terms
+consequence,added,A2.2,A,General and Abstract Terms
+consequently,added,A2.2,A,General and Abstract Terms
+conservative,added,G1.2/S2mf,G,Government and Public
+considerable,added,N5+,N,Numbers and Measurement
+consideration,added,X2.1,X,"Psychological Actions, States and Processes"
+consist,added,A1.8+,A,General and Abstract Terms
+consistent,added,A6.1+,A,General and Abstract Terms
+constant,added,A2.1-,A,General and Abstract Terms
+constantly,added,T2++,T,Time
+constitute,added,A3+,A,General and Abstract Terms
+constraint,added,A1.7+,A,General and Abstract Terms
+construct,added,A1.1.1,A,General and Abstract Terms
+construction,added,H1,H,"Architecture, Housing and the Home"
+consult,added,Q2.1,Q,Language and Communication
+consultant,added,B3/S2mf,B,The Body and the Individual
+consume,added,A1.5.1,A,General and Abstract Terms
+consumer,added,I2.2/S2mf,I,Money and Commerce in Industry
+contact,added,Q2.2,Q,Language and Communication
+contemporary,added,T1.1.2/S2mf,T,Time
+contest,added,S7.3,S,"Social Actions, States and Processes"
+context,added,O4.1/A3+,O,"Substances, Materials, Objects and Equipment"
+continuous,added,T2++,T,Time
+contract,added,Q2.2,Q,Language and Communication
+contrast,added,A6.1-,A,General and Abstract Terms
+contribute,added,A9-,A,General and Abstract Terms
+contribution,added,A9-,A,General and Abstract Terms
+controversial,added,A6.2-,A,General and Abstract Terms
+convention,added,A6.2+,A,General and Abstract Terms
+conventional,added,A6.2+,A,General and Abstract Terms
+convert,added,A2.1+,A,General and Abstract Terms
+convince,added,A7+/Q2.2,A,General and Abstract Terms
+cooperation,added,S8+,S,"Social Actions, States and Processes"
+cope,added,X9.2,X,"Psychological Actions, States and Processes"
+core,added,A11.1+,A,General and Abstract Terms
+corporate,added,S5+,S,"Social Actions, States and Processes"
+corporation,added,I2.1/S5c,I,Money and Commerce in Industry
+correspond,added,Q1.2,Q,Language and Communication
+counsel,added,G2.1/S2mf,G,Government and Public
+counter,added,H5/I2.2,H,"Architecture, Housing and the Home"
+county,added,M7,M,"Movement, Location, Travel and Transport"
+couple,added,N5+,N,Numbers and Measurement
+coverage,added,Q4/N5,Q,Language and Communication
+craft,added,A1.1.1,A,General and Abstract Terms
+crazy,added,B2-/X1,B,The Body and the Individual
+create,added,A1.1.1,A,General and Abstract Terms
+creation,added,A1.1.1,A,General and Abstract Terms
+creative,added,C1/S2mf,C,Arts and Crafts
+credit,added,I1.1,I,Money and Commerce in Industry
+crew,added,M4/S5+c,M,"Movement, Location, Travel and Transport"
+crisis,added,A12-,A,General and Abstract Terms
+criteria,added,X4.1,X,"Psychological Actions, States and Processes"
+critical,added,Q2.2/E2-,Q,Language and Communication
+criticism,added,Q2.2/E2-,Q,Language and Communication
+criticize,added,Q2.2/E2-,Q,Language and Communication
+crucial,added,A11.1+,A,General and Abstract Terms
+cultural,added,C1,C,Arts and Crafts
+culture,added,L1,L,Life and Living Things
+currency,added,I1,I,Money and Commerce in Industry
+currently,added,T1.1.2,T,Time
+cycle,added,M3,M,"Movement, Location, Travel and Transport"
+dad,added,S4m,S,"Social Actions, States and Processes"
+damn,added,Z4,Z,Names and Grammar
+dangerous,added,A15-,A,General and Abstract Terms
+darkness,added,W2-,W,World and Environment
+data,added,X2.2/X2.4,X,"Psychological Actions, States and Processes"
+database,added,X2.2/Y2,X,"Psychological Actions, States and Processes"
+dealer,added,I2.1/S2mf,I,Money and Commerce in Industry
+debate,added,Q2.2,Q,Language and Communication
+decade,added,T1.3,T,Time
+decline,added,N5-/A2.1,N,Numbers and Measurement
+dedicate,added,Q2.2,Q,Language and Communication
+deeply,added,A13.3,A,General and Abstract Terms
+deficit,added,N5-,N,Numbers and Measurement
+define,added,Q2.2,Q,Language and Communication
+definitely,added,A7+++,A,General and Abstract Terms
+definition,added,Q2.2,Q,Language and Communication
+democracy,added,G1.2,G,Government and Public
+democratic,added,G1.2,G,Government and Public
+demonstrate,added,A10+,A,General and Abstract Terms
+demonstration,added,G1.2,G,Government and Public
+density,added,N5,N,Numbers and Measurement
+deny,added,Q2.2/Z6,Q,Language and Communication
+deposit,added,O1.1,O,"Substances, Materials, Objects and Equipment"
+depress,added,E4.1-,E,Emotion
+depression,added,E4.1-,E,Emotion
+derive,added,A2.2,A,General and Abstract Terms
+design,added,C1,C,Arts and Crafts
+designer,added,C1/S2mf,C,Arts and Crafts
+despite,added,Z5,Z,Names and Grammar
+detect,added,A10+,A,General and Abstract Terms
+determination,added,X6+,X,"Psychological Actions, States and Processes"
+development,added,A2.1+,A,General and Abstract Terms
+device,added,O2,O,"Substances, Materials, Objects and Equipment"
+devote,added,A9-,A,General and Abstract Terms
+dialog,added,Q2.1,Q,Language and Communication
+diet,added,F1,F,Food and Farming
+differ,added,A6.1-,A,General and Abstract Terms
+differently,added,A6.1-,A,General and Abstract Terms
+digital,added,Y2,Y,Science and Technology
+dimension,added,A4.1,A,General and Abstract Terms
+directly,added,M6,M,"Movement, Location, Travel and Transport"
+dirty,added,O4.2-,O,"Substances, Materials, Objects and Equipment"
+disaster,added,A5.1---,A,General and Abstract Terms
+discount,added,I1.3-,I,Money and Commerce in Industry
+disk,added,O2,O,"Substances, Materials, Objects and Equipment"
+disorder,added,B2-,B,The Body and the Individual
+display,added,A10+,A,General and Abstract Terms
+dispute,added,Q2.2/A6.1-,Q,Language and Communication
+distinct,added,A6.1-,A,General and Abstract Terms
+distinction,added,A6.1-,A,General and Abstract Terms
+distribute,added,A9-,A,General and Abstract Terms
+diversity,added,A6.3+,A,General and Abstract Terms
+divorce,added,S4,S,"Social Actions, States and Processes"
+document,added,Q1.2,Q,Language and Communication
+domestic,added,H4,H,"Architecture, Housing and the Home"
+dominate,added,S7.1+,S,"Social Actions, States and Processes"
+draft,added,Q1.2,Q,Language and Communication
+drama,added,K4,K,"Entertainment, Sports and Games"
+dramatic,added,K4,K,"Entertainment, Sports and Games"
+dramatically,added,K4,K,"Entertainment, Sports and Games"
+driver,added,M3/S2mf,M,"Movement, Location, Travel and Transport"
+drug,added,B3,B,The Body and the Individual
+easily,added,A12+,A,General and Abstract Terms
+economic,added,I1.3-,I,Money and Commerce in Industry
+economy,added,I2.1,I,Money and Commerce in Industry
+edit,added,Q1.2,Q,Language and Communication
+edition,added,Q4,Q,Language and Communication
+editor,added,Q4/I3.2/S2mf,Q,Language and Communication
+educational,added,P1,P,Education
+effectively,added,A5.4+,A,General and Abstract Terms
+elderly,added,T3+,T,Time
+electricity,added,O3,O,"Substances, Materials, Objects and Equipment"
+electronic,added,O3,O,"Substances, Materials, Objects and Equipment"
+element,added,A4.1,A,General and Abstract Terms
+eliminate,added,A9-,A,General and Abstract Terms
+email,added,Q1.3/Y2,Q,Language and Communication
+embarrass,added,E4.1-,E,Emotion
+embrace,added,S3.2,S,"Social Actions, States and Processes"
+emerge,added,M1,M,"Movement, Location, Travel and Transport"
+emergency,added,A11.1+,A,General and Abstract Terms
+emotion,added,E1,E,Emotion
+emotional,added,E1,E,Emotion
+emphasis,added,A11.1+,A,General and Abstract Terms
+emphasize,added,A11.1+,A,General and Abstract Terms
+employer,added,I3.1/S2mf,I,Money and Commerce in Industry
+employment,added,I3.1,I,Money and Commerce in Industry
+enable,added,S8+,S,"Social Actions, States and Processes"
+encounter,added,S3.1,S,"Social Actions, States and Processes"
+energy,added,X5.2+,X,"Psychological Actions, States and Processes"
+engage,added,A1.1.1,A,General and Abstract Terms
+enhance,added,A5.1+/A2.1,A,General and Abstract Terms
+enormous,added,N3.2+++,N,Numbers and Measurement
+ensure,added,A7+,A,General and Abstract Terms
+enterprise,added,I2.1,I,Money and Commerce in Industry
+entertainment,added,K1,K,"Entertainment, Sports and Games"
+entirely,added,A13.2,A,General and Abstract Terms
+entitle,added,S7.4+,S,"Social Actions, States and Processes"
+entry,added,M7,M,"Movement, Location, Travel and Transport"
+environment,added,W5,W,World and Environment
+environmental,added,W5,W,World and Environment
+episode,added,A3+/A11.1+,A,General and Abstract Terms
+equally,added,A6.1+,A,General and Abstract Terms
+equation,added,N2,N,Numbers and Measurement
+equipment,added,O2,O,"Substances, Materials, Objects and Equipment"
+equivalent,added,A6.1+,A,General and Abstract Terms
+era,added,T1.3,T,Time
+error,added,A5.3-,A,General and Abstract Terms
+essay,added,Q1.2/P1,Q,Language and Communication
+establish,added,T2+,T,Time
+establishment,added,T2+,T,Time
+estate,added,M7/F4,M,"Movement, Location, Travel and Transport"
+estimate,added,X6/A7-,X,"Psychological Actions, States and Processes"
+ethnic,added,S5+,S,"Social Actions, States and Processes"
+evaluate,added,A5.1,A,General and Abstract Terms
+evaluation,added,A5.1,A,General and Abstract Terms
+eventually,added,N4,N,Numbers and Measurement
+evidence,added,A10+,A,General and Abstract Terms
+evolution,added,A2.1+,A,General and Abstract Terms
+evolve,added,A2.1+,A,General and Abstract Terms
+exactly,added,A4.2+,A,General and Abstract Terms
+exam,added,P1,P,Education
+examination,added,P1,P,Education
+exceed,added,N5.2+,N,Numbers and Measurement
+excitement,added,X5.2+,X,"Psychological Actions, States and Processes"
+exclude,added,A1.8-,A,General and Abstract Terms
+executive,added,S7.1+,S,"Social Actions, States and Processes"
+exhaust,added,B2-,B,The Body and the Individual
+exhibit,added,A10+,A,General and Abstract Terms
+exhibition,added,A10+/S1.1.3+,A,General and Abstract Terms
+expand,added,N3.2+/A2.1,N,Numbers and Measurement
+expansion,added,N3.2+/A2.1,N,Numbers and Measurement
+expectation,added,X2.6+,X,"Psychological Actions, States and Processes"
+expenditure,added,I1.2,I,Money and Commerce in Industry
+experimental,added,X2.4,X,"Psychological Actions, States and Processes"
+expert,added,X2.2+/S2mf,X,"Psychological Actions, States and Processes"
+explanation,added,Q2.2/A7+,Q,Language and Communication
+export,added,I2.2/M2,I,Money and Commerce in Industry
+expose,added,A10+,A,General and Abstract Terms
+exposure,added,A15-,A,General and Abstract Terms
+external,added,M6,M,"Movement, Location, Travel and Transport"
+extract,added,M2,M,"Movement, Location, Travel and Transport"
+extremely,added,A13.3,A,General and Abstract Terms
+facility,added,H1,H,"Architecture, Housing and the Home"
+factor,added,N2,N,Numbers and Measurement
+fairly,added,A13.4,A,General and Abstract Terms
+faithfully,added,S6+,S,"Social Actions, States and Processes"
+famous,added,X2.2+,X,"Psychological Actions, States and Processes"
+fantastic,added,A5.1+,A,General and Abstract Terms
+farmer,added,F4/S2mf,F,Food and Farming
+fascinate,added,X5.2+,X,"Psychological Actions, States and Processes"
+feature,added,A10+,A,General and Abstract Terms
+federal,added,S5+,S,"Social Actions, States and Processes"
+festival,added,K1/S1.1.3+,K,"Entertainment, Sports and Games"
+fiction,added,A5.2-,A,General and Abstract Terms
+file,added,Q1.2,Q,Language and Communication
+filter,added,A1.1.1,A,General and Abstract Terms
+final,added,K5.1,K,"Entertainment, Sports and Games"
+finally,added,N4,N,Numbers and Measurement
+finance,added,I1,I,Money and Commerce in Industry
+financial,added,I1,I,Money and Commerce in Industry
+firmly,added,A1.7+,A,General and Abstract Terms
+firstly,added,N4,N,Numbers and Measurement
+flexible,added,O4.5,O,"Substances, Materials, Objects and Equipment"
+flight,added,M5,M,"Movement, Location, Travel and Transport"
+focus,added,X5.1+,X,"Psychological Actions, States and Processes"
+folk,added,S2mf,S,"Social Actions, States and Processes"
+football,added,K5.2,K,"Entertainment, Sports and Games"
+forecast,added,Q2.2/T1.1.3,Q,Language and Communication
+forever,added,T2+++,T,Time
+format,added,O4.1,O,"Substances, Materials, Objects and Equipment"
+formation,added,A2.1+,A,General and Abstract Terms
+formula,added,Y1,Y,Science and Technology
+foundation,added,T2+,T,Time
+fragment,added,N5.1-,N,Numbers and Measurement
+frequently,added,N6+,N,Numbers and Measurement
+fuel,added,A1.1.1,A,General and Abstract Terms
+fulfill,added,X9.2+,X,"Psychological Actions, States and Processes"
+fully,added,A13.2,A,General and Abstract Terms
+function,added,A1.1.1,A,General and Abstract Terms
+functional,added,A1.5.2+,A,General and Abstract Terms
+fund,added,I1.1,I,Money and Commerce in Industry
+fundamental,added,K2,K,"Entertainment, Sports and Games"
+furthermore,added,Z5,Z,Names and Grammar
+gallery,added,C1/H1,C,Arts and Crafts
+gaze,added,X3.4,X,"Psychological Actions, States and Processes"
+gear,added,O2,O,"Substances, Materials, Objects and Equipment"
+gender,added,S2,S,"Social Actions, States and Processes"
+gene,added,B1,B,The Body and the Individual
+generally,added,A6.2+,A,General and Abstract Terms
+generate,added,A2.2,A,General and Abstract Terms
+generation,added,T1.3,T,Time
+genetic,added,B1,B,The Body and the Individual
+gently,added,E3+,E,Emotion
+genuine,added,A5.4+,A,General and Abstract Terms
+gesture,added,Q1.1/B1,Q,Language and Communication
+giant,added,S2/N3.2+mf,S,"Social Actions, States and Processes"
+glance,added,X3.4,X,"Psychological Actions, States and Processes"
+global,added,W3,W,World and Environment
+goal,added,K5.1,K,"Entertainment, Sports and Games"
+golf,added,K5.1,K,"Entertainment, Sports and Games"
+government,added,G1.1c,G,Government and Public
+grab,added,A9+,A,General and Abstract Terms
+grade,added,A5.1,A,General and Abstract Terms
+gradually,added,T2++,T,Time
+graduate,added,P1/S2mf,P,Education
+grandmother,added,S4f,S,"Social Actions, States and Processes"
+grant,added,A9-,A,General and Abstract Terms
+greatly,added,A13.3,A,General and Abstract Terms
+grin,added,E4.1+,E,Emotion
+guarantee,added,A7+/Q2.2,A,General and Abstract Terms
+guideline,added,S8+,S,"Social Actions, States and Processes"
+guilty,added,G2.1-,G,Government and Public
+guitar,added,K2,K,"Entertainment, Sports and Games"
+guy,added,Z1,Z,Names and Grammar
+happiness,added,E4.1+,E,Emotion
+healthy,added,B2+,B,The Body and the Individual
+heavily,added,A13.3,A,General and Abstract Terms
+hell,added,Z4,Z,Names and Grammar
+helpful,added,S8+,S,"Social Actions, States and Processes"
+hence,added,A2.2,A,General and Abstract Terms
+hero,added,Q4.1/S2.2m,Q,Language and Communication
+herself,added,Z8f,Z,Names and Grammar
+hi,added,Z4,Z,Names and Grammar
+highlight,added,X5.2+,X,"Psychological Actions, States and Processes"
+highly,added,A13.3,A,General and Abstract Terms
+himself,added,Z8m,Z,Names and Grammar
+hint,added,Q2.2,Q,Language and Communication
+historian,added,P1/T1.1.1/S2mf,P,Education
+historic,added,T3+,T,Time
+historical,added,T1.1.1,T,Time
+holder,added,O2,O,"Substances, Materials, Objects and Equipment"
+hopefully,added,X2.6+,X,"Psychological Actions, States and Processes"
+horrible,added,O4.2-,O,"Substances, Materials, Objects and Equipment"
+household,added,S4c,S,"Social Actions, States and Processes"
+huge,added,N3.2+++,N,Numbers and Measurement
+humor,added,E4.1+,E,Emotion
+hypothesis,added,X4.1,X,"Psychological Actions, States and Processes"
+identify,added,X2.2+,X,"Psychological Actions, States and Processes"
+identity,added,S2,S,"Social Actions, States and Processes"
+ignore,added,X5.1-,X,"Psychological Actions, States and Processes"
+illegal,added,G2.1-,G,Government and Public
+illness,added,B2-,B,The Body and the Individual
+illustrate,added,A4.1,A,General and Abstract Terms
+illustration,added,A4.1,A,General and Abstract Terms
+image,added,A6.1+,A,General and Abstract Terms
+imagination,added,X2.1/A6.2-,X,"Psychological Actions, States and Processes"
+immediately,added,N3.8+,N,Numbers and Measurement
+immigrant,added,M1/M7/S2mf,M,"Movement, Location, Travel and Transport"
+immigration,added,M1/M7,M,"Movement, Location, Travel and Transport"
+implement,added,A1.1.1,A,General and Abstract Terms
+implementation,added,A1.1.1,A,General and Abstract Terms
+implication,added,A2.2,A,General and Abstract Terms
+imply,added,Q1.1,Q,Language and Communication
+import,added,I2.2/M2,I,Money and Commerce in Industry
+impose,added,S6+,S,"Social Actions, States and Processes"
+impress,added,X5.2+,X,"Psychological Actions, States and Processes"
+impression,added,X2.1,X,"Psychological Actions, States and Processes"
+impressive,added,O4.2+,O,"Substances, Materials, Objects and Equipment"
+improvement,added,A5.1+/A2.1,A,General and Abstract Terms
+incentive,added,X5.2+,X,"Psychological Actions, States and Processes"
+incident,added,A3+/A5.1-,A,General and Abstract Terms
+income,added,I1.1,I,Money and Commerce in Industry
+incorporate,added,A1.8+,A,General and Abstract Terms
+increasingly,added,A13.3,A,General and Abstract Terms
+independence,added,S5-,S,"Social Actions, States and Processes"
+independent,added,S5-,S,"Social Actions, States and Processes"
+index,added,Q4.1,Q,Language and Communication
+indicate,added,A10+,A,General and Abstract Terms
+indication,added,A10+,A,General and Abstract Terms
+individual,added,S2mf,S,"Social Actions, States and Processes"
+industrial,added,I4,I,Money and Commerce in Industry
+infant,added,T3--/S2mf,T,Time
+infection,added,B2-,B,The Body and the Individual
+inflation,added,I1.3+,I,Money and Commerce in Industry
+information,added,X2.2+,X,"Psychological Actions, States and Processes"
+initial,added,Q1.2,Q,Language and Communication
+initially,added,N4,N,Numbers and Measurement
+initiative,added,A1.1.1,A,General and Abstract Terms
+injure,added,B2-,B,The Body and the Individual
+injury,added,B2-,B,The Body and the Individual
+inner,added,M6,M,"Movement, Location, Travel and Transport"
+innocent,added,G2.1+/S2mf,G,Government and Public
+innovation,added,T3-,T,Time
+input,added,Y2,Y,Science and Technology
+insight,added,X2.5+,X,"Psychological Actions, States and Processes"
+insist,added,S7.1+/Q2.2,S,"Social Actions, States and Processes"
+inspire,added,S8+,S,"Social Actions, States and Processes"
+install,added,A1.1.1,A,General and Abstract Terms
+instance,added,A4.1,A,General and Abstract Terms
+institution,added,S5+c,S,"Social Actions, States and Processes"
+institutional,added,S5+,S,"Social Actions, States and Processes"
+instruction,added,Q2.2,Q,Language and Communication
+integrate,added,A1.8+,A,General and Abstract Terms
+intellectual,added,X2.1/S2mf,X,"Psychological Actions, States and Processes"
+intelligence,added,X9.1+,X,"Psychological Actions, States and Processes"
+intense,added,N5+,N,Numbers and Measurement
+interaction,added,S1.1.2+,S,"Social Actions, States and Processes"
+interior,added,M6,M,"Movement, Location, Travel and Transport"
+internal,added,M6,M,"Movement, Location, Travel and Transport"
+interpret,added,X2.5+,X,"Psychological Actions, States and Processes"
+interpretation,added,X2.5+,X,"Psychological Actions, States and Processes"
+intervention,added,S1.1.3+,S,"Social Actions, States and Processes"
+interview,added,Q2.1,Q,Language and Communication
+invest,added,I1.1,I,Money and Commerce in Industry
+investigate,added,X2.4,X,"Psychological Actions, States and Processes"
+investigation,added,X2.4,X,"Psychological Actions, States and Processes"
+investment,added,I1.1,I,Money and Commerce in Industry
+investor,added,I1.1/S2mf,I,Money and Commerce in Industry
+invitation,added,Q2.2,Q,Language and Communication
+involve,added,A1.8+,A,General and Abstract Terms
+involvement,added,A1.8+,A,General and Abstract Terms
+isolate,added,A6.1-,A,General and Abstract Terms
+issue,added,A9-,A,General and Abstract Terms
+item,added,Z4,Z,Names and Grammar
+itself,added,Z8,Z,Names and Grammar
+jacket,added,B5,B,The Body and the Individual
+jail,added,G2.1,G,Government and Public
+job,added,I3.1,I,Money and Commerce in Industry
+journal,added,Q4.2,Q,Language and Communication
+journalist,added,Q4.2/I3.2/S2mf,Q,Language and Communication
+judgment,added,X2.1,X,"Psychological Actions, States and Processes"
+jury,added,G2.1c,G,Government and Public
+justify,added,G2.2+,G,Government and Public
+keen,added,X5.2+,X,"Psychological Actions, States and Processes"
+kid,added,E4.1+,E,Emotion
+label,added,Q1.2,Q,Language and Communication
+labor,added,A1.1.1/A12-,A,General and Abstract Terms
+laboratory,added,Y1/H1c,Y,Science and Technology
+landscape,added,W3,W,World and Environment
+largely,added,A13.2,A,General and Abstract Terms
+launch,added,M4,M,"Movement, Location, Travel and Transport"
+layer,added,O2,O,"Substances, Materials, Objects and Equipment"
+leader,added,S7.1+/S2mf,S,"Social Actions, States and Processes"
+league,added,S5+c,S,"Social Actions, States and Processes"
+leap,added,M1,M,"Movement, Location, Travel and Transport"
+lecture,added,Q2.2,Q,Language and Communication
+legal,added,G2.1,G,Government and Public
+legislation,added,G2.1,G,Government and Public
+liability,added,A1.5.2-,A,General and Abstract Terms
+liberal,added,A1.7-,A,General and Abstract Terms
+license,added,G1.1/Q1.2,G,Government and Public
+limitation,added,A1.7+,A,General and Abstract Terms
+link,added,A2.2,A,General and Abstract Terms
+listener,added,X3.2/S2mf,X,"Psychological Actions, States and Processes"
+literally,added,A13.2,A,General and Abstract Terms
+locate,added,M6,M,"Movement, Location, Travel and Transport"
+location,added,M7,M,"Movement, Location, Travel and Transport"
+logic,added,X2.1,X,"Psychological Actions, States and Processes"
+lover,added,S3.2/S2mf,S,"Social Actions, States and Processes"
+lucky,added,A1.4+,A,General and Abstract Terms
+luxury,added,O4.2+,O,"Substances, Materials, Objects and Equipment"
+magazine,added,Q4.2,Q,Language and Communication
+magic,added,S9,S,"Social Actions, States and Processes"
+mainly,added,A13.2,A,General and Abstract Terms
+maintain,added,A9+,A,General and Abstract Terms
+maintenance,added,A1.1.1,A,General and Abstract Terms
+major,added,P1,P,Education
+majority,added,N5+++c,N,Numbers and Measurement
+maker,added,A1.1.1/S2mf,A,General and Abstract Terms
+management,added,S7.1+c,S,"Social Actions, States and Processes"
+manager,added,S7.1+/S2mf,S,"Social Actions, States and Processes"
+manufacturer,added,A1.1.1/S2mfc,A,General and Abstract Terms
+margin,added,N5,N,Numbers and Measurement
+massive,added,N3.2+,N,Numbers and Measurement
+mate,added,S3.2,S,"Social Actions, States and Processes"
+mathematics,added,N2,N,Numbers and Measurement
+mature,added,T3+/A2.1,T,Time
+maximum,added,N5.1+,N,Numbers and Measurement
+mayor,added,G1.1/S7.1+/S2mf,G,Government and Public
+measurement,added,N3.1,N,Numbers and Measurement
+medium,added,Q4,Q,Language and Communication
+mental,added,X2,X,"Psychological Actions, States and Processes"
+menu,added,F1/Q1.2,F,Food and Farming
+merely,added,A13.6,A,General and Abstract Terms
+mess,added,O4.2-,O,"Substances, Materials, Objects and Equipment"
+meter,added,N3.1/O2,N,Numbers and Measurement
+method,added,X4.2,X,"Psychological Actions, States and Processes"
+military,added,G3,G,Government and Public
+minimum,added,N5---,N,Numbers and Measurement
+minor,added,P1,P,Education
+minority,added,N5-,N,Numbers and Measurement
+mirror,added,Z3c,Z,Names and Grammar
+mission,added,X7+,X,"Psychological Actions, States and Processes"
+mobile,added,O2,O,"Substances, Materials, Objects and Equipment"
+mode,added,X4.2,X,"Psychological Actions, States and Processes"
+modify,added,A2.1+,A,General and Abstract Terms
+module,added,P1,P,Education
+mom,added,S4/S2.1f,S,"Social Actions, States and Processes"
+monitor,added,X2.4,X,"Psychological Actions, States and Processes"
+monthly,added,N6+,N,Numbers and Measurement
+mood,added,E1,E,Emotion
+mortgage,added,I1.2/H1,I,Money and Commerce in Industry
+mostly,added,A13.2,A,General and Abstract Terms
+motivate,added,A2.2,A,General and Abstract Terms
+motivation,added,A2.2,A,General and Abstract Terms
+mount,added,T2+,T,Time
+movement,added,M1,M,"Movement, Location, Travel and Transport"
+movie,added,Q4.3,Q,Language and Communication
+multiple,added,N2,N,Numbers and Measurement
+muscle,added,B1,B,The Body and the Individual
+museum,added,T1.1.1/H1c,T,Time
+musical,added,K4/K2,K,"Entertainment, Sports and Games"
+mutual,added,S1.1.2+,S,"Social Actions, States and Processes"
+myself,added,Z8mf,Z,Names and Grammar
+narrative,added,Q2.1,Q,Language and Communication
+national,added,M7/N5.1+,M,"Movement, Location, Travel and Transport"
+natural,added,A6.2+,A,General and Abstract Terms
+naturally,added,A6.2+,A,General and Abstract Terms
+nearby,added,N3.3-,N,Numbers and Measurement
+nearly,added,A13.4,A,General and Abstract Terms
+necessarily,added,S6+,S,"Social Actions, States and Processes"
+negative,added,C1,C,Arts and Crafts
+negotiate,added,Q2.2,Q,Language and Communication
+negotiation,added,Q2.2,Q,Language and Communication
+nerve,added,B1,B,The Body and the Individual
+nervous,added,E6-,E,Emotion
+nevertheless,added,Z4,Z,Names and Grammar
+newly,added,T3-,T,Time
+normal,added,A6.2+,A,General and Abstract Terms
+normally,added,A6.2+,A,General and Abstract Terms
+notion,added,X4.1,X,"Psychological Actions, States and Processes"
+novel,added,A6.2-,A,General and Abstract Terms
+nuclear,added,Y1,Y,Science and Technology
+objective,added,G2.2/S5-,G,Government and Public
+obligation,added,S6+,S,"Social Actions, States and Processes"
+observation,added,X3.4,X,"Psychological Actions, States and Processes"
+obvious,added,A11.2+,A,General and Abstract Terms
+obviously,added,Z4,Z,Names and Grammar
+occasionally,added,N6-,N,Numbers and Measurement
+occupy,added,H4,H,"Architecture, Housing and the Home"
+occur,added,A2.1+,A,General and Abstract Terms
+odd,added,A6.2-,A,General and Abstract Terms
+okay,added,A5.1+,A,General and Abstract Terms
+online,added,Y2,Y,Science and Technology
+opera,added,K2,K,"Entertainment, Sports and Games"
+opponent,added,S7.3/S2mf,S,"Social Actions, States and Processes"
+option,added,X7+,X,"Psychological Actions, States and Processes"
+organic,added,L1,L,Life and Living Things
+organization,added,S5+c,S,"Social Actions, States and Processes"
+original,added,T3-,T,Time
+originally,added,T1.1.1,T,Time
+ourselves,added,Z8,Z,Names and Grammar
+outcome,added,X9.2,X,"Psychological Actions, States and Processes"
+output,added,Y2,Y,Science and Technology
+overall,added,A14,A,General and Abstract Terms
+overseas,added,M6,M,"Movement, Location, Travel and Transport"
+owner,added,A9+/S2mf,A,General and Abstract Terms
+pace,added,M1,M,"Movement, Location, Travel and Transport"
+panel,added,H5,H,"Architecture, Housing and the Home"
+panic,added,E5-,E,Emotion
+paragraph,added,Q3,Q,Language and Communication
+parallel,added,A6.1+,A,General and Abstract Terms
+participant,added,S1.1.3+mfn,S,"Social Actions, States and Processes"
+participate,added,S1.1.3+,S,"Social Actions, States and Processes"
+participation,added,S1.1.3+,S,"Social Actions, States and Processes"
+particularly,added,A13.3,A,General and Abstract Terms
+partly,added,A13.6,A,General and Abstract Terms
+partnership,added,S5+c,S,"Social Actions, States and Processes"
+passion,added,X5.2+,X,"Psychological Actions, States and Processes"
+payment,added,I1.1,I,Money and Commerce in Industry
+peak,added,N5.1+,N,Numbers and Measurement
+peer,added,A6.1+/S2mf,A,General and Abstract Terms
+penalty,added,G2.1,G,Government and Public
+pension,added,I1.1/T3+,I,Money and Commerce in Industry
+perceive,added,X4.1,X,"Psychological Actions, States and Processes"
+percent,added,N5,N,Numbers and Measurement
+percentage,added,N5,N,Numbers and Measurement
+perception,added,X4.1,X,"Psychological Actions, States and Processes"
+perfectly,added,A13.2,A,General and Abstract Terms
+period,added,T1.3,T,Time
+personal,added,S5-,S,"Social Actions, States and Processes"
+personality,added,S1.2,S,"Social Actions, States and Processes"
+personally,added,S5-,S,"Social Actions, States and Processes"
+personnel,added,I3.1/S5+,I,Money and Commerce in Industry
+perspective,added,X4.1,X,"Psychological Actions, States and Processes"
+phase,added,T1.3,T,Time
+phenomenon,added,A3,A,General and Abstract Terms
+philosophy,added,P1,P,Education
+phone,added,Q1.3,Q,Language and Communication
+photo,added,C1,C,Arts and Crafts
+phrase,added,Q3,Q,Language and Communication
+physical,added,B1,B,The Body and the Individual
+piano,added,K2,K,"Entertainment, Sports and Games"
+pilot,added,X2.4,X,"Psychological Actions, States and Processes"
+pitch,added,M2,M,"Movement, Location, Travel and Transport"
+plane,added,M5fn,M,"Movement, Location, Travel and Transport"
+planet,added,W1,W,World and Environment
+plastic,added,O1.1,O,"Substances, Materials, Objects and Equipment"
+platform,added,M3/M7,M,"Movement, Location, Travel and Transport"
+player,added,K6/S2mf,K,"Entertainment, Sports and Games"
+plot,added,G2.1-,G,Government and Public
+plus,added,Z5,Z,Names and Grammar
+poetry,added,Q3,Q,Language and Communication
+policy,added,X7+,X,"Psychological Actions, States and Processes"
+poll,added,G1.2,G,Government and Public
+pollution,added,W5,W,World and Environment
+pop,added,X3.2,X,"Psychological Actions, States and Processes"
+port,added,M4/M7,M,"Movement, Location, Travel and Transport"
+portion,added,N5,N,Numbers and Measurement
+portrait,added,C1,C,Arts and Crafts
+pose,added,O4.1/B1,O,"Substances, Materials, Objects and Equipment"
+positive,added,A5.1+,A,General and Abstract Terms
+possibility,added,A7+,A,General and Abstract Terms
+possibly,added,A7+,A,General and Abstract Terms
+potato,added,L3/F1,L,Life and Living Things
+potential,added,A7+,A,General and Abstract Terms
+potentially,added,A7+,A,General and Abstract Terms
+powerful,added,S7.1+,S,"Social Actions, States and Processes"
+precise,added,A4.2+,A,General and Abstract Terms
+precisely,added,A4.2+,A,General and Abstract Terms
+predict,added,Q2.2/T1.1.3,Q,Language and Communication
+pregnancy,added,B1,B,The Body and the Individual
+pregnant,added,B1,B,The Body and the Individual
+premise,added,X4.1,X,"Psychological Actions, States and Processes"
+preparation,added,A1.1.1,A,General and Abstract Terms
+presentation,added,O4.1,O,"Substances, Materials, Objects and Equipment"
+presidential,added,G1.1/S7.1+,G,Government and Public
+presumably,added,X2.1,X,"Psychological Actions, States and Processes"
+previous,added,N4,N,Numbers and Measurement
+previously,added,N4,N,Numbers and Measurement
+primarily,added,A13.2,A,General and Abstract Terms
+primary,added,A11.1+,A,General and Abstract Terms
+prime,added,Q2.2,Q,Language and Communication
+principal,added,A11.1+++,A,General and Abstract Terms
+principle,added,X4.1,X,"Psychological Actions, States and Processes"
+printer,added,Q1.2/S2mf,Q,Language and Communication
+prior,added,N4/T1.1.1,N,Numbers and Measurement
+priority,added,A11.1+,A,General and Abstract Terms
+prisoner,added,G2.1/S2mf,G,Government and Public
+privilege,added,G2.1,G,Government and Public
+pro,added,I3.2+/S2mf,I,Money and Commerce in Industry
+probability,added,A7,A,General and Abstract Terms
+probably,added,A7+,A,General and Abstract Terms
+procedure,added,X4.2,X,"Psychological Actions, States and Processes"
+proceed,added,I1.1,I,Money and Commerce in Industry
+process,added,A1.1.1,A,General and Abstract Terms
+producer,added,K4/S7.1+/S2mf,K,"Entertainment, Sports and Games"
+professional,added,I3.2+/S2mf,I,Money and Commerce in Industry
+professor,added,P1/S2mf,P,Education
+profile,added,Q1.1,Q,Language and Communication
+project,added,A1.1.1,A,General and Abstract Terms
+promote,added,S8+,S,"Social Actions, States and Processes"
+promotion,added,S7.1+/A2.1,S,"Social Actions, States and Processes"
+properly,added,A5.3+,A,General and Abstract Terms
+proportion,added,A2.2/N3.2,A,General and Abstract Terms
+prospect,added,A7+,A,General and Abstract Terms
+protein,added,O1,O,"Substances, Materials, Objects and Equipment"
+protest,added,Q2.2,Q,Language and Communication
+province,added,M7,M,"Movement, Location, Travel and Transport"
+provision,added,A9-,A,General and Abstract Terms
+psychological,added,X1,X,"Psychological Actions, States and Processes"
+pub,added,F2,F,Food and Farming
+publication,added,Q4,Q,Language and Communication
+publisher,added,Q4.1/S2mf,Q,Language and Communication
+purchase,added,I2.2,I,Money and Commerce in Industry
+pursue,added,A1.1.1,A,General and Abstract Terms
+quickly,added,N3.8+,N,Numbers and Measurement
+quietly,added,X3.2-,X,"Psychological Actions, States and Processes"
+quote,added,Q2.2,Q,Language and Communication
+racial,added,S5+,S,"Social Actions, States and Processes"
+radical,added,G1.2/S2mf,G,Government and Public
+random,added,A1.4,A,General and Abstract Terms
+range,added,A6.3+,A,General and Abstract Terms
+rapidly,added,N3.8+,N,Numbers and Measurement
+rarely,added,N6-,N,Numbers and Measurement
+rat,added,Q2.2,Q,Language and Communication
+ratio,added,N2,N,Numbers and Measurement
+react,added,A1.1.1,A,General and Abstract Terms
+reaction,added,A1.1.1,A,General and Abstract Terms
+reader,added,Q4.1/S2mf,Q,Language and Communication
+reality,added,A3+,A,General and Abstract Terms
+really,added,A13.3,A,General and Abstract Terms
+rear,added,M6,M,"Movement, Location, Travel and Transport"
+reasonably,added,A13.5,A,General and Abstract Terms
+recall,added,X2.2+,X,"Psychological Actions, States and Processes"
+recently,added,T3---,T,Time
+reckon,added,X2.1,X,"Psychological Actions, States and Processes"
+recommendation,added,Q2.2,Q,Language and Communication
+recover,added,B2+,B,The Body and the Individual
+recovery,added,B2+,B,The Body and the Individual
+recruit,added,I3.1/A9+,I,Money and Commerce in Industry
+reform,added,A2.1+,A,General and Abstract Terms
+refugee,added,M1/S2mf,M,"Movement, Location, Travel and Transport"
+regardless,added,A11.1-,A,General and Abstract Terms
+region,added,M7,M,"Movement, Location, Travel and Transport"
+regional,added,M7,M,"Movement, Location, Travel and Transport"
+register,added,Q1.2/G1.1,Q,Language and Communication
+registration,added,Q1.2/G1.1,Q,Language and Communication
+regularly,added,N6+,N,Numbers and Measurement
+regulate,added,A1.7+/G1.1,A,General and Abstract Terms
+regulation,added,G2.1,G,Government and Public
+reject,added,X7-,X,"Psychological Actions, States and Processes"
+relationship,added,S3.1,S,"Social Actions, States and Processes"
+relatively,added,A13/A6,A,General and Abstract Terms
+relax,added,E3+,E,Emotion
+release,added,A1.7-,A,General and Abstract Terms
+relevant,added,A1.2+,A,General and Abstract Terms
+reliable,added,A5.1+,A,General and Abstract Terms
+religious,added,S9,S,"Social Actions, States and Processes"
+rely,added,S7.1-,S,"Social Actions, States and Processes"
+remarkable,added,A6.2-,A,General and Abstract Terms
+remote,added,N3.3+,N,Numbers and Measurement
+remove,added,M2,M,"Movement, Location, Travel and Transport"
+reporter,added,Q4.2/S2mf,Q,Language and Communication
+representation,added,G1.1,G,Government and Public
+require,added,X7+,X,"Psychological Actions, States and Processes"
+requirement,added,X7+,X,"Psychological Actions, States and Processes"
+research,added,X2.4,X,"Psychological Actions, States and Processes"
+researcher,added,X2.4/S2mf,X,"Psychological Actions, States and Processes"
+resident,added,H4/S2mf,H,"Architecture, Housing and the Home"
+resolution,added,X6+,X,"Psychological Actions, States and Processes"
+resolve,added,X6+,X,"Psychological Actions, States and Processes"
+resort,added,S6+,S,"Social Actions, States and Processes"
+resource,added,A9-,A,General and Abstract Terms
+respectively,added,A6.1-,A,General and Abstract Terms
+respond,added,S1.1.2+,S,"Social Actions, States and Processes"
+response,added,Q2.1,Q,Language and Communication
+responsibility,added,S6+,S,"Social Actions, States and Processes"
+restore,added,A2.1+,A,General and Abstract Terms
+restrict,added,A1.7+,A,General and Abstract Terms
+restriction,added,A1.7+,A,General and Abstract Terms
+retail,added,I2.2,I,Money and Commerce in Industry
+retain,added,A9+,A,General and Abstract Terms
+retirement,added,I3.1-,I,Money and Commerce in Industry
+reveal,added,A10+,A,General and Abstract Terms
+revenue,added,G1.1/I1,G,Government and Public
+reverse,added,A6.1-,A,General and Abstract Terms
+revise,added,A2.1+,A,General and Abstract Terms
+revolution,added,G1.2,G,Government and Public
+role,added,I3.1,I,Money and Commerce in Industry
+romantic,added,S3.2mf,S,"Social Actions, States and Processes"
+rose,added,L3,L,Life and Living Things
+roughly,added,A13.4,A,General and Abstract Terms
+route,added,M2,M,"Movement, Location, Travel and Transport"
+routine,added,A6.2+,A,General and Abstract Terms
+rural,added,F4/M7,F,Food and Farming
+sanction,added,S7.4,S,"Social Actions, States and Processes"
+scan,added,X3.4/N3.8+,X,"Psychological Actions, States and Processes"
+scare,added,E5-,E,Emotion
+schedule,added,X7+,X,"Psychological Actions, States and Processes"
+scheme,added,X7+,X,"Psychological Actions, States and Processes"
+scholar,added,P1/S2mf,P,Education
+scope,added,A1.7-,A,General and Abstract Terms
+score,added,K5,K,"Entertainment, Sports and Games"
+scream,added,Q2.2,Q,Language and Communication
+seal,added,A1.7+,A,General and Abstract Terms
+secondary,added,A11.1-,A,General and Abstract Terms
+secondly,added,N4,N,Numbers and Measurement
+section,added,A1.1.1,A,General and Abstract Terms
+sector,added,A4.1,A,General and Abstract Terms
+secure,added,A9+,A,General and Abstract Terms
+security,added,G2.1,G,Government and Public
+seek,added,X2.4,X,"Psychological Actions, States and Processes"
+segment,added,A1.1.1,A,General and Abstract Terms
+select,added,X7+,X,"Psychological Actions, States and Processes"
+selection,added,X7+,X,"Psychological Actions, States and Processes"
+senior,added,S7.1++/S2mf,S,"Social Actions, States and Processes"
+sequence,added,N4,N,Numbers and Measurement
+series,added,N4c,N,Numbers and Measurement
+seriously,added,A13.3,A,General and Abstract Terms
+server,added,F1/S2mf,F,Food and Farming
+session,added,T1.3,T,Time
+settlement,added,M7,M,"Movement, Location, Travel and Transport"
+sex,added,L2,L,Life and Living Things
+sexual,added,S3.2,S,"Social Actions, States and Processes"
+shareholder,added,I1.1/S2mf,I,Money and Commerce in Industry
+shift,added,A2.1+,A,General and Abstract Terms
+shot,added,G3,G,Government and Public
+sigh,added,Q2.2/X3.2,Q,Language and Communication
+significance,added,A11.1+,A,General and Abstract Terms
+significant,added,A11.1+,A,General and Abstract Terms
+significantly,added,A11.1+,A,General and Abstract Terms
+silly,added,S1.2.6-,S,"Social Actions, States and Processes"
+similar,added,A6.1+,A,General and Abstract Terms
+similarly,added,A6.1+,A,General and Abstract Terms
+simply,added,A13.6,A,General and Abstract Terms
+singer,added,K2/S2mf,K,"Entertainment, Sports and Games"
+site,added,M6,M,"Movement, Location, Travel and Transport"
+situate,added,M6,M,"Movement, Location, Travel and Transport"
+ski,added,K5.1,K,"Entertainment, Sports and Games"
+slice,added,A1.1.1,A,General and Abstract Terms
+slightly,added,A13.6,A,General and Abstract Terms
+slowly,added,N3.8-,N,Numbers and Measurement
+smart,added,B2-,B,The Body and the Individual
+snap,added,A1.1.2,A,General and Abstract Terms
+software,added,Y2,Y,Science and Technology
+solar,added,W1,W,World and Environment
+somewhat,added,A13.6,A,General and Abstract Terms
+source,added,A9+,A,General and Abstract Terms
+southern,added,M6,M,"Movement, Location, Travel and Transport"
+speaker,added,Q2.1/S2mf,Q,Language and Communication
+specialist,added,X2.2+/S2mf,X,"Psychological Actions, States and Processes"
+specialize,added,A4.2+,A,General and Abstract Terms
+specie,added,Z99,Z,Names and Grammar
+specific,added,A4.2+,A,General and Abstract Terms
+specifically,added,A4.2+,A,General and Abstract Terms
+specify,added,A4.2+/Q2.2,A,General and Abstract Terms
+sponsor,added,A9-/I1.1/S2mf,A,General and Abstract Terms
+stability,added,A2.1-,A,General and Abstract Terms
+stable,added,A2.1-,A,General and Abstract Terms
+stake,added,I1/A1.4,I,Money and Commerce in Industry
+stare,added,X3.4,X,"Psychological Actions, States and Processes"
+statement,added,Q2.1,Q,Language and Communication
+statistic,added,N3.1,N,Numbers and Measurement
+status,added,S7.1,S,"Social Actions, States and Processes"
+steal,added,G2.1-/A9+,G,Government and Public
+stimulate,added,A2.2,A,General and Abstract Terms
+storage,added,A9+,A,General and Abstract Terms
+strain,added,A1.1.1/N5.2+,A,General and Abstract Terms
+strategy,added,X7+,X,"Psychological Actions, States and Processes"
+stress,added,Q2.2,Q,Language and Communication
+strongly,added,A13.3,A,General and Abstract Terms
+structural,added,O4.1,O,"Substances, Materials, Objects and Equipment"
+structure,added,A1.1.1,A,General and Abstract Terms
+studio,added,C1/H2,C,Arts and Crafts
+style,added,X4.2,X,"Psychological Actions, States and Processes"
+submit,added,A9-,A,General and Abstract Terms
+subsequent,added,N4,N,Numbers and Measurement
+subsequently,added,N4,N,Numbers and Measurement
+substantial,added,N3.2+,N,Numbers and Measurement
+substitute,added,A2.1+,A,General and Abstract Terms
+successful,added,X9.2+,X,"Psychological Actions, States and Processes"
+successfully,added,X9.2+,X,"Psychological Actions, States and Processes"
+suddenly,added,N3.8+,N,Numbers and Measurement
+sufficient,added,N5,N,Numbers and Measurement
+suitable,added,A1.2+,A,General and Abstract Terms
+sum,added,N2,N,Numbers and Measurement
+summarize,added,Q2.2,Q,Language and Communication
+summary,added,N3.8+,N,Numbers and Measurement
+supplement,added,N5++,N,Numbers and Measurement
+supplier,added,I2.2/S2mfc,I,Money and Commerce in Industry
+supporter,added,S8+/S2mf,S,"Social Actions, States and Processes"
+surely,added,A7+,A,General and Abstract Terms
+surgery,added,B3,B,The Body and the Individual
+surprisingly,added,X2.6-,X,"Psychological Actions, States and Processes"
+survey,added,X2.4,X,"Psychological Actions, States and Processes"
+survival,added,A3+/T2++,A,General and Abstract Terms
+survive,added,A3+/T2++,A,General and Abstract Terms
+suspend,added,T4-,T,Time
+sustain,added,T2++,T,Time
+switch,added,O3,O,"Substances, Materials, Objects and Equipment"
+symbol,added,A6.2+,A,General and Abstract Terms
+symptom,added,B2-,B,The Body and the Individual
+tackle,added,K5.1,K,"Entertainment, Sports and Games"
+tale,added,Q2.1,Q,Language and Communication
+talent,added,X9.1+,X,"Psychological Actions, States and Processes"
+tank,added,O2,O,"Substances, Materials, Objects and Equipment"
+tape,added,K3,K,"Entertainment, Sports and Games"
+target,added,X7+,X,"Psychological Actions, States and Processes"
+task,added,A1.1.1,A,General and Abstract Terms
+teacher,added,P1/I3.2/S2mf,P,Education
+team,added,S5+,S,"Social Actions, States and Processes"
+technical,added,Y1,Y,Science and Technology
+technique,added,X4.2,X,"Psychological Actions, States and Processes"
+technology,added,Y1,Y,Science and Technology
+teenager,added,T3-/S2mf,T,Time
+television,added,Q4.3,Q,Language and Communication
+temporary,added,T1.3,T,Time
+tendency,added,A6.2+,A,General and Abstract Terms
+tennis,added,K5.1,K,"Entertainment, Sports and Games"
+tension,added,E6-,E,Emotion
+territory,added,M7,M,"Movement, Location, Travel and Transport"
+terrorist,added,G2.1-/S2mf,G,Government and Public
+text,added,Q1.2,Q,Language and Communication
+theme,added,X4.1,X,"Psychological Actions, States and Processes"
+themselves,added,Z8,Z,Names and Grammar
+theoretical,added,A1.6,A,General and Abstract Terms
+theory,added,X4.1,X,"Psychological Actions, States and Processes"
+therapy,added,B3,B,The Body and the Individual
+throughout,added,N5.1+,N,Numbers and Measurement
+tiny,added,N3.2-,N,Numbers and Measurement
+tissue,added,B1,B,The Body and the Individual
+tone,added,B4,B,The Body and the Individual
+topic,added,X4.1,X,"Psychological Actions, States and Processes"
+totally,added,A13.2,A,General and Abstract Terms
+tourism,added,M1,M,"Movement, Location, Travel and Transport"
+tourist,added,M1/S2,M,"Movement, Location, Travel and Transport"
+tournament,added,S7.3,S,"Social Actions, States and Processes"
+trace,added,A11.2+,A,General and Abstract Terms
+tradition,added,S1.1.1,S,"Social Actions, States and Processes"
+traditional,added,S1.1.1,S,"Social Actions, States and Processes"
+traffic,added,M3,M,"Movement, Location, Travel and Transport"
+trail,added,X2.4,X,"Psychological Actions, States and Processes"
+transfer,added,M6/A2.1+,M,"Movement, Location, Travel and Transport"
+transform,added,A2.1+,A,General and Abstract Terms
+transition,added,A2.1+,A,General and Abstract Terms
+transport,added,M2,M,"Movement, Location, Travel and Transport"
+transportation,added,M2,M,"Movement, Location, Travel and Transport"
+treatment,added,B3,B,The Body and the Individual
+trend,added,A6.2+,A,General and Abstract Terms
+trigger,added,A2.2,A,General and Abstract Terms
+troop,added,G3/S5+c,G,Government and Public
+truck,added,M3fn,M,"Movement, Location, Travel and Transport"
+truly,added,A5.2+,A,General and Abstract Terms
+twice,added,N6,N,Numbers and Measurement
+twin,added,A6.1+,A,General and Abstract Terms
+typical,added,A4.2+,A,General and Abstract Terms
+typically,added,A6.2+,A,General and Abstract Terms
+ultimately,added,N4,N,Numbers and Measurement
+unable,added,X9.1-,X,"Psychological Actions, States and Processes"
+uncertainty,added,A7-,A,General and Abstract Terms
+unclear,added,A7-,A,General and Abstract Terms
+undergo,added,A1.1.1,A,General and Abstract Terms
+underlie,added,A10-,A,General and Abstract Terms
+undertake,added,A1.1.1,A,General and Abstract Terms
+unemployment,added,I3.1-,I,Money and Commerce in Industry
+unfortunately,added,A1.4-,A,General and Abstract Terms
+uniform,added,B5,B,The Body and the Individual
+unique,added,N5---,N,Numbers and Measurement
+unknown,added,X2.2-,X,"Psychological Actions, States and Processes"
+unlike,added,Z5,Z,Names and Grammar
+unlikely,added,A7-,A,General and Abstract Terms
+unusual,added,A6.2-,A,General and Abstract Terms
+update,added,T1.1.2,T,Time
+urban,added,M7,M,"Movement, Location, Travel and Transport"
+useful,added,A1.5.2+,A,General and Abstract Terms
+user,added,A1.5.1/S2mf,A,General and Abstract Terms
+usually,added,A6.2+,A,General and Abstract Terms
+van,added,M3fn,M,"Movement, Location, Travel and Transport"
+variable,added,A6.3+,A,General and Abstract Terms
+variation,added,A6.3+,A,General and Abstract Terms
+vary,added,A6.1-,A,General and Abstract Terms
+vast,added,N3.2+,N,Numbers and Measurement
+vegetable,added,F1,F,Food and Farming
+vehicle,added,M3fn,M,"Movement, Location, Travel and Transport"
+venture,added,M1,M,"Movement, Location, Travel and Transport"
+version,added,A4.1,A,General and Abstract Terms
+versus,added,Z5,Z,Names and Grammar
+veteran,added,G3/S2mf,G,Government and Public
+via,added,Z5,Z,Names and Grammar
+vice,added,G2.2-,G,Government and Public
+victim,added,A1.1.2/G2.1/S2mf,A,General and Abstract Terms
+video,added,Q4.3,Q,Language and Communication
+virtually,added,A13.4,A,General and Abstract Terms
+virus,added,L2,L,Life and Living Things
+visible,added,X3.4,X,"Psychological Actions, States and Processes"
+vision,added,X4.1,X,"Psychological Actions, States and Processes"
+visual,added,X3.4,X,"Psychological Actions, States and Processes"
+vital,added,A11.1+,A,General and Abstract Terms
+volume,added,N3.4,N,Numbers and Measurement
+voluntary,added,K2,K,"Entertainment, Sports and Games"
+volunteer,added,I3.1/I1.1-/S2mf,I,Money and Commerce in Industry
+voter,added,G1.2/S2mf,G,Government and Public
+weakness,added,S1.2.5-,S,"Social Actions, States and Processes"
+wealthy,added,I1.1+,I,Money and Commerce in Industry
+web,added,Y2,Y,Science and Technology
+website,added,Y2,Y,Science and Technology
+wed,added,Z8,Z,Names and Grammar
+weekly,added,N6+,N,Numbers and Measurement
+weird,added,A6.2-,A,General and Abstract Terms
+welfare,added,S8+,S,"Social Actions, States and Processes"
+whereas,added,Z5,Z,Names and Grammar
+whilst,added,Z5,Z,Names and Grammar
+widely,added,N5+,N,Numbers and Measurement
+winner,added,X9.2+/S7.3/S2mf,X,"Psychological Actions, States and Processes"
+withdraw,added,M2,M,"Movement, Location, Travel and Transport"
+wonderful,added,A5.1+,A,General and Abstract Terms
+worker,added,I3.1/S2mf,I,Money and Commerce in Industry
+writer,added,Q4.1/S2mf,Q,Language and Communication
+yeah,added,Z4,Z,Names and Grammar
+yourself,added,Z8,Z,Names and Grammar
+zone,added,M7,M,"Movement, Location, Travel and Transport"
+absent,removed,S1.1.3-,S,"Social Actions, States and Processes"
+accustom,removed,A6.2+,A,General and Abstract Terms
+ache,removed,B2-,B,The Body and the Individual
+actress,removed,K4/S2.1f,K,"Entertainment, Sports and Games"
+admission,removed,S7.4+/M1,S,"Social Actions, States and Processes"
+adoption,removed,A9+,A,General and Abstract Terms
+agriculture,removed,F4,F,Food and Farming
+airplane,removed,M5,M,"Movement, Location, Travel and Transport"
+alike,removed,A6.1+,A,General and Abstract Terms
+allowance,removed,I1.1,I,Money and Commerce in Industry
+aloud,removed,X3.2,X,"Psychological Actions, States and Processes"
+ambition,removed,X7+,X,"Psychological Actions, States and Processes"
+ambitious,removed,X7+,X,"Psychological Actions, States and Processes"
+amongst,removed,Z5,Z,Names and Grammar
+amuse,removed,E4.1+,E,Emotion
+annoy,removed,E3-,E,Emotion
+annoyance,removed,E3-,E,Emotion
+anyhow,removed,Z4,Z,Names and Grammar
+apology,removed,Q2.2,Q,Language and Communication
+applaud,removed,E2+,E,Emotion
+applause,removed,E2+/X3.2+,E,Emotion
+apple,removed,L3,L,Life and Living Things
+arch,removed,O4.4,O,"Substances, Materials, Objects and Equipment"
+arrow,removed,G3,G,Government and Public
+artificial,removed,A5.4-,A,General and Abstract Terms
+ash,removed,O1.1,O,"Substances, Materials, Objects and Equipment"
+asleep,removed,B1,B,The Body and the Individual
+astonish,removed,X2.6-,X,"Psychological Actions, States and Processes"
+attentive,removed,X5.1+,X,"Psychological Actions, States and Processes"
+avenue,removed,M3/H3,M,"Movement, Location, Travel and Transport"
+avoidance,removed,A1.9,A,General and Abstract Terms
+awake,removed,B1,B,The Body and the Individual
+awkward,removed,A12-,A,General and Abstract Terms
+axe,removed,T2-,T,Time
+backward,removed,M6,M,"Movement, Location, Travel and Transport"
+baggage,removed,B5,B,The Body and the Individual
+bake,removed,F1,F,Food and Farming
+barber,removed,B4/S2mf,B,The Body and the Individual
+bare,removed,O4.1,O,"Substances, Materials, Objects and Equipment"
+bargain,removed,I1.3-,I,Money and Commerce in Industry
+barrel,removed,O2,O,"Substances, Materials, Objects and Equipment"
+basin,removed,O2,O,"Substances, Materials, Objects and Equipment"
+basket,removed,O2,O,"Substances, Materials, Objects and Equipment"
+bathe,removed,B4/M4,B,The Body and the Individual
+bay,removed,W3/M4,W,World and Environment
+beak,removed,L2,L,Life and Living Things
+beam,removed,W2,W,World and Environment
+bean,removed,F1,F,Food and Farming
+beard,removed,B1,B,The Body and the Individual
+beast,removed,L2mfn,L,Life and Living Things
+beg,removed,Q2.2/E6-,Q,Language and Communication
+berry,removed,L3,L,Life and Living Things
+best,removed,A5.1+++,A,General and Abstract Terms
+bicycle,removed,M3,M,"Movement, Location, Travel and Transport"
+bitter,removed,F2,F,Food and Farming
+blade,removed,O2,O,"Substances, Materials, Objects and Equipment"
+bleed,removed,B1,B,The Body and the Individual
+boast,removed,S1.2.3+/Q2.2,S,"Social Actions, States and Processes"
+boil,removed,B2-,B,The Body and the Individual
+bold,removed,O4.1,O,"Substances, Materials, Objects and Equipment"
+bow,removed,O4.1/B1/S7.2+,O,"Substances, Materials, Objects and Equipment"
+brass,removed,O1.1,O,"Substances, Materials, Objects and Equipment"
+brave,removed,E5+,E,Emotion
+bravery,removed,E5+,E,Emotion
+breadth,removed,N3.3,N,Numbers and Measurement
+bribe,removed,G2.2-/I1.1,G,Government and Public
+bribery,removed,G2.2-/I1.1,G,Government and Public
+brick,removed,H1,H,"Architecture, Housing and the Home"
+brighten,removed,O4.3,O,"Substances, Materials, Objects and Equipment"
+bucket,removed,W4,W,World and Environment
+bundle,removed,A1.1.1,A,General and Abstract Terms
+bush,removed,L3,L,Life and Living Things
+businesslike,removed,I3.2+,I,Money and Commerce in Industry
+businessman,removed,I2.1/S2.2m,I,Money and Commerce in Industry
+butter,removed,F1,F,Food and Farming
+cage,removed,A1.7+,A,General and Abstract Terms
+calculation,removed,N2,N,Numbers and Measurement
+calculator,removed,Y2/N2,Y,Science and Technology
+canal,removed,W3/M4,W,World and Environment
+cape,removed,Z2,Z,Names and Grammar
+captain,removed,S7.1+,S,"Social Actions, States and Processes"
+carriage,removed,M2,M,"Movement, Location, Travel and Transport"
+cart,removed,M2,M,"Movement, Location, Travel and Transport"
+cattle,removed,L2mfn,L,Life and Living Things
+caution,removed,Q2.2,Q,Language and Communication
+cautious,removed,A1.3+,A,General and Abstract Terms
+cave,removed,K5.1,K,"Entertainment, Sports and Games"
+certainty,removed,A7+,A,General and Abstract Terms
+chalk,removed,Q1.2,Q,Language and Communication
+cheat,removed,G2.2-/S2mf,G,Government and Public
+cheer,removed,Q2.2,Q,Language and Communication
+chimney,removed,H2,H,"Architecture, Housing and the Home"
+christmas,removed,S9/T1.3,S,"Social Actions, States and Processes"
+circular,removed,O4.4,O,"Substances, Materials, Objects and Equipment"
+civilize,removed,P1,P,Education
+classification,removed,A4.1,A,General and Abstract Terms
+classify,removed,A4.1,A,General and Abstract Terms
+clay,removed,O1.1,O,"Substances, Materials, Objects and Equipment"
+clerk,removed,B3/P1,B,The Body and the Individual
+clever,removed,X9.1+,X,"Psychological Actions, States and Processes"
+cliff,removed,W3,W,World and Environment
+cloth,removed,B5,B,The Body and the Individual
+coarse,removed,O4.5,O,"Substances, Materials, Objects and Equipment"
+collar,removed,A9+,A,General and Abstract Terms
+collector,removed,A9+/S2mf,A,General and Abstract Terms
+colony,removed,M7/S7.1-,M,"Movement, Location, Travel and Transport"
+comb,removed,B4,B,The Body and the Individual
+commerce,removed,I2.1,I,Money and Commerce in Industry
+companion,removed,S3.1/S2mf,S,"Social Actions, States and Processes"
+companionship,removed,S3.1,S,"Social Actions, States and Processes"
+completion,removed,T2-,T,Time
+complication,removed,A12-,A,General and Abstract Terms
+confess,removed,Q2.2/A10+,Q,Language and Communication
+confession,removed,Q2.2/A10+,Q,Language and Communication
+confidential,removed,A10-,A,General and Abstract Terms
+congratulate,removed,Q2.2,Q,Language and Communication
+congratulation,removed,Q2.2,Q,Language and Communication
+conquer,removed,X9.2+/S7.3,X,"Psychological Actions, States and Processes"
+conqueror,removed,X9.2+/S7.3/S2mf,X,"Psychological Actions, States and Processes"
+conquest,removed,X9.2+/S7.3,X,"Psychological Actions, States and Processes"
+conscience,removed,X2.1/G2.2,X,"Psychological Actions, States and Processes"
+conscious,removed,X2.2+,X,"Psychological Actions, States and Processes"
+convenience,removed,A1.2+,A,General and Abstract Terms
+convenient,removed,A12+,A,General and Abstract Terms
+copper,removed,I1.1,I,Money and Commerce in Industry
+cork,removed,O1.1,O,"Substances, Materials, Objects and Equipment"
+corn,removed,F1,F,Food and Farming
+correction,removed,A5.3+/A2.1,A,General and Abstract Terms
+cottage,removed,H1,H,"Architecture, Housing and the Home"
+cotton,removed,O1.1,O,"Substances, Materials, Objects and Equipment"
+courage,removed,E5+/S1.2,E,Emotion
+coward,removed,E5-/S2mf,E,Emotion
+cowardice,removed,E5-/S1.2,E,Emotion
+creep,removed,G2.2-/S2mf,G,Government and Public
+crown,removed,S7.1+,S,"Social Actions, States and Processes"
+cruel,removed,E3-,E,Emotion
+crush,removed,A1.1.2,A,General and Abstract Terms
+cultivate,removed,F4,F,Food and Farming
+cultivation,removed,F4,F,Food and Farming
+cultivator,removed,Z99,Z,Names and Grammar
+cupboard,removed,H5,H,"Architecture, Housing and the Home"
+cure,removed,B3,B,The Body and the Individual
+curl,removed,O4.4,O,"Substances, Materials, Objects and Equipment"
+curse,removed,Q2.2,Q,Language and Communication
+cushion,removed,S8+,S,"Social Actions, States and Processes"
+customary,removed,A6.2+,A,General and Abstract Terms
+damp,removed,O1.2,O,"Substances, Materials, Objects and Equipment"
+darken,removed,O4.3,O,"Substances, Materials, Objects and Equipment"
+daylight,removed,W2,W,World and Environment
+deaf,removed,X3.2-,X,"Psychological Actions, States and Processes"
+deafen,removed,Z99,Z,Names and Grammar
+decay,removed,O4.2-/A2.1,O,"Substances, Materials, Objects and Equipment"
+deceit,removed,G2.2-,G,Government and Public
+deceive,removed,A5.2-,A,General and Abstract Terms
+decisive,removed,A11.1+,A,General and Abstract Terms
+deed,removed,A1.1.1,A,General and Abstract Terms
+deepen,removed,N3.3+/A2.1,N,Numbers and Measurement
+deer,removed,L2mfnc,L,Life and Living Things
+defendant,removed,G2.1/S2mf,G,Government and Public
+delicate,removed,O4.2+,O,"Substances, Materials, Objects and Equipment"
+dependence,removed,A2.2,A,General and Abstract Terms
+descend,removed,M1,M,"Movement, Location, Travel and Transport"
+descendant,removed,S4mfn,S,"Social Actions, States and Processes"
+descent,removed,M1,M,"Movement, Location, Travel and Transport"
+despair,removed,E4.1-,E,Emotion
+destructive,removed,A1.1.2,A,General and Abstract Terms
+devil,removed,S9,S,"Social Actions, States and Processes"
+diamond,removed,O1.1,O,"Substances, Materials, Objects and Equipment"
+dictionary,removed,Q4.1,Q,Language and Communication
+dine,removed,F1,F,Food and Farming
+dip,removed,O4.4,O,"Substances, Materials, Objects and Equipment"
+dirt,removed,O4.2-,O,"Substances, Materials, Objects and Equipment"
+disappearance,removed,A10-,A,General and Abstract Terms
+disapprove,removed,E2-,E,Emotion
+discomfort,removed,B2-,B,The Body and the Individual
+discontent,removed,E4.2-,E,Emotion
+disgust,removed,E2-,E,Emotion
+disregard,removed,X5.1-,X,"Psychological Actions, States and Processes"
+disrespect,removed,S7.2-,S,"Social Actions, States and Processes"
+dissatisfaction,removed,E4.2-,E,Emotion
+dissatisfy,removed,E4.2-,E,Emotion
+ditch,removed,A9-,A,General and Abstract Terms
+dive,removed,M4,M,"Movement, Location, Travel and Transport"
+donkey,removed,L2mfn,L,Life and Living Things
+dot,removed,O4.4,O,"Substances, Materials, Objects and Equipment"
+drawer,removed,H5,H,"Architecture, Housing and the Home"
+drown,removed,L1-,L,Life and Living Things
+drum,removed,X3.2,X,"Psychological Actions, States and Processes"
+duck,removed,L2mfnc,L,Life and Living Things
+dull,removed,X5.2-,X,"Psychological Actions, States and Processes"
+eager,removed,X5.2+,X,"Psychological Actions, States and Processes"
+earnest,removed,A5.2+,A,General and Abstract Terms
+educator,removed,P1/S2mf,P,Education
+elastic,removed,O1.1,O,"Substances, Materials, Objects and Equipment"
+elder,removed,S7.1+/S2mf,S,"Social Actions, States and Processes"
+electrician,removed,O3/S2mf,O,"Substances, Materials, Objects and Equipment"
+elephant,removed,L2mfn,L,Life and Living Things
+enclose,removed,A1.8+,A,General and Abstract Terms
+enclosure,removed,Q1.2,Q,Language and Communication
+english,removed,Z2/Q3,Z,Names and Grammar
+envy,removed,S1.2.2+,S,"Social Actions, States and Processes"
+essence,removed,A11.1+,A,General and Abstract Terms
+everlasting,removed,T2+++,T,Time
+excellence,removed,A5.1+++,A,General and Abstract Terms
+excessive,removed,N5.2+,N,Numbers and Measurement
+explode,removed,A1.1.1,A,General and Abstract Terms
+explosion,removed,A1.1.1,A,General and Abstract Terms
+explosive,removed,G3/O1.1,G,Government and Public
+faint,removed,B2-,B,The Body and the Individual
+fame,removed,X2.2+,X,"Psychological Actions, States and Processes"
+fasten,removed,A1.7+,A,General and Abstract Terms
+fate,removed,S9,S,"Social Actions, States and Processes"
+fatten,removed,N3.2+/A2.1+,N,Numbers and Measurement
+feast,removed,F1,F,Food and Farming
+feather,removed,A1.1.1,A,General and Abstract Terms
+fellowship,removed,S5+c,S,"Social Actions, States and Processes"
+fever,removed,B2-,B,The Body and the Individual
+fierce,removed,E3-,E,Emotion
+flame,removed,O4.6+,O,"Substances, Materials, Objects and Equipment"
+flatten,removed,O4.4,O,"Substances, Materials, Objects and Equipment"
+flavor,removed,X3.1,X,"Psychological Actions, States and Processes"
+flesh,removed,B1,B,The Body and the Individual
+flour,removed,F1,F,Food and Farming
+fond,removed,E2+,E,Emotion
+forbid,removed,S7.4-,S,"Social Actions, States and Processes"
+forgive,removed,G2.2+,G,Government and Public
+fork,removed,F4,F,Food and Farming
+fright,removed,E5-,E,Emotion
+fry,removed,F1,F,Food and Farming
+funeral,removed,L1-/S1.1.1,L,Life and Living Things
+fur,removed,O1.1/L2,O,"Substances, Materials, Objects and Equipment"
+furnish,removed,H5,H,"Architecture, Housing and the Home"
+gaiety,removed,E4.1+,E,Emotion
+gallon,removed,N3.4,N,Numbers and Measurement
+garage,removed,M3/H1,M,"Movement, Location, Travel and Transport"
+generous,removed,S1.2.2-,S,"Social Actions, States and Processes"
+glory,removed,X2.2+,X,"Psychological Actions, States and Processes"
+goat,removed,L2mfn,L,Life and Living Things
+grace,removed,O4.2+/A2.1,O,"Substances, Materials, Objects and Equipment"
+gradual,removed,T2++,T,Time
+grammatical,removed,Q3,Q,Language and Communication
+grave,removed,E4.1-,E,Emotion
+grease,removed,O1,O,"Substances, Materials, Objects and Equipment"
+greed,removed,S1.2.2+,S,"Social Actions, States and Processes"
+guilt,removed,G2.2-,G,Government and Public
+hammer,removed,A1.1.1,A,General and Abstract Terms
+handkerchief,removed,B5,B,The Body and the Individual
+handshake,removed,S1.1.1,S,"Social Actions, States and Processes"
+handwrite,removed,Z99,Z,Names and Grammar
+harden,removed,O4.5/A2.1,O,"Substances, Materials, Objects and Equipment"
+harvest,removed,F4,F,Food and Farming
+haste,removed,N3.8+,N,Numbers and Measurement
+hasten,removed,N3.8+,N,Numbers and Measurement
+hatred,removed,E2-,E,Emotion
+hay,removed,L3,L,Life and Living Things
+headache,removed,B2-,B,The Body and the Individual
+headdress,removed,B5,B,The Body and the Individual
+heal,removed,B3,B,The Body and the Individual
+heap,removed,N5+,N,Numbers and Measurement
+heaven,removed,S9,S,"Social Actions, States and Processes"
+heavenly,removed,O4.2+,O,"Substances, Materials, Objects and Equipment"
+heighten,removed,N5+/A2.1,N,Numbers and Measurement
+hesitation,removed,A7-,A,General and Abstract Terms
+highway,removed,M3,M,"Movement, Location, Travel and Transport"
+hind,removed,M6,M,"Movement, Location, Travel and Transport"
+hindrance,removed,S8-,S,"Social Actions, States and Processes"
+hollow,removed,W3,W,World and Environment
+holy,removed,S9,S,"Social Actions, States and Processes"
+homecoming,removed,Z99,Z,Names and Grammar
+homemade,removed,O4.1,O,"Substances, Materials, Objects and Equipment"
+homework,removed,P1,P,Education
+honesty,removed,A5.2+,A,General and Abstract Terms
+horizon,removed,W3,W,World and Environment
+horizontal,removed,O4.4,O,"Substances, Materials, Objects and Equipment"
+humble,removed,S7.1-,S,"Social Actions, States and Processes"
+hurrah,removed,Z99,Z,Names and Grammar
+hut,removed,H1,H,"Architecture, Housing and the Home"
+idle,removed,A1.5.1-,A,General and Abstract Terms
+imaginary,removed,A5.2-,A,General and Abstract Terms
+imaginative,removed,X2.1/A6.2-,X,"Psychological Actions, States and Processes"
+imitate,removed,A6.1+,A,General and Abstract Terms
+imitation,removed,A6.1+,A,General and Abstract Terms
+immense,removed,N3.2++,N,Numbers and Measurement
+inclusive,removed,A1.8+,A,General and Abstract Terms
+indoor,removed,H2,H,"Architecture, Housing and the Home"
+influential,removed,S7.1+,S,"Social Actions, States and Processes"
+ink,removed,Q1.2,Q,Language and Communication
+inn,removed,F2/H1,F,Food and Farming
+inquire,removed,Q2.2,Q,Language and Communication
+insect,removed,L2mfn,L,Life and Living Things
+instant,removed,T1.2,T,Time
+insult,removed,Q2.2/S1.2.4-,Q,Language and Communication
+interfere,removed,S1.1.3+++,S,"Social Actions, States and Processes"
+interference,removed,S1.1.3+++,S,"Social Actions, States and Processes"
+interrupt,removed,Q2.2,Q,Language and Communication
+interruption,removed,Q2.2,Q,Language and Communication
+invention,removed,X2.1,X,"Psychological Actions, States and Processes"
+inventor,removed,Y1/S2mf,Y,Science and Technology
+inward,removed,M6,M,"Movement, Location, Travel and Transport"
+jaw,removed,Q2.1,Q,Language and Communication
+jealous,removed,E4.1-/S3.2,E,Emotion
+jealousy,removed,E4.1-/S3.2,E,Emotion
+jewel,removed,B5,B,The Body and the Individual
+juice,removed,F2,F,Food and Farming
+kingdom,removed,G1.1,G,Government and Public
+kneel,removed,O4.1/B1,O,"Substances, Materials, Objects and Equipment"
+knot,removed,A1.1.1,A,General and Abstract Terms
+ladder,removed,B5/A1.1.2,B,The Body and the Individual
+lamp,removed,O2/W2,O,"Substances, Materials, Objects and Equipment"
+landlord,removed,S7.1+/H4/S2.2m,S,"Social Actions, States and Processes"
+lately,removed,T3---,T,Time
+leaf,removed,L3,L,Life and Living Things
+lengthen,removed,N3.7+/A2.1,N,Numbers and Measurement
+lessen,removed,N5-/A2.1,N,Numbers and Measurement
+liar,removed,A5.2-/S2mf,A,General and Abstract Terms
+liberty,removed,A1.7-,A,General and Abstract Terms
+librarian,removed,Q4.1/S2mf,Q,Language and Communication
+lid,removed,O2,O,"Substances, Materials, Objects and Equipment"
+lighten,removed,O4.3,O,"Substances, Materials, Objects and Equipment"
+limb,removed,B1,B,The Body and the Individual
+lipstick,removed,B4,B,The Body and the Individual
+loaf,removed,A1.9-,A,General and Abstract Terms
+lodge,removed,H4,H,"Architecture, Housing and the Home"
+lonely,removed,S5-,S,"Social Actions, States and Processes"
+loosen,removed,A1.7-,A,General and Abstract Terms
+lord,removed,S7.1+,S,"Social Actions, States and Processes"
+loyal,removed,S6+,S,"Social Actions, States and Processes"
+loyalty,removed,S6+,S,"Social Actions, States and Processes"
+lump,removed,O4.4,O,"Substances, Materials, Objects and Equipment"
+lung,removed,B1,B,The Body and the Individual
+machinery,removed,O2,O,"Substances, Materials, Objects and Equipment"
+madden,removed,E3-,E,Emotion
+mankind,removed,S2,S,"Social Actions, States and Processes"
+mat,removed,H5,H,"Architecture, Housing and the Home"
+meantime,removed,T1.1.2,T,Time
+mechanic,removed,O2/S2mf,O,"Substances, Materials, Objects and Equipment"
+melt,removed,A2.1+,A,General and Abstract Terms
+mend,removed,A5.1+/A2.1,A,General and Abstract Terms
+merchant,removed,I2.2/S2mf,I,Money and Commerce in Industry
+mercy,removed,G2.2+,G,Government and Public
+merry,removed,E4.1+,E,Emotion
+messenger,removed,Q2.1/S2mf,Q,Language and Communication
+mild,removed,S1.2.5-,S,"Social Actions, States and Processes"
+mill,removed,I4/H1c,I,Money and Commerce in Industry
+mineral,removed,O1,O,"Substances, Materials, Objects and Equipment"
+miserable,removed,E4.1-,E,Emotion
+misery,removed,E4.1-,E,Emotion
+moderation,removed,N5-/A2.1,N,Numbers and Measurement
+modest,removed,N3.2-,N,Numbers and Measurement
+modesty,removed,S1.2.3-,S,"Social Actions, States and Processes"
+momentary,removed,T1.2,T,Time
+monkey,removed,L2mfn,L,Life and Living Things
+moonlight,removed,W2/W1,W,World and Environment
+motherhood,removed,S4,S,"Social Actions, States and Processes"
+motherly,removed,S4,S,"Social Actions, States and Processes"
+mud,removed,O1.1,O,"Substances, Materials, Objects and Equipment"
+multiplication,removed,N1,N,Numbers and Measurement
+multiply,removed,N2,N,Numbers and Measurement
+nail,removed,A1.1.1,A,General and Abstract Terms
+neat,removed,O4.2+,O,"Substances, Materials, Objects and Equipment"
+necessity,removed,S6+,S,"Social Actions, States and Processes"
+needle,removed,A1.1.1,A,General and Abstract Terms
+nephew,removed,S4m,S,"Social Actions, States and Processes"
+nest,removed,L2,L,Life and Living Things
+niece,removed,S4f,S,"Social Actions, States and Processes"
+noble,removed,G2.2+,G,Government and Public
+noon,removed,T1.2,T,Time
+notebook,removed,Q1.2,Q,Language and Communication
+nuisance,removed,E6-,E,Emotion
+nursery,removed,P1/H1c,P,Education
+nut,removed,F1,F,Food and Farming
+oar,removed,M4/O2,M,"Movement, Location, Travel and Transport"
+obedience,removed,S7.1-,S,"Social Actions, States and Processes"
+obedient,removed,S7.1-,S,"Social Actions, States and Processes"
+obey,removed,S7.1-,S,"Social Actions, States and Processes"
+objection,removed,E2-,E,Emotion
+offend,removed,S1.2.4-,S,"Social Actions, States and Processes"
+old-fashioned,removed,T3+,T,Time
+omission,removed,A1.9,A,General and Abstract Terms
+omit,removed,A1.9,A,General and Abstract Terms
+organ,removed,B1,B,The Body and the Individual
+ornament,removed,O4.1,O,"Substances, Materials, Objects and Equipment"
+ounce,removed,N3.5,N,Numbers and Measurement
+outward,removed,M6,M,"Movement, Location, Travel and Transport"
+overflow,removed,N5.2+,N,Numbers and Measurement
+pad,removed,O4.1,O,"Substances, Materials, Objects and Equipment"
+pan,removed,Q4.3/M1,Q,Language and Communication
+parcel,removed,A1.1.1,A,General and Abstract Terms
+pardon,removed,Z4,Z,Names and Grammar
+particle,removed,O2,O,"Substances, Materials, Objects and Equipment"
+paste,removed,A1.1.1,A,General and Abstract Terms
+pastry,removed,F1,F,Food and Farming
+patience,removed,E3+,E,Emotion
+patriotic,removed,S6+,S,"Social Actions, States and Processes"
+paw,removed,L2/A1.1.1,L,Life and Living Things
+pearl,removed,C1,C,Arts and Crafts
+peculiar,removed,A6.2-,A,General and Abstract Terms
+pencil,removed,Q1.2/O2,Q,Language and Communication
+penny,removed,I1,I,Money and Commerce in Industry
+perfection,removed,A5.1+++,A,General and Abstract Terms
+persuasion,removed,Q2.2,Q,Language and Communication
+pet,removed,S3.2,S,"Social Actions, States and Processes"
+photography,removed,C1,C,Arts and Crafts
+pigeon,removed,L2mfn,L,Life and Living Things
+pin,removed,A1.7+,A,General and Abstract Terms
+pinch,removed,E3-,E,Emotion
+pint,removed,N3.4,N,Numbers and Measurement
+pity,removed,E1,E,Emotion
+plaster,removed,A1.1.1,A,General and Abstract Terms
+plow,removed,O2/F4,O,"Substances, Materials, Objects and Equipment"
+plural,removed,Q3,Q,Language and Communication
+poison,removed,E3-,E,Emotion
+polish,removed,B4,B,The Body and the Individual
+polite,removed,S1.2.4+,S,"Social Actions, States and Processes"
+possessor,removed,A9+/S2mf,A,General and Abstract Terms
+postpone,removed,T1.1.3,T,Time
+powder,removed,B4,B,The Body and the Individual
+preach,removed,Q2.2,Q,Language and Communication
+precious,removed,E2+,E,Emotion
+prejudice,removed,A2.2/X2.1,A,General and Abstract Terms
+pretense,removed,A5.4-,A,General and Abstract Terms
+prevention,removed,S8-,S,"Social Actions, States and Processes"
+priest,removed,S9/S2mf,S,"Social Actions, States and Processes"
+probable,removed,A7+,A,General and Abstract Terms
+procession,removed,S1.1.1/M1,S,"Social Actions, States and Processes"
+pronounce,removed,Q3,Q,Language and Communication
+pronunciation,removed,Q3,Q,Language and Communication
+punctual,removed,T4,T,Time
+punish,removed,G2.1,G,Government and Public
+purple,removed,O4.3,O,"Substances, Materials, Objects and Equipment"
+puzzle,removed,X2.5-,X,"Psychological Actions, States and Processes"
+quarrel,removed,E3-,E,Emotion
+quart,removed,N3.4,N,Numbers and Measurement
+queen,removed,S7.1+/S2.1f,S,"Social Actions, States and Processes"
+rabbit,removed,L2mfn,L,Life and Living Things
+railroad,removed,M3c,M,"Movement, Location, Travel and Transport"
+rake,removed,A1.1.1,A,General and Abstract Terms
+ray,removed,W2,W,World and Environment
+razor,removed,B4,B,The Body and the Individual
+receipt,removed,Q1.2/I1,Q,Language and Communication
+redden,removed,O4.3,O,"Substances, Materials, Objects and Equipment"
+refresh,removed,B2+,B,The Body and the Individual
+rejoice,removed,E4.1+,E,Emotion
+relieve,removed,A1.7-,A,General and Abstract Terms
+remedy,removed,X9.2+,X,"Psychological Actions, States and Processes"
+repetition,removed,N6+,N,Numbers and Measurement
+reproduce,removed,A6.1+,A,General and Abstract Terms
+reproduction,removed,A6.1+,A,General and Abstract Terms
+republic,removed,G1.2,G,Government and Public
+revenge,removed,E3-,E,Emotion
+ribbon,removed,B5,B,The Body and the Individual
+ripe,removed,O4.1/L3/F1,O,"Substances, Materials, Objects and Equipment"
+ripen,removed,O4.1/L3/F1,O,"Substances, Materials, Objects and Equipment"
+rivalry,removed,S7.3,S,"Social Actions, States and Processes"
+roar,removed,X3.2,X,"Psychological Actions, States and Processes"
+roast,removed,F1,F,Food and Farming
+rob,removed,G2.1-,G,Government and Public
+robbery,removed,G2.1-,G,Government and Public
+rod,removed,Z1,Z,Names and Grammar
+rope,removed,A1.7+,A,General and Abstract Terms
+rot,removed,A1.1.2/A2.1,A,General and Abstract Terms
+rotten,removed,A1.1.2,A,General and Abstract Terms
+royalty,removed,S7.1+,S,"Social Actions, States and Processes"
+rub,removed,A1.1.1,A,General and Abstract Terms
+rubber,removed,O1.1,O,"Substances, Materials, Objects and Equipment"
+rubbish,removed,X7-/O2,X,"Psychological Actions, States and Processes"
+rude,removed,S1.2.4-,S,"Social Actions, States and Processes"
+rug,removed,H5,H,"Architecture, Housing and the Home"
+rust,removed,O1.1,O,"Substances, Materials, Objects and Equipment"
+sacred,removed,S9,S,"Social Actions, States and Processes"
+sacrifice,removed,S9,S,"Social Actions, States and Processes"
+sadden,removed,E4.1-,E,Emotion
+saddle,removed,B5/L2,B,The Body and the Individual
+sailor,removed,M4/S2mf,M,"Movement, Location, Travel and Transport"
+salesman,removed,I2.2/S2.2m,I,Money and Commerce in Industry
+satisfactory,removed,A5.1+,A,General and Abstract Terms
+sauce,removed,S1.2.4-,S,"Social Actions, States and Processes"
+saucer,removed,O2,O,"Substances, Materials, Objects and Equipment"
+saw,removed,X3.4,X,"Psychological Actions, States and Processes"
+scarce,removed,N5--,N,Numbers and Measurement
+scatter,removed,M1,M,"Movement, Location, Travel and Transport"
+scenery,removed,X3.4,X,"Psychological Actions, States and Processes"
+scent,removed,X3.5,X,"Psychological Actions, States and Processes"
+scissor,removed,Z99,Z,Names and Grammar
+scold,removed,Q2.2/E2-,Q,Language and Communication
+scorn,removed,S7.2-,S,"Social Actions, States and Processes"
+scrape,removed,A1.1.1,A,General and Abstract Terms
+scratch,removed,B2-,B,The Body and the Individual
+screw,removed,A1.1.1,A,General and Abstract Terms
+secrecy,removed,A10-,A,General and Abstract Terms
+seize,removed,A9+,A,General and Abstract Terms
+seldom,removed,N6-,N,Numbers and Measurement
+selfish,removed,S1.2.3+,S,"Social Actions, States and Processes"
+separation,removed,A6.1-,A,General and Abstract Terms
+sew,removed,C1,C,Arts and Crafts
+shallow,removed,N3.7-,N,Numbers and Measurement
+shame,removed,G2.2-,G,Government and Public
+sharpen,removed,A1.1.1,A,General and Abstract Terms
+shave,removed,B4,B,The Body and the Individual
+shield,removed,S8+/A15+,S,"Social Actions, States and Processes"
+shill,removed,Z99,Z,Names and Grammar
+shorten,removed,N3.7-/A2.1,N,Numbers and Measurement
+signature,removed,Q1.2,Q,Language and Communication
+silk,removed,O1.1,O,"Substances, Materials, Objects and Equipment"
+simplicity,removed,A12+,A,General and Abstract Terms
+sincere,removed,A5.4+,A,General and Abstract Terms
+slavery,removed,S7.1-,S,"Social Actions, States and Processes"
+slippery,removed,O4.5,O,"Substances, Materials, Objects and Equipment"
+snake,removed,L2mfn,L,Life and Living Things
+soap,removed,B4,B,The Body and the Individual
+sock,removed,E3-,E,Emotion
+soften,removed,O4.5,O,"Substances, Materials, Objects and Equipment"
+solemn,removed,O4.2,O,"Substances, Materials, Objects and Equipment"
+sometime,removed,T1/A7-,T,Time
+sore,removed,B2-,B,The Body and the Individual
+sorrow,removed,E4.1-,E,Emotion
+soup,removed,F1,F,Food and Farming
+sour,removed,X3.1,X,"Psychological Actions, States and Processes"
+sow,removed,L2fn,L,Life and Living Things
+spade,removed,O2,O,"Substances, Materials, Objects and Equipment"
+spill,removed,A1.1.1,A,General and Abstract Terms
+spit,removed,B1,B,The Body and the Individual
+spite,removed,E3-,E,Emotion
+splendid,removed,A5.1++,A,General and Abstract Terms
+spoil,removed,A1.1.2,A,General and Abstract Terms
+spoon,removed,O2,O,"Substances, Materials, Objects and Equipment"
+steam,removed,O1.3,O,"Substances, Materials, Objects and Equipment"
+steep,removed,A1.1.1,A,General and Abstract Terms
+steer,removed,M2,M,"Movement, Location, Travel and Transport"
+stiff,removed,L1-/S2mf,L,Life and Living Things
+stiffen,removed,M1/A12-,M,"Movement, Location, Travel and Transport"
+sting,removed,B2-,B,The Body and the Individual
+stove,removed,O2,O,"Substances, Materials, Objects and Equipment"
+straighten,removed,O4.4/A2.1,O,"Substances, Materials, Objects and Equipment"
+strap,removed,A1.7+,A,General and Abstract Terms
+straw,removed,L3,L,Life and Living Things
+stripe,removed,O4.3,O,"Substances, Materials, Objects and Equipment"
+suck,removed,B1,B,The Body and the Individual
+supper,removed,F1,F,Food and Farming
+suspicion,removed,X2.1/A5.1-,X,"Psychological Actions, States and Processes"
+suspicious,removed,X2.1/A5.1-,X,"Psychological Actions, States and Processes"
+swallow,removed,B1,B,The Body and the Individual
+sweat,removed,B1,B,The Body and the Individual
+sweeten,removed,X3.1,X,"Psychological Actions, States and Processes"
+swell,removed,A5.1+,A,General and Abstract Terms
+sword,removed,G3,G,Government and Public
+sympathetic,removed,X2.5+/E1,X,"Psychological Actions, States and Processes"
+sympathy,removed,X2.5+/E1,X,"Psychological Actions, States and Processes"
+tailor,removed,B5,B,The Body and the Individual
+tame,removed,E3+,E,Emotion
+telegraph,removed,Q1.3,Q,Language and Communication
+temper,removed,O4.2+/A2.1,O,"Substances, Materials, Objects and Equipment"
+temple,removed,S9/H1,S,"Social Actions, States and Processes"
+tempt,removed,O4.2+,O,"Substances, Materials, Objects and Equipment"
+theatrical,removed,K4,K,"Entertainment, Sports and Games"
+these,removed,Z5,Z,Names and Grammar
+thicken,removed,O4.5,O,"Substances, Materials, Objects and Equipment"
+thief,removed,G2.1-/S2mf,G,Government and Public
+thorn,removed,L3,L,Life and Living Things
+thorough,removed,N5.1+,N,Numbers and Measurement
+those,removed,Z5,Z,Names and Grammar
+thread,removed,A1.1.1,A,General and Abstract Terms
+thumb,removed,B1,B,The Body and the Individual
+thunder,removed,W4,W,World and Environment
+tide,removed,W3/M4,W,World and Environment
+tidy,removed,O2,O,"Substances, Materials, Objects and Equipment"
+tighten,removed,A1.7+/A2.1,A,General and Abstract Terms
+tin,removed,A1.1.1,A,General and Abstract Terms
+tobacco,removed,F3,F,Food and Farming
+toe,removed,B1,B,The Body and the Individual
+ton,removed,N3.5,N,Numbers and Measurement
+towel,removed,B5,B,The Body and the Individual
+translation,removed,Q3,Q,Language and Communication
+translator,removed,Q3/I3.2/S2mf,Q,Language and Communication
+tray,removed,O2,O,"Substances, Materials, Objects and Equipment"
+treasure,removed,E2+++,E,Emotion
+treasury,removed,G1.1/I1.1c,G,Government and Public
+tremble,removed,M1,M,"Movement, Location, Travel and Transport"
+tribe,removed,S5+,S,"Social Actions, States and Processes"
+trunk,removed,B5,B,The Body and the Individual
+umbrella,removed,B5,B,The Body and the Individual
+underneath,removed,M6,M,"Movement, Location, Travel and Transport"
+unity,removed,S5+,S,"Social Actions, States and Processes"
+uppermost,removed,M6,M,"Movement, Location, Travel and Transport"
+upright,removed,O4.4,O,"Substances, Materials, Objects and Equipment"
+urgent,removed,A11.1+,A,General and Abstract Terms
+vain,removed,X9.2-,X,"Psychological Actions, States and Processes"
+veil,removed,A10-,A,General and Abstract Terms
+verse,removed,Q3,Q,Language and Communication
+virtue,removed,G2.2+,G,Government and Public
+vowel,removed,Q3,Q,Language and Communication
+voyage,removed,M1/M4,M,"Movement, Location, Travel and Transport"
+waist,removed,B1,B,The Body and the Individual
+waiter,removed,F1,F,Food and Farming
+warmth,removed,O4.6+,O,"Substances, Materials, Objects and Equipment"
+wax,removed,A1.1.1,A,General and Abstract Terms
+weaken,removed,S7.1-/A2.1,S,"Social Actions, States and Processes"
+weave,removed,B5,B,The Body and the Individual
+weed,removed,F4,F,Food and Farming
+weekday,removed,T1.2,T,Time
+wheat,removed,F1,F,Food and Farming
+whichever,removed,Z5,Z,Names and Grammar
+whip,removed,E3-/O2,E,Emotion
+whistle,removed,X3.2+,X,"Psychological Actions, States and Processes"
+whiten,removed,Z99,Z,Names and Grammar
+whoever,removed,Z8,Z,Names and Grammar
+whom,removed,Z8,Z,Names and Grammar
+whose,removed,Z8,Z,Names and Grammar
+wicked,removed,G2.2-,G,Government and Public
+widen,removed,N3.7+/A2.1,N,Numbers and Measurement
+widow,removed,S4,S,"Social Actions, States and Processes"
+widower,removed,S4m,S,"Social Actions, States and Processes"
+width,removed,N3.7,N,Numbers and Measurement
+wisdom,removed,X2.2+,X,"Psychological Actions, States and Processes"
+wool,removed,O1.1,O,"Substances, Materials, Objects and Equipment"
+woolen,removed,O1.1,O,"Substances, Materials, Objects and Equipment"
+worm,removed,L2mfn,L,Life and Living Things
+worship,removed,S9,S,"Social Actions, States and Processes"
+wreck,removed,O4.2-,O,"Substances, Materials, Objects and Equipment"
+wrist,removed,B1,B,The Body and the Individual
+zero,removed,N1,N,Numbers and Measurement

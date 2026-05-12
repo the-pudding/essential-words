@@ -7,6 +7,11 @@ export default [
 		"id": "1Ems0-q7hRNolEl9E4NF_IsLY5_UvfoooyD80NnHuQPY",
 		"gid": "0",
 		"filepath": "src/data/intro_screen.csv"
+	},
+	{
+		"id": "1Ems0-q7hRNolEl9E4NF_IsLY5_UvfoooyD80NnHuQPY",
+		"gid": "496951239",
+		"filepath": "src/data/semantics.csv"
 	}
 
 ]

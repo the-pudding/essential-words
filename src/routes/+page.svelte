@@ -10,16 +10,16 @@
 
 	version();
 
-	const preloadFont = [
-		"https://pudding.cool/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2",
-		"https://pudding.cool/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2",
-		"https://pudding.cool/assets/fonts/atlas/AtlasGrotesk-Regular-Web.woff2",
-		"https://pudding.cool/assets/fonts/atlas/AtlasGrotesk-Bold-Web.woff2"
-	];
+	const preloadFont = ["/fonts/source-serif-4/source-serif-4-regular.woff2"];
 
-	const { title, description, url, keywords } = copy;
+	const meta = copy.meta ?? {};
+	const title = meta.title ?? copy.title ?? "";
+	const description = meta.description ?? copy.description ?? "";
+	const url = meta.url ?? copy.url ?? "https://pudding.cool";
+	const keywords = meta.keywords ?? copy.keywords ?? "";
+
 	setContext("copy", copy);
-	setContext("data", data);
+	setContext("data", () => data);
 </script>
 
 <Meta {title} {description} {url} {preloadFont} {keywords} />
