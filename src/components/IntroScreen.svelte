@@ -23,7 +23,7 @@
         pools ? pickWordsForScreen(pools, screenIndex, 40, allowedSets) : []
     );
 
-    const grid = $derived(placeWordsInGrid(words, screenIndex, 12, 12));
+    const grid = $derived(placeWordsInGrid(words, screenIndex, 8, 12));
 </script>
 
 <div class="intro-screen" class:intro-screen--long={longForm}>
@@ -64,8 +64,18 @@
     .intro-screen-foreground {
         position: relative;
         z-index: 2;
-        max-width: 600px;
-        font-size: 32px;
+        max-width: 500px;
+        /* text-align: center; */
+
+    }
+
+    .intro-screen-foreground p{
+        font-size: 1.5rem;
+        line-height: 1.35;
+    }
+
+    #intro-slide-3 .intro-screen-foreground p{
+        text-align: left;
     }
 
     .intro-screen-overlay {
@@ -91,7 +101,6 @@
     .intro-screen--long {
         height: auto;
         min-height: 100vh;
-        overflow: hidden visible;
         justify-content: flex-start;
         padding-block: clamp(2rem, 8vh, 5rem);
     }
@@ -101,14 +110,12 @@
         position: absolute;
         inset: 0;
         z-index: 0;
-        overflow: hidden;
         pointer-events: none;
     }
 
     .intro-screen-cell {
         min-width: 0;
         min-height: 0;
-        overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -116,8 +123,18 @@
 
     .intro-screen-cell .word {
         display: block;
+        font-size: 0.875rem;
         max-width: 100%;
-        overflow: hidden;
+        /* overflow: hidden; */
         white-space: nowrap;
+        font-family: var(--font-sans);
+        color: var(--color-secondary);
+        text-transform: uppercase;
+        letter-spacing: 6%;
+        font-style: italic;
+    }
+
+    .intro-screen-cell .word--removed {
+        font-family: var(--font-serif);   
     }
 </style>

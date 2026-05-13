@@ -6,7 +6,7 @@
   "story": [
     {
       "type": "intro",
-      "p1": "Every word you see on this page is one of the most commonly used words in English.",
+      "p1": "Every word you see on this page is one of the most commonly used words in the English language.",
       "p2": "They come from a 2023 list of about 2,800 words, shown to cover over 90% of general English use, intended for people learning the language."
     },
     {
@@ -15,7 +15,7 @@
     },
     {
       "type": "intro",
-      "p1": "Between the two lists, seventy years apart, about 600 words were dropped, and over 1,100 were added. The rest remained as is."
+      "p1": "Between the two lists, seventy years apart, about 600 words were <span class=gsl>dropped,</span> and over 1,100 were <span class=ngsl>added.</span> The rest <span class=remained>remained</span> as is."
     },
     {
       "type": "intro",
