@@ -19,9 +19,9 @@
     },
     {
       "type": "intro",
-      "p1": "Some of the changes make immediate sense: Telegraph dropped out; computer was added, along with website and blog. Tobacco was replaced by cigarette. Motherhood became mom, and dad was added too, though fatherhood was never on the list to begin with. The world changed, and surely, the vocabulary followed.",
-      "p2": "But also: apple didn’t make the new list. Neither did fork, or soap, for example. It’s not that these things became irrelevant, something else happened. The basic terms survived, but the more specific, hands-on words thinned out. Dog stayed; goat didn’t. Bread stayed; flour and wheat – the stuff you’d use to make the bread – dropped. Cook is on the new list. Boil, bake, and fry are not.",
-      "p3": "And many of the words that were added, words like mortgage, corporation, appropriate, analysis, fairly, despite – don’t look anything like the ones that were removed. In fact, they mostly don’t look like anything at all."
+      "p1": "Some of the changes make immediate sense: <span class=gsl>Telegraph</span> dropped out; <span class=ngsl>computer</span> was added, along with <span class=ngsl>website</span> and <span class=ngsl>blog</span>. <span class=gsl>Tobacco</span> was replaced by <span class=ngsl>cigarette.</span> <span class=gsl>Motherhood</span> became <span class=ngsl>mom,</span> and <span class=ngsl>dad</span> was added too, though <i>fatherhood</i> was never on the list to begin with. The world changed, and surely, the vocabulary followed.",
+      "p2": "But also: <span class=gsl>apple</span> didn’t make the new list. Neither did <span class=gsl>fork,</span> or <span class=gsl>soap,</span> for example. It’s not that these things became irrelevant, something else happened. The basic terms survived, but the more specific, hands-on words thinned out. <span class=remained>Dog</span> stayed; <span class=gsl>goat</span> didn’t. <span class=remained>Bread</span> stayed; <span class=gsl>flour</span> and <span class=gsl>wheat</span> – the stuff you’d use to make the bread – dropped. <span class=remained>Cook</span> is on the new list. <span class=gsl>Boil, bake,</span> and <span class=gsl>fry</span> are not.",
+      "p3": "And many of the words that were added, words like <span class=ngsl>mortgage, corporation, appropriate, analysis, fairly, despite</span> – don’t look anything like the ones that were removed. In fact, they mostly don’t look like anything at all."
     },
     {
       "type": "hero",
@@ -41,12 +41,12 @@
         {
           "label": "Overlay 1 – focus on abstract band",
           "focusCategories": "General and Abstract Terms",
-          "html": "The biggest category in the 1953 list was already General & Abstract Terms, with words like <span class=\"remained\">maybe, discover, regular, important, success.</span> It grew even more in 2023, adding words like <span class=\"ngsl\">possibility, responsibility, concept, justify,</span> and <span class=\"ngsl\">perspective.</span> Words for reasoning about the world were already central. They became more so."
+          "html": "The biggest category in the 1953 list was already General & Abstract Terms, with words like <span class=remained>maybe, discover, regular, important, success.</span> It grew even more in 2023, adding words like <span class=ngsl>possibility, responsibility, concept, justify,</span> and <span class=ngsl>perspective.</span> Words for reasoning about the world were already central. They became more so."
         },
         {
           "label": "Overlay 2 – focus on drops",
           "focusCategories": "Substances, Materials, Objects and Equipment | Emotion | The Body and the Individual | Food and Farming",
-          "html": "The sharpest drops were in the most tangible categories: Substances & Objects, the Body & the Individual, Food & Farming, Life & Living Things. Words like <span class=\"gsl\">clay, corn, hammer, beard, towel,</span> and <span class=\"gsl\">goat</span> were dropped from the core vocabulary. The words for what you grow, make, and hold in your hand all thinned out."
+          "html": "The sharpest drops were in the most tangible categories: Substances & Objects, the Body & the Individual, Food & Farming, Life & Living Things. Words like <span class=gsl>clay, corn, hammer, beard, towel,</span> and <span class=gsl>goat</span> were dropped from the core vocabulary. The words for what you grow, make, and hold in your hand all thinned out."
         },
         {
           "label": "Overlay 3 – focus on Psych Processes vs. Emotion",

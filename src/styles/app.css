@@ -111,7 +111,7 @@ h6 {
 p, li{
 	font-size: var(--p-font-size, 1.25rem);
 	margin-bottom: 2rem;
-	line-height: 1.45;
+	line-height: 1.55;
 }
 
 svg {
@@ -139,6 +139,7 @@ svg {
 .gsl, .ngsl, .remained{
 	padding: 0 0.35rem;
 	color: var(--color-highlight-text);
+	box-decoration-break: clone;
 }
 
 .story-section {
