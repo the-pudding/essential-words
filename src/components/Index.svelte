@@ -1,43 +1,26 @@
 <script>
 	import { getContext } from "svelte";
 	import Footer from "$components/Footer.svelte";
-	import IntroScreen from "$components/IntroScreen.svelte";
+	import IntroSequence from "$components/IntroSequence.svelte";
 import SemanticsViz from "../charts/semantics/SemanticsViz.svelte";
 
 	const copy = getContext("copy");
-	// console.log(copy);
-	// const data = getContext("data");
-
-	const introStory = $derived.by(() => {
-		const rows = copy?.story;
-		if (!Array.isArray(rows)) return [];
-		let introIdx = 0;
-		return rows.map((block) => {
-			if (block?.type === "intro") {
-				return { ...block, _introIndex: introIdx++ };
-			}
-			return block;
-		});
-	});
+	const storyBlocks = $derived(Array.isArray(copy?.story) ? copy.story : []);
+	const introBlocks = $derived(storyBlocks.filter((block) => block?.type === "intro"));
+	const mainBlocks = $derived(storyBlocks.filter((block) => block?.type !== "intro"));
 
 </script>
 
 <article class="story">
-	{#if introStory.length}
-		{#each introStory as block, i}
-			{#if block.type === "intro"}
-				<section
-					class="story-section"
-					id={block._introIndex === 0 ? "intro" : `intro-slide-${block._introIndex}`}
-				>
-					<IntroScreen
-						p1={block.p1 ?? ""}
-						p2={block.p2 ?? ""}
-						p3={block.p3 ?? ""}
-						screenIndex={block._introIndex}
-					/>
-				</section>
-			{:else if block.type === "hero"}
+	{#if storyBlocks.length}
+		{#if introBlocks.length}
+			<section class="story-section" id="intro">
+				<IntroSequence blocks={introBlocks} />
+			</section>
+		{/if}
+
+		{#each mainBlocks as block, i}
+			{#if block.type === "hero"}
 				<section class="story-section story-section--hero">
 					<h1 class="story-heading">{@html block.h1}</h1>
 					{#if block.dek}
