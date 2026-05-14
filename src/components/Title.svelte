@@ -14,6 +14,7 @@
 <style>
     .title{
         --title-word-gap: 1.25rem;
+        --title-d-bg-p: 46%;
     }
 
     .title {
@@ -60,14 +61,14 @@
     #despite{
         letter-spacing: -1%;
         background-image: linear-gradient(var(--color-ngsl-highlight), var(--color-ngsl-highlight));
-        background-position: 0 50%; 
+        background-position: 0 var(--title-d-bg-p); 
     }
 
     #goat{
         font-family: var(--font-serif);
         background-image: linear-gradient(var(--color-gsl-highlight), var(--color-gsl-highlight));
         padding-left: 0.5rem;
-        background-position: 0 56.5%; 
+        background-position: 0 calc(var(--title-d-bg-p) + 6.5%); 
     }
 
     #g-g{
