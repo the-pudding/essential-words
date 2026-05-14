@@ -61,5 +61,5 @@ import SemanticsViz from "../charts/semantics/SemanticsViz.svelte";
 </article>
 
 <svelte:boundary onerror={(e) => console.error(e)}>
-	<Footer recirc={true} />
+	<!-- <Footer recirc={true} /> -->
 </svelte:boundary>

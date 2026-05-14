@@ -161,6 +161,10 @@ svg {
 	align-items: center;
 }
 
+.story-section:last-child{
+	padding-bottom: 8rem;
+}
+
 .story-section--hero{
 	text-align: center;
 	margin: 0 auto;

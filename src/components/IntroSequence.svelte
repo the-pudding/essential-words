@@ -294,16 +294,17 @@
 		--intro-grid-row-scale: 4.2;
 		--intro-grid-rows: -1; /* set >0 to force exact rows */
 		--intro-base-word-request-fraction: 0.5;
-		--intro-base-fill-fraction: 0.38;
-		--intro-removed-fill-ratio: 0.45;
-		--intro-center-exclusion-w: 0.33;
+		--intro-base-fill-fraction: 0.45;
+		--intro-removed-fill-ratio: 0.33;
+		--intro-center-exclusion-w: 0.42;
 		--intro-center-exclusion-h: 0.8;
 		--intro-center-exclusion-noise: 0.85;
 		--intro-copy-veil-size: 50% 20%;
 		--intro-copy-fade-ms: 420ms;
-		--intro-highlight-fade-ms: 320ms;
+		--intro-highlight-fade-ms: 420ms;
 		--intro-overlay-fade-ms: 460ms;
 		--intro-removed-reveal-ms: 520ms;
+		--intro-highlight-fill-height: 1.25em;
 		position: relative;
 		width: 100%;
 	}
@@ -358,12 +359,21 @@
 	.word {
 		font-family: var(--font-sans);
 		font-style: italic;
-		font-size: 0.9rem;
+		font-size: 1rem;
 		text-transform: uppercase;
 		letter-spacing: 3%;
 		color: var(--color-secondary);
 		white-space: nowrap;
-		opacity: 0.7;
+		opacity: 0.75;
+		padding: 0 0.35rem;
+		background-repeat: no-repeat;
+		background-size: 0% var(--intro-highlight-fill-height);
+		background-position: 0 0.1rem;
+		box-decoration-break: clone;
+		transition:
+			background-size var(--intro-highlight-fade-ms) ease,
+			color var(--intro-highlight-fade-ms) ease,
+			opacity var(--intro-highlight-fade-ms) ease;
 	}
 
 	.word--removed {
@@ -373,36 +383,38 @@
 	.word--removed-extra {
 		opacity: 0;
 		transform: translateY(8px);
-		transition: opacity var(--intro-removed-reveal-ms) ease, transform var(--intro-removed-reveal-ms) ease;
+		transition:
+			opacity var(--intro-removed-reveal-ms) ease,
+			transform var(--intro-removed-reveal-ms) ease,
+			background-size var(--intro-highlight-fade-ms) ease,
+			color var(--intro-highlight-fade-ms) ease;
 	}
 
 	.intro-bg-grid--stage.is-reveal-removed .word--removed-extra {
-		opacity: 0.7;
+		opacity: 0.75;
 		transform: translateY(0);
+		/* color: var(--color-primary); */
 	}
 
 	.intro-bg-grid--stage.is-focus-drop .word--removed {
-		background-color: var(--color-gsl-highlight);
+		background-image: linear-gradient(var(--color-gsl-highlight), var(--color-gsl-highlight));
+		background-size: 100% var(--intro-highlight-fill-height);
 		opacity: 1;
 		color: var(--color-highlight-text);
-		padding: 0 0.35rem;
-
 	}
 
 	.intro-bg-grid--stage.is-focus-add .word--added {
-		background-color: var(--color-ngsl-highlight);
+		background-image: linear-gradient(var(--color-ngsl-highlight), var(--color-ngsl-highlight));
+		background-size: 100% var(--intro-highlight-fill-height);
 		opacity: 1;
 		color: var(--color-highlight-text);
-		padding: 0 0.35rem;
-
 	}
 
 	.intro-bg-grid--stage.is-focus-remain .word--remained {
-		background-color: var(--color-remained-highlight);
+		background-image: linear-gradient(var(--color-remained-highlight), var(--color-remained-highlight));
+		background-size: 100% var(--intro-highlight-fill-height);
 		opacity: 1;
 		color: var(--color-highlight-text);
-		padding: 0 0.35rem;
-
 	}
 
 	.intro-fade-overlay {
@@ -429,7 +441,7 @@
 
 	.intro-copy p {
 		font-size: 1.375rem;
-		line-height: 1.2;
+		line-height: 1.45;
 	}
 
 	.intro-copy--sticky {
@@ -468,7 +480,7 @@
 	}
 
 	.intro-copy-layer--part4{
-		padding-top: 10rem; 
+		padding-top: 6rem; 
 	}
 
 	.intro-copy-layer--part4 p{
@@ -478,22 +490,29 @@
 	.intro-copy-layer--part3 :global(.gsl),
 	.intro-copy-layer--part3 :global(.ngsl),
 	.intro-copy-layer--part3 :global(.remained) {
-		background: transparent;
+		background-image: linear-gradient(transparent, transparent);
+		background-repeat: no-repeat;
+		background-size: 0% var(--intro-highlight-fill-height);
+		background-position: 0 67%;
+		box-decoration-break: clone;
+		transition:
+			background-size var(--intro-highlight-fade-ms) ease,
+			color var(--intro-highlight-fade-ms) ease;
 	}
 
 	.intro-copy-layer--part3.is-highlight-drop :global(.gsl) {
-		background-color: var(--color-gsl-highlight);
-		transition: background-color var(--intro-highlight-fade-ms) ease;
+		background-image: linear-gradient(var(--color-gsl-highlight), var(--color-gsl-highlight));
+		background-size: 100% var(--intro-highlight-fill-height);
 	}
 
 	.intro-copy-layer--part3.is-highlight-add :global(.ngsl) {
-		background-color: var(--color-ngsl-highlight);
-		transition: background-color var(--intro-highlight-fade-ms) ease;
+		background-image: linear-gradient(var(--color-ngsl-highlight), var(--color-ngsl-highlight));
+		background-size: 100% var(--intro-highlight-fill-height);
 	}
 
 	.intro-copy-layer--part3.is-highlight-remain :global(.remained) {
-		background-color: var(--color-remained-highlight);
-		transition: background-color var(--intro-highlight-fade-ms) ease;
+		background-image: linear-gradient(var(--color-remained-highlight), var(--color-remained-highlight));
+		background-size: 100% var(--intro-highlight-fill-height);
 	}
 
 </style>
