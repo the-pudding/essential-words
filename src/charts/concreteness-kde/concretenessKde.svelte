@@ -89,7 +89,7 @@
 
     .concr-kde-chart :global(.concr-kde-axis-end-label) {
         text-transform: uppercase;
-        font-size: 13px;
+        font-size: 15px;
         font-family: var(--font-mono);
         color: var(--color-primary);
         font-weight: 600;

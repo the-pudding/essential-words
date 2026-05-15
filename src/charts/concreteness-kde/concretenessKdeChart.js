@@ -29,7 +29,7 @@ export const CONCRETENESS_KDE_CONFIG = {
 	typography: {
 		fontFamily: "var(--font-mono)",
 		tickLabelSizePx: 11,
-		axisEndLabelSizePx: 13
+		axisEndLabelSizePx: 15
 	},
 	axis: {
 		tickLineLength: 5,
@@ -49,7 +49,7 @@ export const CONCRETENESS_KDE_CONFIG = {
 	],
 	seriesLabels: {
 		offsetX: 8,
-		fontSizePx: 13,
+		fontSizePx: 15,
 		minSeparationPx: 14,
 		color: "var(--color-primary)"
 	},
@@ -63,7 +63,7 @@ export const CONCRETENESS_KDE_CONFIG = {
 		chevronSizePx: 8
 	},
 	sourceNote: {
-		marginTop: "0.65rem",
+		marginTop: "1rem",
 		fontSize: "13px",
 		fontFamily: "var(--font-sans)",
 		color: "var(--color-secondary)"
