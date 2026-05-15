@@ -107,7 +107,8 @@
       "type": "chart",
       "chartId": "concretenessDistribution",
       "title": "Getting Harder to Picture: More Abstract Words, Fewer Concrete Ones",
-      "subhead": "Concreteness ratings of both lists, from abstract (1) to concrete (5)."
+      "subhead": "Concreteness ratings of both lists, from abstract (1) to concrete (5).",
+      "annotation": "The <span class=annotation>highly concrete end</span> dropped the most: from 21% of the total in 1953 down to 14% in 2023."
     },
     {
       "type": "prose",

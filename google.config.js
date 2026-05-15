@@ -12,6 +12,11 @@ export default [
 		"id": "1Ems0-q7hRNolEl9E4NF_IsLY5_UvfoooyD80NnHuQPY",
 		"gid": "496951239",
 		"filepath": "src/data/semantics.csv"
+	},
+	{
+		"id":"1Ems0-q7hRNolEl9E4NF_IsLY5_UvfoooyD80NnHuQPY",
+		"gid": "2043763029",
+		"filepath": "src/data/concreteness.csv"
 	}
 
 ]

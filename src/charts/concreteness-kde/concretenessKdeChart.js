@@ -1,0 +1,290 @@
+import * as d3 from "d3";
+
+export const CONCRETENESS_KDE_CONFIG = {
+	layout: {
+		/** width comes from the container at render time */
+		height: 250,
+		margin: { top: 8, right: 0, bottom: 32, left: 0 }
+	},
+	x: {
+		domain: [1, 5],
+		tickValues: [1, 2, 3, 4, 5]
+	},
+	y: {
+		domainTopPadding: 1.08
+	},
+	zones: {
+		concrete: { from: 4.5, to: 5.0, fill: "var(--color-accent)", fillOpacity: 0.25 }
+	},
+	boundaries: {
+		xValues: [1, 2, 3, 4, 5],
+		strokeWidth: 0,
+		dasharray: "4,4"
+	},
+	colors: {
+		background: "var(--concr-kde-bg, var(--color-bg, #fffff1))",
+		grid: "var(--color-secondary)",
+		gridText: "var(--color-secondary)"
+	},
+	typography: {
+		fontFamily: "var(--font-mono)",
+		tickLabelSizePx: 11,
+		axisEndLabelSizePx: 13
+	},
+	axis: {
+		tickLineLength: 5,
+		tickLabelYOffset: 18,
+		endLabelYOffset: 36,
+		abstractLabel: "abstract",
+		concreteLabel: "concrete"
+	},
+	strokes: {
+		baselineWidth: 1,
+		kdeLineWidth: 2,
+		kdeOpacity: 1
+	},
+	series: [
+		{ key: "gsl", label: "1953 list", color: "var(--color-accent)", dash: "4 4", lineWidthPx: 2 },
+		{ key: "ngsl", label: "2023 list", color: "var(--color-accent)", lineWidthPx: 1.5 }
+	],
+	seriesLabels: {
+		offsetX: 8,
+		fontSizePx: 13,
+		minSeparationPx: 14,
+		color: "var(--color-primary)"
+	},
+	densityHint: {
+		x: 0,
+		startY: 12,
+		lineHeight: 18,
+		fontSizePx: 13,
+		moreLabel: "MORE WORDS",
+		lessLabel: "FEWER WORDS",
+		chevronSizePx: 8
+	},
+	sourceNote: {
+		marginTop: "0.65rem",
+		fontSize: "13px",
+		fontFamily: "var(--font-sans)",
+		color: "var(--color-secondary)"
+	}
+};
+
+/**
+ * @param {HTMLElement} container
+ * @param {{ x: number[]; series: Record<string, { values: number[] }> }} payload
+ * @param {{ width: number }} options
+ */
+export function renderConcretenessKde(container, payload, { width }) {
+	const c = CONCRETENESS_KDE_CONFIG;
+	const W = Math.max(1, Math.round(width));
+	const H = c.layout.height;
+	const margin = c.layout.margin;
+	const plotW = W - margin.left - margin.right;
+	const plotH = H - margin.top - margin.bottom;
+
+	const xScale = d3.scaleLinear().domain(c.x.domain).range([0, plotW]);
+
+	let yMax = 0;
+	for (const sm of c.series) {
+		const vals = payload.series[sm.key]?.values;
+		if (!vals) continue;
+		const m = d3.max(vals);
+		if (m > yMax) yMax = m;
+	}
+	const yScale = d3
+		.scaleLinear()
+		.domain([0, yMax * c.y.domainTopPadding])
+		.range([plotH, 0]);
+
+	const svg = d3
+		.create("svg")
+		.attr("width", W)
+		.attr("height", H)
+		.attr("viewBox", [0, 0, W, H])
+		.style("width", "100%")
+		.style("height", "auto")
+		.style("display", "block");
+
+	svg.append("rect").attr("width", W).attr("height", H).attr("fill", c.colors.background);
+
+	const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+	const xAxis = g.append("g").attr("transform", `translate(0,${plotH})`);
+	for (const v of c.x.tickValues) {
+		xAxis
+			.append("line")
+			.attr("x1", xScale(v))
+			.attr("x2", xScale(v))
+			.attr("y1", 0)
+			.attr("y2", c.axis.tickLineLength)
+			.attr("stroke", c.colors.grid);
+		xAxis
+			.append("text")
+			.attr("x", xScale(v))
+			.attr("y", c.axis.tickLabelYOffset)
+			.attr("text-anchor", "middle")
+			.attr("font-family", c.typography.fontFamily)
+			.attr("font-size", `${c.typography.tickLabelSizePx}px`)
+			.attr("fill", c.colors.gridText)
+			.text(v);
+	}
+	xAxis
+		.append("text")
+		.attr("class", "concr-kde-axis-end-label")
+		.attr("x", xScale(c.x.domain[0]))
+		.attr("y", c.axis.endLabelYOffset)
+		.attr("text-anchor", "start")
+		.attr("font-family", c.typography.fontFamily)
+		.attr("font-size", `${c.typography.axisEndLabelSizePx}px`)
+		.attr("fill", c.colors.gridText)
+		.text(c.axis.abstractLabel);
+	xAxis
+		.append("text")
+		.attr("class", "concr-kde-axis-end-label")
+		.attr("x", xScale(c.x.domain[1]))
+		.attr("y", c.axis.endLabelYOffset)
+		.attr("text-anchor", "end")
+		.attr("font-family", c.typography.fontFamily)
+		.attr("font-size", `${c.typography.axisEndLabelSizePx}px`)
+		.attr("fill", c.colors.gridText)
+		.text(c.axis.concreteLabel);
+
+	const zCo = c.zones.concrete;
+	const zoneConcrX = xScale(zCo.from);
+	const zoneConcrW = xScale(zCo.to) - xScale(zCo.from);
+	g.append("rect")
+		.attr("x", zoneConcrX)
+		.attr("y", 0)
+		.attr("width", zoneConcrW)
+		.attr("height", plotH)
+		.attr("fill", zCo.fill)
+		.attr("fill-opacity", zCo.fillOpacity);
+
+	for (const v of c.boundaries.xValues) {
+		g.append("line")
+			.attr("x1", xScale(v))
+			.attr("x2", xScale(v))
+			.attr("y1", 0)
+			.attr("y2", plotH)
+			.attr("stroke", c.colors.grid)
+			.attr("stroke-width", c.boundaries.strokeWidth)
+			.attr("stroke-dasharray", c.boundaries.dasharray)
+			.attr("stroke-opacity", 0.5);
+	}
+
+	g.append("line")
+		.attr("x1", 0)
+		.attr("x2", plotW)
+		.attr("y1", plotH)
+		.attr("y2", plotH)
+		.attr("stroke", c.colors.grid)
+		.attr("stroke-width", c.strokes.baselineWidth);
+
+	const lineGen = d3
+		.line()
+		.x((d, i) => xScale(payload.x[i]))
+		.y((d) => yScale(d))
+		.curve(d3.curveBasis);
+
+	const endLabelX = xScale(c.x.domain[1]) + c.seriesLabels.offsetX;
+	const labelEnds = [];
+
+	for (const sm of c.series) {
+		const vals = payload.series[sm.key]?.values;
+		if (!vals) continue;
+		const path = g
+			.append("path")
+			.datum(vals)
+			.attr("d", lineGen)
+			.attr("fill", "none")
+			.attr("stroke", sm.color)
+			.attr("stroke-width", sm.lineWidthPx ?? c.strokes.kdeLineWidth)
+			.attr("stroke-opacity", c.strokes.kdeOpacity);
+		if (sm.dash) path.attr("stroke-dasharray", sm.dash);
+
+		const endY = yScale(vals[vals.length - 1]);
+		labelEnds.push({ sm, y: endY });
+	}
+
+	const minSep = c.seriesLabels.minSeparationPx;
+	if (labelEnds.length === 2) {
+		const gap = labelEnds[1].y - labelEnds[0].y;
+		if (Math.abs(gap) < minSep) {
+			const mid = (labelEnds[0].y + labelEnds[1].y) / 2;
+			labelEnds[0].y = mid - minSep / 2;
+			labelEnds[1].y = mid + minSep / 2;
+		}
+	}
+
+	for (const { sm, y } of labelEnds) {
+		g.append("text")
+			.attr("class", "concr-kde-series-label")
+			.attr("data-series", sm.key)
+			.attr("x", endLabelX)
+			.attr("y", y)
+			.attr("text-anchor", "start")
+			.attr("dominant-baseline", "middle")
+			.attr("font-family", c.typography.fontFamily)
+			.attr("font-size", `${c.seriesLabels.fontSizePx}px`)
+			.attr("fill", sm.labelColor ?? c.seriesLabels.color)
+			.text(sm.label.toUpperCase());
+	}
+
+	drawDensityHint(g, c);
+
+	container.replaceChildren(svg.node());
+
+	return {
+		destroy() {
+			svg.remove();
+		}
+	};
+}
+
+function drawDensityHint(g, c) {
+	const h = c.densityHint;
+	const hint = g.append("g").attr("class", "concr-kde-density-hint");
+
+	const rows = [
+		{ chevron: "up", label: h.moreLabel, y: h.startY },
+		{ chevron: "down", label: h.lessLabel, y: h.startY + h.lineHeight }
+	];
+
+	const chevronW = h.chevronSizePx;
+	const textX = h.x + chevronW + 4;
+
+	for (const row of rows) {
+		const rowG = hint.append("g").attr("transform", `translate(${h.x},${row.y})`);
+		drawChevron(rowG, row.chevron, chevronW);
+		rowG
+			.append("text")
+			.attr("class", "concr-kde-hint-label")
+			.attr("x", textX)
+			.attr("y", 0)
+			.attr("dominant-baseline", "middle")
+			.attr("font-family", c.typography.fontFamily)
+			.attr("font-size", `${h.fontSizePx}px`)
+			.attr("fill", c.colors.gridText)
+			.text(row.label);
+	}
+}
+
+function drawChevron(g, direction, size, height = 5) {
+	const cy = -1;
+	const halfW = size / 2;
+	const halfH = height / 2;
+	let path;
+	if (direction === "up") {
+		path = `M 0 ${cy + halfH} L ${halfW} ${cy - halfH} L ${size} ${cy + halfH}`;
+	} else {
+		path = `M 0 ${cy - halfH} L ${halfW} ${cy + halfH} L ${size} ${cy - halfH}`;
+	}
+	g.append("path")
+		.attr("d", path)
+		.attr("stroke", "var(--color-primary)")
+		.attr("stroke-width", 1)
+		.attr("fill", "none")
+		.attr("class", "concr-kde-density-chevron");
+}
+

@@ -3,6 +3,7 @@
 	import Footer from "$components/Footer.svelte";
 	import IntroSequence from "$components/IntroSequence.svelte";
 	import SemanticsViz from "../charts/semantics/SemanticsViz.svelte";
+	import ConcretenessKde from "../charts/concreteness-kde/concretenessKde.svelte";
 	import Title from "$components/Title.svelte";
 
 	const copy = getContext("copy");
@@ -47,6 +48,8 @@
 							subhead={block.subhead}
 							overlays={block.overlays ?? []}
 						/>
+					{:else if block.chartId === "concretenessDistribution"}
+						<ConcretenessKde annotation={block.annotation} />
 					{:else}
 						<div class="chart-placeholder" data-chart-id={block.chartId}>
 							<p class="chart-placeholder-label">Chart not wired yet: {block.chartId}</p>

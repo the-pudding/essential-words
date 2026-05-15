@@ -171,19 +171,13 @@ svg {
 	max-width: var(--max-wide-width);
 }
 
-.story-section--hero h1{
-	font-size: 100px;
-	font-weight: 200;
-	line-height: 0.9;
-	margin-bottom: 3rem;
-}
-
 .story-section--hero .story-dek{
+	margin: 3rem auto 3rem auto;
 	font-family: var(--font-serif);
 	font-weight: 300;
-	font-size: 2.35rem;
-	line-height: 1.05;
-	letter-spacing: 2%;
+	font-size: 2.75rem;
+	line-height: 1.15;
+	letter-spacing: 3%;
 	text-transform: uppercase;
 	color: var(--color-primary);
 }
