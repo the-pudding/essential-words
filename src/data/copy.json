@@ -133,15 +133,15 @@
       "overlays": [
         {
           "label": "Overlay 1 – focus on band 4.5–5 (most concrete)",
-          "html": "Nearly a third of all the words that were removed scored in the most concrete range. Less than one in fifteen words added scored that high. Rust, umbrella, silk, screw, and soap all left. Instead, came words like magazine, jail, apartment, bomb, and guitar."
+          "html": "Nearly a third of all the words that were removed scored in the most concrete range. Less than one in fifteen words added scored that high. <span class=gsl>Rust, umbrella, silk, screw, soap</span> all left. Instead, came words like <span class=ngsl>magazine, jail, apartment, bomb, guitar.</span>"
         },
         {
           "label": "Overlay 2 – focus on bands 2–2.5 (mid-abstract)",
-          "html": "This is where most of the incoming vocabulary lives. Nearly a quarter of all added words land here, in the mid-abstract range. Only 13% of the words removed did. Words like regulation, reform, cooperation, obligation, initiative, negotiate, perception. Not quite picturable, but not entirely vague either. For comparison, the removed words that have a similar score include: shame, despair, spite, fellowship, companionship. Same number on the scale, different world entirely."
+          "html": "Nearly a quarter of all added words land here, in the mid-abstract range. Only 13% of the words removed did. Words like <span class=ngsl>regulation, reform, cooperation, obligation, initiative, negotiate, perception.</span> Not quite picturable, but not entirely vague either. For comparison, the removed words that have a similar score include: <span class=gsl>shame, despair, spite, fellowship, companionship.</span> Same number on the scale, different world entirely."
         },
         {
           "label": "Overlay 3 – focus on bands 1–2",
-          "html": "A cluster of very abstract words also dropped, and they turn out to be a particular kind of abstraction: courage, wisdom, mercy, loyalty, greed, fate, revenge, honesty… Abstract, yes. But they carry a kind of emotional grounding. You can’t point to mercy but you’ve felt it. You know it because you’ve experienced it. The abstract words that arrived are nothing like that: interpretation, involvement, theoretical, somewhat, evaluate, despite. They describe how things are structured, how processes unfold. They are language-based, through and through."
+          "html": "A cluster of very abstract words also dropped, and they turn out to be a particular kind of abstraction: <span class=gsl>courage, wisdom, mercy, loyalty, greed, fate, revenge, honesty…</span> Abstract, yes. But they carry a kind of emotional grounding. You can’t point to <span class=gsl>mercy</span> but you’ve felt it. You know it because you’ve experienced it. The abstract words that arrived are nothing like that: <span class=ngsl>interpretation, involvement, theoretical, somewhat, evaluate, despite.</span> They describe how things are structured, how processes unfold. They are language-based, through and through."
         }
       ]
     },

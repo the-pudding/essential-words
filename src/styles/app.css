@@ -277,3 +277,11 @@ svg {
 	color: var(--color-fg-light);
 }
 
+.story-section--chart .chart-header {
+	transition: opacity 220ms ease;
+}
+
+.story-section--chart.is-concr-bands-overlay-active .chart-header {
+	opacity: 0.32;
+}
+

@@ -14,9 +14,11 @@
 	let chartMount = $state(null);
 	let chartWrap = $state(null);
 	let scrollyMount = $state(null);
+	let rootMount = $state(null);
 	let chartController = null;
 	let resizeObserver;
 	let stepObserver;
+	let chartSectionEl = null;
 	let rafId = 0;
 	let activeStep = $state(-1);
 	let lastRenderedWidth = 0;
@@ -67,6 +69,7 @@
 				: DEFAULT_STEP_FOCUS[i] ?? []
 		}))
 	);
+	const overlayModeActive = $derived(activeStep >= 0 && activeStep < overlaySteps.length);
 
 	function applyStepFocus() {
 		if (!chartController) return;
@@ -141,6 +144,7 @@
 	}
 
 	onMount(() => {
+		chartSectionEl = rootMount?.closest?.(".story-section--chart") ?? null;
 		scheduleRender();
 		setupStepObserver();
 		const resizeTarget = chartWrap ?? chartMount;
@@ -150,6 +154,7 @@
 	});
 
 	onDestroy(() => {
+		chartSectionEl?.classList.remove("is-concr-bands-overlay-active");
 		if (rafId) cancelAnimationFrame(rafId);
 		resizeObserver?.disconnect();
 		stepObserver?.disconnect();
@@ -163,9 +168,14 @@
 		lastRenderedWidth = 0;
 		scheduleRender();
 	});
+
+	$effect(() => {
+		if (!chartSectionEl) return;
+		chartSectionEl.classList.toggle("is-concr-bands-overlay-active", overlayModeActive);
+	});
 </script>
 
-<div class="concr-bands">
+<div class="concr-bands" class:is-overlay-active={overlayModeActive} bind:this={rootMount}>
 	{#if payloadError}
 		<p class="concr-bands-error" role="alert">{payloadError}</p>
 	{:else if !payload}
@@ -204,11 +214,11 @@
 		--concr-bands-margin-right: 24px;
 		--concr-bands-margin-bottom: 32px;
 		--concr-bands-margin-left: 24px;
-		--concr-bands-band-h: 36px;
-		--concr-bands-band-gap: 8px;
+		--concr-bands-band-h: 42px;
+		--concr-bands-band-gap: 14px;
 		--concr-bands-center-gap: 32px;
-		--concr-bands-marquee-font-size: 28px;
-		--concr-bands-marquee-speed: 16;
+		--concr-bands-marquee-font-size: 36px;
+		--concr-bands-marquee-speed: 20;
 		--concr-bands-min-bar-width: 4px;
 		--concr-bands-text-pad: 4px;
 		--concr-bands-axis-line-pad: 8px;
@@ -248,6 +258,7 @@
 	.concr-bands-chart-wrap {
 		overflow: visible;
 		width: 100%;
+		transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1), opacity 220ms ease;
 	}
 
 	.concr-bands-chart {
@@ -279,9 +290,17 @@
 		transition: opacity 220ms cubic-bezier(0.33, 1, 0.68, 1);
 	}
 
+	.concr-bands .chart-note {
+		transition: opacity 220ms ease;
+	}
+
+	.concr-bands.is-overlay-active .chart-note {
+		opacity: 0.4;
+	}
+
 	.concr-bands-stage {
-		--chart-overlay-stage-height: 85vh;
-		--chart-overlay-stage-top: 8vh;
+		--chart-overlay-stage-height: auto;
+		--chart-overlay-stage-top: 20vh;
 	}
 
 
