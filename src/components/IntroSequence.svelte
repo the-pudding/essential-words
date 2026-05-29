@@ -530,6 +530,7 @@
 		background-size: 0% var(--intro-highlight-fill-height);
 		background-position: 0 67%;
 		box-decoration-break: clone;
+		color: var(--color-primary);
 		transition:
 			background-size var(--intro-highlight-fade-ms) ease,
 			color var(--intro-highlight-fade-ms) ease,
@@ -540,6 +541,7 @@
 		background-image: linear-gradient(var(--color-gsl-highlight), var(--color-gsl-highlight));
 		background-size: 100% var(--intro-highlight-fill-height);
 		padding: 0 0.35rem;
+		color: var(--color-highlight-text);
 
 	}
 
@@ -547,6 +549,7 @@
 		background-image: linear-gradient(var(--color-ngsl-highlight), var(--color-ngsl-highlight));
 		background-size: 100% var(--intro-highlight-fill-height);
 		padding: 0 0.35rem;
+		color: var(--color-highlight-text);
 
 	}
 
@@ -554,6 +557,7 @@
 		background-image: linear-gradient(var(--color-remained-highlight), var(--color-remained-highlight));
 		background-size: 100% var(--intro-highlight-fill-height);
 		padding: 0 0.35rem;
+		color: var(--color-highlight-text);
 
 	}
 

@@ -79,6 +79,9 @@
 					{#if block.dek}
 						<p class="story-dek">{@html block.dek}</p>
 					{/if}
+					{#if block.byline}
+						<p class="byline">{@html block.byline}</p>
+					{/if}
 				</section>
 			{:else if block.type === "prose"}
 				<section class="story-section">

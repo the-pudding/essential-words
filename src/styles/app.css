@@ -191,7 +191,7 @@ svg {
 
 .story-section--hero .story-dek{
 	max-width: var(--max-chart-width);	
-	margin: 3rem auto 3rem auto;
+	margin: 3rem auto 2.5rem auto;
 	font-family: var(--font-serif);
 	font-weight: 300;
 	font-size: 2.75rem;
@@ -199,6 +199,12 @@ svg {
 	letter-spacing: 3%;
 	text-transform: uppercase;
 	color: var(--color-primary);
+}
+
+.byline{
+	font-size: 1.125rem;
+	margin: 0 auto 2rem auto;
+	font-family: var(--font-sans);
 }
 
 .story-prose{
