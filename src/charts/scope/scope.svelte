@@ -139,7 +139,7 @@
 					applyStepFocus();
 				}
 			},
-			{ root: null, rootMargin: "-45% 0px -45% 0px", threshold: [0, 0.2, 0.5, 0.8, 1] }
+			{ root: null, rootMargin: "-40% 0px -40% 0px", threshold: [0, 0.2, 0.5, 0.8, 1] }
 		);
 
 		for (const node of nodes) stepObserver.observe(node);
@@ -272,7 +272,7 @@
 		--scope-list-header-transition-ms: 700;
 		--scope-header-font-size: 16;
 
-		--scope-intro-offset: -25vh;
+		--scope-intro-offset: -30vh;
 		--scope-final-hold: calc(100vh - var(--scope-intro-offset));
 
 		--chart-overlay-steps-top-pad: 25vh;
