@@ -132,13 +132,14 @@ export function renderConcretenessBands(container, payload, { width }) {
 
 	const defs = svg.append("defs");
 
+
 	defs
 		.append("clipPath")
 		.attr("id", wideRemoved)
 		.append("rect")
-		.attr("x", margin.left)
+		.attr("x", 0)
 		.attr("y", 0)
-		.attr("width", halfW)
+		.attr("width", centerX - halfGap)
 		.attr("height", chartH);
 
 	defs
@@ -147,7 +148,7 @@ export function renderConcretenessBands(container, payload, { width }) {
 		.append("rect")
 		.attr("x", centerX + halfGap)
 		.attr("y", 0)
-		.attr("width", halfW)
+		.attr("width", W - (centerX + halfGap))
 		.attr("height", chartH);
 
 	svg
@@ -546,9 +547,12 @@ let focusRanges = [];
 	const TR_FADE_OUT = "concr-hover-out";
 	const TR_FADE_IN = "concr-hover-in";
 
+	const ROW_HIGHLIGHT_ENABLED = false;
+
 const hoverLayer = svg.append("g").attr("class", "hover-layer");
 
 	function showRowHighlight(band, animate = false) {
+		if (!ROW_HIGHLIGHT_ENABLED) return;
 		const sel = band.highlightRect.interrupt(TR_FADE_OUT).interrupt(TR_FADE_IN);
 		if (animate) {
 			sel.transition(TR_FADE_IN).duration(HOVER_TRANSITION_MS).ease(hoverEase).attr("opacity", 1);
@@ -672,8 +676,8 @@ function applyFocusState() {
 		if (band.direction === "rtl") band.hoverAnchor = centerX - halfGap;
 		else band.hoverAnchor = centerX + halfGap;
 
-		const bgX = band.direction === "rtl" ? margin.left : centerX + halfGap;
-		const bgW = halfW;
+		const bgX = band.direction === "rtl" ? 0 : centerX + halfGap;
+		const bgW = band.direction === "rtl" ? centerX - halfGap : W - (centerX + halfGap);
 
 		showRowHighlight(band, true);
 

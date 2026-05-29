@@ -177,6 +177,10 @@ svg {
 	background-position: 0 67%; 
 }
 
+.story {
+	overflow-x: clip;
+}
+
 .story-section {
 	display: flex;
 	flex-direction: column;

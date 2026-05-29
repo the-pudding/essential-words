@@ -237,16 +237,11 @@
 		--concr-bands-removed-bg-row: rgba(237, 144, 39, 0.12);
 		--concr-bands-added-bg-row: rgba(219, 106, 232, 0.12);
 
-		width: 100%;
-		max-width: min(100%, var(--max-chart-width));
-		margin-inline: auto;
-		box-sizing: border-box;
-	}
 
-	@media (max-width: 1080px) {
-		.concr-bands {
-			max-width: min(100%, var(--max-prose-width));
-		}
+		width: 100vw;
+		max-width: 100vw;
+		margin-inline: calc(50% - 50vw);
+		box-sizing: border-box;
 	}
 
 	@media (max-width: 520px) {

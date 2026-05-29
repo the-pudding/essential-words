@@ -74,7 +74,6 @@
 		{#each mainBlocks as block, i}
 			{#if block.type === "hero"}
 				<section class="story-section story-section--hero">
-					<!-- <h1 class="story-heading">{@html block.h1}</h1> -->
 					<Title/>
 					{#if block.dek}
 						<p class="story-dek">{@html block.dek}</p>
