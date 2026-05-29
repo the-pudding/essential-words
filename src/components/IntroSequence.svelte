@@ -291,7 +291,7 @@
 	}
 
 	.intro-sequence {
-		margin: -8rem 0 8rem 0;
+		margin: -8rem 0 4rem 0;
 
 		--intro-copy-width: 525px;
 		--intro-part1-vh: 200;
