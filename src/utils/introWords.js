@@ -12,12 +12,12 @@ export const INTRO_SEQUENCE_DEFAULTS = {
 	rowScale: 4.2, // rows = round(cols * rowScale) when rows not explicitly set
 	rows: null,
 	baseWordRequestFraction: 0.5,
-	baseFillFraction: 0.38,
-	removedFillRatio: 0.25,
-	centerExclusionWidth: 0.33,
-	centerExclusionHeight: 0.5,
-	centerExclusionNoise: 0.1,
-	baseSeed: 102,
+	baseFillFraction: 0.4,
+	removedFillRatio: 0.5,
+	centerExclusionWidth: 0.5,
+	centerExclusionHeight: 0.7,
+	centerExclusionNoise: 0.15,
+	baseSeed: 117,
 	removedSeed: 202,
 	exclusionSeed: 3001,
 	emptyShuffleSeed: 21013
@@ -142,7 +142,7 @@ function buildCenterExclusionMask(cols, rows, opts = {}) {
 	const edgeNoise = opts.edgeNoise ?? INTRO_SEQUENCE_DEFAULTS.centerExclusionNoise;
 	const seedBase = opts.seedBase ?? INTRO_SEQUENCE_DEFAULTS.exclusionSeed;
 	const blocked = new Set();
-	const halfBase = Math.max(0.08, Math.min(0.48, widthFrac / 2));
+	const halfBase = Math.max(0.08, Math.min(0.5, widthFrac / 2));
 	const activeTop = Math.max(0, (1 - Math.max(0.05, Math.min(1, heightFrac))) / 2);
 	const activeBottom = 1 - activeTop;
 
@@ -150,15 +150,15 @@ function buildCenterExclusionMask(cols, rows, opts = {}) {
 		const rowFrac = (r + 0.5) / rows;
 		if (rowFrac < activeTop || rowFrac > activeBottom) continue;
 
-		const rowWidthJitter = (seededUnit(seedBase + r * 97) - 0.5) * edgeNoise * 0.75;
-		const rowCenterJitter = (seededUnit(seedBase + r * 131) - 0.5) * edgeNoise * 0.12;
+		const rowWidthJitter = (seededUnit(seedBase + r * 97) - 0.5) * edgeNoise;
+		const rowCenterJitter = (seededUnit(seedBase + r * 131) - 0.5) * edgeNoise;
 		const rowHalf = Math.max(0.06, Math.min(0.49, halfBase * (1 + rowWidthJitter)));
 		const rowCenter = 0.5 + rowCenterJitter;
 
 		for (let c = 0; c < cols; c++) {
 			const idx = r * cols + c;
 			const x = (c + 0.5) / cols;
-			const edgeJitter = (seededUnit(seedBase + idx * 17) - 0.5) * edgeNoise * 0.03;
+			const edgeJitter = (seededUnit(seedBase + idx * 17) - 0.5) * edgeNoise;
 			if (Math.abs(x - rowCenter) <= rowHalf + edgeJitter) blocked.add(idx);
 		}
 	}

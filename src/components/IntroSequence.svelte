@@ -55,7 +55,9 @@
 	let stickyTrackMount = $state(null);
 
 	let stickyProgress = $state(0);
+	let writeReveal = $state(false);
 	let rafId = 0;
+	let writeRevealTimer = 0;
 
 	let timing = $state({
 		part1Scroll: 200,
@@ -76,6 +78,48 @@
 	function clamp01(v) {
 		return Math.max(0, Math.min(1, v));
 	}
+
+	function seededUnit(seed) {
+		const x = Math.sin(seed + 1) * 10000;
+		return x - Math.floor(x);
+	}
+
+	const WRITE_SHUFFLE_SEED = 4187;
+
+	const writePlanByIndex = $derived.by(() => {
+		const cols = gridCols;
+		const rows = gridRows;
+		const cells = fullCells;
+		const base = baseCells;
+		if (!cells.length || !cols) return new Map();
+
+		const visibleRows = Math.max(
+			1,
+			Math.min(rows, Math.ceil((geometry.stageVh / Math.max(1, geometry.bgTotalVh)) * rows))
+		);
+
+		const eligible = [];
+		for (let i = 0; i < cells.length; i++) {
+			if (!cells[i]) continue;
+			if (!base[i] && cells[i]?.set === "removed") continue;
+			if (Math.floor(i / cols) >= visibleRows) continue;
+			eligible.push(i);
+		}
+
+		const shuffled = [...eligible];
+		for (let n = shuffled.length - 1; n > 0; n--) {
+			const j = Math.floor(seededUnit(WRITE_SHUFFLE_SEED + n * 41) * (n + 1));
+			[shuffled[n], shuffled[j]] = [shuffled[j], shuffled[n]];
+		}
+
+		const plan = new Map();
+		for (let rank = 0; rank < shuffled.length; rank++) {
+			const i = shuffled[rank];
+			const len = cells[i].text.length;
+			plan.set(i, { order: rank, ch: len, steps: Math.max(4, len) });
+		}
+		return plan;
+	});
 
 	function cssVhNumber(name, fallback) {
 		if (!rootMount) return fallback;
@@ -193,13 +237,27 @@
 		scheduleMeasure();
 	}
 
+	function startWriteReveal() {
+		if (writeReveal) return;
+		const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+		if (reduced) {
+			writeReveal = true;
+			return;
+		}
+		writeRevealTimer = window.setTimeout(() => {
+			writeReveal = true;
+		}, 50);
+	}
+
 	onMount(() => {
 		readTimingVars();
 		measureProgress();
+		startWriteReveal();
 		window.addEventListener("scroll", scheduleMeasure, { passive: true });
 		window.addEventListener("resize", handleResize);
 		return () => {
 			if (rafId) cancelAnimationFrame(rafId);
+			if (writeRevealTimer) clearTimeout(writeRevealTimer);
 			window.removeEventListener("scroll", scheduleMeasure);
 			window.removeEventListener("resize", handleResize);
 		};
@@ -211,6 +269,7 @@
 		<div class="intro-stage">
 			<div
 				class="intro-bg-grid intro-bg-grid--stage"
+				class:is-write-reveal={writeReveal}
 				class:is-focus-drop={dropOn}
 				class:is-focus-add={addOn}
 				class:is-focus-remain={remainOn}
@@ -224,8 +283,17 @@
 						{#if cell}
 							{@const baseCell = baseCells[i]}
 							{@const isExtraRemoved = !baseCell && cell?.set === "removed"}
+							{@const writePlan = writePlanByIndex.get(i)}
 							<span class="word word--{cell?.set ?? ''}" class:word--removed-extra={isExtraRemoved}>
-								{cell.text}
+								<span
+									class="word-write"
+									class:word-write--static={isExtraRemoved || !writePlan}
+									style:--write-order={writePlan?.order ?? 0}
+									style:--write-ch={writePlan?.ch ?? 0}
+									style:--write-steps={writePlan?.steps ?? 0}
+								>
+									{cell.text}
+								</span>
 							</span>
 						{/if}
 					</div>
@@ -233,7 +301,6 @@
 			</div>
 
 			<div class="intro-copy intro-copy--sticky">
-				<div class="intro-copy-veil" aria-hidden="true"></div>
 				<div class="intro-copy-layer" class:is-visible={phase === 1}>
 					{#each part1Paragraphs as p}
 						<p>{@html p}</p>
@@ -306,16 +373,7 @@
 		--intro-part3-release-vh: 35;
 		--intro-stage-vh: 100;
 		--intro-part1-sticky-top: 36vh;
-		--intro-grid-cols: 8;
-		--intro-grid-row-scale: 4.2;
 		--intro-grid-rows: -1; /* set >0 to force exact rows */
-		--intro-base-word-request-fraction: 0.5;
-		--intro-base-fill-fraction: 0.45;
-		--intro-removed-fill-ratio: 0.33;
-		--intro-center-exclusion-w: 0.42;
-		--intro-center-exclusion-h: 0.8;
-		--intro-center-exclusion-noise: 0.85;
-		--intro-copy-veil-size: 50% 20%;
 		--intro-copy-fade-ms: 420ms;
 		--intro-highlight-fade-ms: 420ms;
 		--intro-overlay-fade-ms: 460ms;
@@ -323,6 +381,10 @@
 		--intro-part4-fade-ms: 600ms;
 		--intro-part4-translate: 16px;
 		--intro-highlight-fill-height: 1.25em;
+		--intro-write-ms-min: 140ms;
+		--intro-write-ms-max: 500ms;
+		--intro-write-ms-per-ch: 180ms;
+		--intro-write-stagger-ms: 200ms;
 		position: relative;
 		width: 100%;
 	}
@@ -396,6 +458,27 @@
 		font-family: var(--font-serif);
 	}
 
+	.word-write {
+		display: inline-block;
+		clip-path: inset(0 100% 0 0);
+	}
+
+	.word-write--static {
+		clip-path: none;
+	}
+
+	.intro-bg-grid--stage.is-write-reveal .word-write:not(.word-write--static) {
+		clip-path: inset(0 0 0 0);
+		transition: clip-path
+			clamp(
+				var(--intro-write-ms-min),
+				calc(var(--intro-write-ms-min) + (var(--write-ch, 6) - 1) * var(--intro-write-ms-per-ch)),
+				var(--intro-write-ms-max)
+			)
+			steps(var(--write-steps, 8), end);
+		transition-delay: calc(var(--write-order, 0) * var(--intro-write-stagger-ms));
+	}
+
 	.word--removed-extra {
 		opacity: 0;
 		transform: translateY(8px);
@@ -465,24 +548,9 @@
 		height: 100%;
 	}
 
-	.intro-copy-veil {
-		position: absolute;
-		inset: 0;
-		z-index: 0;
-		pointer-events: none;
-		background: radial-gradient(
-			ellipse var(--intro-copy-veil-size) at 50% var(--intro-part1-sticky-top),
-			rgba(255, 255, 241, 1) 0%,
-			rgba(255, 255, 241, 0.9) 28%,
-			rgba(255, 255, 241, 0.55) 52%,
-			rgba(255, 255, 241, 0) 100%
-		);
-	}
-
 	.intro-copy-layer {
 		position: absolute;
 		inset: 0;
-		z-index: 1;
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-start;
