@@ -41,12 +41,13 @@
 	const payloadError = $derived(getData?.()?.semanticsRibbonsError ?? null);
 
 	const overlaySteps = $derived.by(() =>
-		(overlays ?? []).map((step, i) => ({
-			...step,
-			focusCategories: normalizeFocusCategories(step?.focusCategories).length
-				? normalizeFocusCategories(step?.focusCategories)
-				: DEFAULT_STEP_FOCUS[i] ?? []
-		}))
+		(overlays ?? []).map((step, i) => {
+			const focusCategories = normalizeFocusCategories(step?.focusCategories);
+			return {
+				...step,
+				focusCategories: focusCategories.length ? focusCategories : DEFAULT_STEP_FOCUS[i] ?? []
+			};
+		})
 	);
 
 	function applyStepFocus() {
@@ -175,9 +176,7 @@
 		--sem-font-scale: 1;
 		--sem-min-band-font-size: 15px;
 		--sem-left-label-offset: 18;
-		--sem-left-label-hover-shift: 30;
-		--sem-left-percent-offset: 8;
-		--sem-right-percent-offset: 8;
+		--sem-left-label-hover-shift: 0;
 		--sem-right-change-offset: 46;
 		--sem-responsive-breakpoint: 1080;
 		--sem-compact-breakpoint: 700;
@@ -191,15 +190,19 @@
 		--sem-debug-layout: 0;
 		--sem-ribbon-up: #f493ff;
 		--sem-ribbon-down: #ffaa4a;
-		--sem-ribbon-neutral: #908a82;
 		--sem-ribbon-tan: #b2a47f;
 		--sem-ribbon-up-text: #db6ae8;
 		--sem-ribbon-down-text: #ed9027;
-		--sem-ribbon-neutral-text: #908a82;
 		--sem-ribbon-tan-text: #988f77;
 		--sem-ribbon-label: #8f8a77;
 		--sem-ribbon-header: #706b66;
-		--sem-ribbon-header-sub: #9a948c;
+		--sem-pct-cap-width: 44;
+		--sem-pct-cap-label-bottom: 2;
+		--sem-ribbon-cap-trim: -1;
+		--sem-pct-cap-up-text: #962FA2;
+		--sem-pct-cap-down-text: #9B5B12;
+		--sem-pct-cap-tan-text: #635D43;
+		--sem-chart-bg: var(--color-bg, #fffff1);
 		--chart-overlay-stage-top: 10vh;
 		--chart-overlay-stage-height: 80vh;
 		--chart-overlay-steps-top-pad: 85vh;
@@ -223,6 +226,13 @@
 		text-transform: uppercase;
 		font-weight: 600;
 		font-family: var(--font-mono);
+		letter-spacing: 2%;
+	}
+
+	.semantics-viz-chart :global(.pct-cap-label) {
+		font-family: var(--font-mono);
+		font-size: 13px;
+		letter-spacing: -0.02em;
 	}
 
 	@media (max-width: 1080px) {
@@ -238,6 +248,7 @@
 			--sem-left-label-offset: 8;
 			--sem-left-label-hover-shift: 14;
 			--sem-right-change-offset: 32;
+			--sem-pct-cap-width: 36;
 		}
 	}
 

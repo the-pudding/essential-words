@@ -17,6 +17,66 @@ function cssNumber(el, name, fallback) {
 	return Number.isFinite(value) ? value : fallback;
 }
 
+const RIBBON_COLOR_DEFAULTS = {
+	up: "#f493ff",
+	down: "#ffaa4a",
+	tan: "#b2a47f"
+};
+
+const PCT_CAP_TEXT_DEFAULTS = {
+	up: "#962FA2",
+	down: "#9B5B12",
+	tan: "#635D43"
+};
+
+function parseColorToRgb(color) {
+	const s = String(color ?? "").trim();
+	if (!s) return null;
+	if (s.startsWith("#")) {
+		let h = s.slice(1);
+		if (h.length === 3) h = h.split("").map((ch) => ch + ch).join("");
+		if (h.length !== 6) return null;
+		return {
+			r: Number.parseInt(h.slice(0, 2), 16),
+			g: Number.parseInt(h.slice(2, 4), 16),
+			b: Number.parseInt(h.slice(4, 6), 16)
+		};
+	}
+	const match = s.match(/rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)/i);
+	if (!match) return null;
+	return { r: Number(match[1]), g: Number(match[2]), b: Number(match[3]) };
+}
+
+function rgbToHex({ r, g, b }) {
+	const clamp = (v) => Math.max(0, Math.min(255, Math.round(v)));
+	const hex = (v) => clamp(v).toString(16).padStart(2, "0");
+	return `#${hex(r)}${hex(g)}${hex(b)}`;
+}
+
+function blendColors(foreground, background, alpha) {
+	const fg = parseColorToRgb(foreground);
+	const bg = parseColorToRgb(background);
+	if (!fg || !bg) return foreground;
+	return rgbToHex({
+		r: fg.r * alpha + bg.r * (1 - alpha),
+		g: fg.g * alpha + bg.g * (1 - alpha),
+		b: fg.b * alpha + bg.b * (1 - alpha)
+	});
+}
+
+function resolveCssColor(el, cssVar, defaults, key) {
+	const fromCss = getComputedStyle(el).getPropertyValue(cssVar).trim();
+	return fromCss || defaults[key] || defaults.tan;
+}
+
+function resolvedRibbonHex(el, key) {
+	return resolveCssColor(el, `--sem-ribbon-${key}`, RIBBON_COLOR_DEFAULTS, key);
+}
+
+function resolvedPctCapTextColor(el, key) {
+	return resolveCssColor(el, `--sem-pct-cap-${key}-text`, PCT_CAP_TEXT_DEFAULTS, key);
+}
+
 function splitLabelTwoLines(text, targetChars) {
 	const raw = String(text ?? "").trim();
 	if (!raw) return [""];
@@ -50,21 +110,69 @@ function normalizeCategoryKey(value) {
 		.trim();
 }
 
-function ribbonPath(c, gslX1, ngslX0, mx) {
+function snapCoord(value) {
+	return Math.round(value * 2) / 2;
+}
+
+function ribbonYs(c, ribbonCapTrim) {
+	const gH = c.gslY1 - c.gslY0;
+	const nH = c.ngslY1 - c.ngslY0;
+	const trim = Math.min(
+		ribbonCapTrim,
+		gH * 0.2,
+		nH * 0.2,
+		Math.max(0, gH - 1) / 2,
+		Math.max(0, nH - 1) / 2
+	);
+	if (trim <= 0 || gH <= trim * 2 || nH <= trim * 2) {
+		return { g0: c.gslY0, g1: c.gslY1, n0: c.ngslY0, n1: c.ngslY1, trim: 0 };
+	}
+	return {
+		g0: c.gslY0 + trim,
+		g1: c.gslY1 - trim,
+		n0: c.ngslY0 + trim,
+		n1: c.ngslY1 - trim,
+		trim
+	};
+}
+
+function ribbonBandPath(c, leftX, rightX, mx, ribbonCapTrim = 0) {
+	const { g0, g1, n0, n1 } = ribbonYs(c, ribbonCapTrim);
 	return (
-		`M${gslX1},${c.gslY0}` +
-		` C${mx},${c.gslY0} ${mx},${c.ngslY0} ${ngslX0},${c.ngslY0}` +
-		` L${ngslX0},${c.ngslY1}` +
-		` C${mx},${c.ngslY1} ${mx},${c.gslY1} ${gslX1},${c.gslY1}` +
+		`M${leftX},${g0}` +
+		` C${mx},${g0} ${mx},${n0} ${rightX},${n0}` +
+		` L${rightX},${n1}` +
+		` C${mx},${n1} ${mx},${g1} ${leftX},${g1}` +
 		" Z"
 	);
 }
 
-function centerLinePath(c, gslX1, ngslX0, mx, fontSize) {
+function bandShellPath(c, slopeLeft, slopeRight, ribbonLeft, ribbonRight, mx, ribbonCapTrim = 0) {
+	const { g0, g1, n0, n1 } = ribbonYs(c, ribbonCapTrim);
+	return (
+		`M${slopeLeft},${c.gslY0}` +
+		`L${ribbonLeft},${c.gslY0}` +
+		(g0 > c.gslY0 ? `L${ribbonLeft},${g0}` : "") +
+		`C${mx},${g0} ${mx},${n0} ${ribbonRight},${n0}` +
+		(n0 < c.ngslY0 ? `L${ribbonRight},${c.ngslY0}` : "") +
+		`L${slopeRight},${c.ngslY0}` +
+		`L${slopeRight},${c.ngslY1}` +
+		`L${ribbonRight},${c.ngslY1}` +
+		(g1 < c.gslY1 ? `L${ribbonRight},${g1}` : "") +
+		`C${mx},${n1} ${mx},${g1} ${ribbonLeft},${g1}` +
+		(g1 < c.gslY1 ? `L${ribbonLeft},${c.gslY1}` : "") +
+		`L${slopeLeft},${c.gslY1}` +
+		"Z"
+	);
+}
+
+function centerLinePath(c, pathLeft, pathRight, mx, fontSize, pathTailX = null) {
 	const shift = fontSize * 0.35;
 	const gMid = (c.gslY0 + c.gslY1) / 2 + shift;
 	const nMid = (c.ngslY0 + c.ngslY1) / 2 + shift;
-	return `M${gslX1},${gMid} C${mx},${gMid} ${mx},${nMid} ${ngslX0},${nMid}`;
+	const tail =
+		pathTailX != null && pathTailX > pathRight ? ` L${pathTailX},${nMid}` : "";
+	return `M${pathLeft},${gMid} C${mx},${gMid} ${mx},${nMid} ${pathRight},${nMid}${tail}`;
 }
 
 function antsLinePath(c, gslX1, ngslX0, mx, fontSize, antsYOffset) {
@@ -88,13 +196,30 @@ function expandedRibbonPath(c, gslX1, ngslX0, mx, thinThreshold) {
 	);
 }
 
-function expandedCenterPath(c, gslX1, ngslX0, mx, defaultFontSize, thinThreshold) {
+function expandedCenterPath(c, pathLeft, pathRight, mx, defaultFontSize, thinThreshold, pathTailX = null) {
 	const shift = defaultFontSize * 0.35;
 	const gBot = c.gslY1;
 	const gMid = gBot - thinThreshold / 2 + shift;
 	const nBot = c.ngslY1;
 	const nMid = nBot - thinThreshold / 2 + shift;
-	return `M${gslX1},${gMid} C${mx},${gMid} ${mx},${nMid} ${ngslX0},${nMid}`;
+	const tail =
+		pathTailX != null && pathTailX > pathRight ? ` L${pathTailX},${nMid}` : "";
+	return `M${pathLeft},${gMid} C${mx},${gMid} ${mx},${nMid} ${pathRight},${nMid}${tail}`;
+}
+
+function appendBandFocusOutline(parent, c, pathD) {
+	return parent
+		.append("path")
+		.attr("class", "band-focus-outline")
+		.attr("d", pathD)
+		.attr("fill", "none")
+		.attr("stroke", c.dirColor)
+		.attr("stroke-width", 0)
+		.attr("stroke-opacity", 0)
+		.attr("stroke-linejoin", "round")
+		.attr("stroke-linecap", "butt")
+		.attr("vector-effect", "non-scaling-stroke")
+		.style("pointer-events", "none");
 }
 
 function bandFontSize(c) {
@@ -105,21 +230,69 @@ function bandFontSize(c) {
 	return Math.min(Math.max(minH * 0.65, 3), 48);
 }
 
-function marqueeWordsForCategory(c) {
-	if (c.relChange != null && c.relChange >= CHANGE_THRESHOLD) return c.addedWords || [];
-	if (c.relChange != null && c.relChange <= -CHANGE_THRESHOLD) return c.removedWords || [];
-	return c.remainedWords || [];
+
+const PCT_CAP_LABEL_FONT_SIZE = 14;
+
+function percentCapLabelLayout(y, h, midY, thinThreshold, capLabelBottomPad) {
+	if (h >= thinThreshold + 2) {
+		return { labelY: midY, baseline: "central", hidden: false };
+	}
+
+	const bottomPad = Math.min(capLabelBottomPad, Math.max(0.5, h * 0.2));
+	return {
+		labelY: y + h - bottomPad,
+		baseline: "text-after-edge",
+		hidden: true
+	};
 }
 
-function marqueeWordSetForCategory(c) {
-	if (c.relChange != null && c.relChange >= CHANGE_THRESHOLD) return "added";
-	if (c.relChange != null && c.relChange <= -CHANGE_THRESHOLD) return "removed";
-	return "remained";
+function appendPercentCapRect(group, { x, y, w, h, fill }) {
+	group
+		.append("rect")
+		.attr("class", "pct-cap")
+		.attr("x", x)
+		.attr("y", y)
+		.attr("width", w)
+		.attr("height", h)
+		.attr("fill", fill)
+		.attr("fill-opacity", 1)
+		.attr("stroke", fill)
+		.attr("stroke-width", 0)
+		.attr("stroke-opacity", 0)
+		.attr("shape-rendering", "geometricPrecision");
+}
+
+function appendPercentCapLabel(group, { x, y, w, h, midY, pct, textColor, thinThreshold, capLabelBottomPad }) {
+	if (h <= 0) return;
+
+	const layout = percentCapLabelLayout(y, h, midY, thinThreshold, capLabelBottomPad);
+	group
+		.append("text")
+		.attr("class", layout.hidden ? "pct-cap-label pct-cap-label--hidden" : "pct-cap-label")
+		.attr("x", x + w / 2)
+		.attr("y", layout.labelY)
+		.attr("text-anchor", "middle")
+		.attr("dominant-baseline", layout.baseline)
+		.attr("font-size", `${PCT_CAP_LABEL_FONT_SIZE}px`)
+		.attr("font-weight", 600)
+		.attr("fill", textColor)
+		.attr("opacity", layout.hidden ? 0 : 1)
+		.text(`${pct.toFixed(1)}%`);
+}
+
+function marqueeDataForCategory(c) {
+	if (c.relChange != null && c.relChange >= CHANGE_THRESHOLD) {
+		return { words: c.addedWords || [], wordSet: "added" };
+	}
+	if (c.relChange != null && c.relChange <= -CHANGE_THRESHOLD) {
+		return { words: c.removedWords || [], wordSet: "removed" };
+	}
+	return { words: c.remainedWords || [], wordSet: "remained" };
 }
 
 function marqueeFontForWordSet(wordSet) {
 	if (wordSet === "removed") {
-		return { family: "\"Source Serif 4\", serif", style: "italic", weight: 400 };
+		return { family: "\"Source Serif 4\", serif", style: "italic", weight: 500 };
 	}
 	return { family: "\"Source Sans 3\", sans-serif", style: "italic", weight: 400 };
 }
@@ -129,6 +302,23 @@ function wrapLeftToRightOffset(offset, cycleLen) {
 	while (offset > 0) offset -= cycleLen;
 	while (offset <= -cycleLen) offset += cycleLen;
 	return offset;
+}
+
+function bindMarqueeTextPath(c, textSel, offsetSeed) {
+	const tpNode = textSel.select("textPath").node();
+	if (!tpNode) return null;
+	const cycleLen = tpNode.getComputedTextLength() / c._repeatCount;
+	const offset = wrapLeftToRightOffset(offsetSeed, cycleLen);
+	tpNode.setAttribute("startOffset", offset);
+	return { tpNode, cycleLen, offset };
+}
+
+function categoryColorKey(c) {
+	const small = c.relChange == null || Math.abs(c.relChange) < CHANGE_THRESHOLD;
+	if (small) return "tan";
+	if (c.ngslPct > c.gslPct) return "up";
+	if (c.ngslPct < c.gslPct) return "down";
+	return "tan";
 }
 
 export function renderSemanticsRibbons(containerEl, payload) {
@@ -194,15 +384,20 @@ export function renderSemanticsRibbons(containerEl, payload) {
 		gslX1 = mobileOuterMargin + leftLabelZone + colW;
 	}
 	const ngslX0 = gslX1 + gapW;
-	const mx = (gslX1 + ngslX0) / 2;
 
 	const defaultFontSize = Math.max(14 * fontScale, minBandFontSize);
 	const thinThreshold = 13 * layoutScale;
 	const antsYOffset = -2 * layoutScale;
 	const antsStrokeWidth = 1 * layoutScale;
 	const antsDashArray = `${4 * layoutScale} ${7 * layoutScale}`;
-	const leftPercentOffset = cssNumber(containerEl, "--sem-left-percent-offset", 8) * layoutScale;
-	const rightPercentOffset = cssNumber(containerEl, "--sem-right-percent-offset", 8) * layoutScale;
+	const pctCapWidth = cssNumber(containerEl, "--sem-pct-cap-width", 44) * layoutScale;
+	const capLabelBottomPad = cssNumber(containerEl, "--sem-pct-cap-label-bottom", 2) * layoutScale;
+	const ribbonLeft = gslX1 + pctCapWidth;
+	const ribbonRight = ngslX0 - pctCapWidth;
+	const mx = (ribbonLeft + ribbonRight) / 2;
+	const marqueeTailRunway = cssNumber(containerEl, "--sem-marquee-tail-runway", 20) * layoutScale;
+	const marqueePathTailX = ngslX0 + marqueeTailRunway;
+	const marqueeClipRight = ngslX0;
 	const leftLabelOffset = cssNumber(containerEl, "--sem-left-label-offset", 16) * layoutScale;
 	const rightChangeOffset = cssNumber(containerEl, "--sem-right-change-offset", 46) * layoutScale;
 	const leftLabelHoverShift = cssNumber(containerEl, "--sem-left-label-hover-shift", 30) * layoutScale;
@@ -221,6 +416,38 @@ export function renderSemanticsRibbons(containerEl, payload) {
 	const hoverLabelTransitionMs = 160;
 	const marqueeSpeed = 25;
 	const antsSpeed = 18;
+	const focusRibbonFillOpacity = 1;
+	const focusRibbonBlendAlpha = 0.4;
+	const restRibbonBlendAlpha = 0.5;
+	const focusRibbonStrokeOpacity = 1;
+	const focusRibbonStrokeWidth = 1;
+	const ribbonCapTrim = cssNumber(containerEl, "--sem-ribbon-cap-trim", 0.5) * layoutScale;
+
+	function setBandFocusStyle(group, focused, duration = 0) {
+		const c = group.datum();
+		const ribbonSel = group.select(".ribbon").interrupt();
+		const outlineSel = group.select(".band-focus-outline").interrupt();
+		const targetFill = focused ? c?.dirFillFocused : c?.dirFillRest;
+
+		ribbonSel.attr("fill", targetFill ?? c?.dirColor).attr("fill-opacity", focusRibbonFillOpacity);
+		ribbonSel.attr("stroke-width", 0).attr("stroke-opacity", 0);
+
+		// Thin-band fill and outline are toggled together — no stroke fade lag.
+		const outlineDuration = c?._thin ? 0 : duration;
+		const outlineApply = outlineDuration > 0 ? outlineSel.transition().duration(outlineDuration) : outlineSel;
+		outlineApply
+			.attr("stroke-opacity", focused ? focusRibbonStrokeOpacity : 0)
+			.attr("stroke-width", focused ? focusRibbonStrokeWidth : 0);
+
+		const labelSel = group.select(".pct-cap-label-layer").selectAll(".pct-cap-label");
+		const labelApply = duration > 0 ? labelSel.transition().duration(duration) : labelSel;
+		labelApply.attr("opacity", function capLabelOpacity() {
+			return d3.select(this).classed("pct-cap-label--hidden") ? (focused ? 1 : 0) : 1;
+		});
+		if (focused) {
+			group.select(".pct-cap-label-layer").raise();
+		}
+	}
 
 	const cats = payload.categories.map((d) => ({ ...d }));
 	const numCats = cats.length;
@@ -231,8 +458,8 @@ export function renderSemanticsRibbons(containerEl, payload) {
 	let gslCum = 0;
 	gslOrder.forEach((c) => {
 		const h = (c.gslPct / 100) * bandArea;
-		c.gslY0 = margin.top + gslCum;
-		c.gslY1 = margin.top + gslCum + h;
+		c.gslY0 = snapCoord(margin.top + gslCum);
+		c.gslY1 = snapCoord(margin.top + gslCum + h);
 		gslCum += h + bandGap;
 	});
 
@@ -240,21 +467,24 @@ export function renderSemanticsRibbons(containerEl, payload) {
 	let ngslCum = 0;
 	ngslOrder.forEach((c) => {
 		const h = (c.ngslPct / 100) * bandArea;
-		c.ngslY0 = margin.top + ngslCum;
-		c.ngslY1 = margin.top + ngslCum + h;
+		c.ngslY0 = snapCoord(margin.top + ngslCum);
+		c.ngslY1 = snapCoord(margin.top + ngslCum + h);
 		ngslCum += h + bandGap;
 	});
 
+	const chartBg =
+		getComputedStyle(containerEl).getPropertyValue("--sem-chart-bg").trim() ||
+		getComputedStyle(containerEl).getPropertyValue("--color-bg").trim() ||
+		"#FFFFF1";
+
 	cats.forEach((c) => {
-		c.dir = c.ngslPct > c.gslPct ? "up" : c.ngslPct < c.gslPct ? "down" : "flat";
-		const small = c.relChange == null || Math.abs(c.relChange) < CHANGE_THRESHOLD;
-		let key;
-		if (small) key = "tan";
-		else if (c.dir === "up") key = "up";
-		else if (c.dir === "down") key = "down";
-		else key = "neutral";
+		const key = categoryColorKey(c);
+		const ribbonHex = resolvedRibbonHex(containerEl, key);
 		c.dirColor = `var(--sem-ribbon-${key})`;
 		c.dirTextColor = `var(--sem-ribbon-${key}-text)`;
+		c.dirPctCapTextColor = resolvedPctCapTextColor(containerEl, key);
+		c.dirFillRest = blendColors(ribbonHex, chartBg, restRibbonBlendAlpha);
+		c.dirFillFocused = blendColors(ribbonHex, chartBg, focusRibbonBlendAlpha);
 	});
 
 	const svg = d3
@@ -335,16 +565,8 @@ export function renderSemanticsRibbons(containerEl, payload) {
 		.attr("class", "list-head")
 		.attr("text-anchor", "start")
 		.attr("fill", "var(--sem-ribbon-header)")
-		.attr("font-size", `${15 * fontScale}px`)
-		.text("1953 list");
-	// svg
-	// 	.append("text")
-	// 	.attr("x", gslX1)
-	// 	.attr("y", margin.top - 7)
-	// 	.attr("text-anchor", "start")
-	// 	.attr("fill", "var(--sem-ribbon-header-sub)")
-	// 	.attr("font-size", `${9.5 * fontScale}px`)
-	// 	.text(`${payload.nGsl.toLocaleString()} words`);
+		.attr("font-size", `${16 * fontScale}px`)
+		.text("1953");
 
 	svg
 		.append("text")
@@ -353,44 +575,44 @@ export function renderSemanticsRibbons(containerEl, payload) {
 		.attr("class", "list-head")
 		.attr("text-anchor", "end")
 		.attr("fill", "var(--sem-ribbon-header)")
-		.attr("font-size", `${15 * fontScale}px`)
-		.text("2023 list");
-	// svg
-	// 	.append("text")
-	// 	.attr("x", ngslX0)
-	// 	.attr("y", margin.top - 7)
-	// 	.attr("text-anchor", "end")
-	// 	.attr("fill", "var(--sem-ribbon-header-sub)")
-	// 	.attr("font-size", `${9.5 * fontScale}px`)
-	// 	.text(`${payload.nNgsl.toLocaleString()} words`);
+		.attr("font-size", `${16 * fontScale}px`)
+		.text("2023");
 
 	const defs = svg.append("defs");
 	const catGroups = svg.append("g").attr("class", "cats");
 
 	cats.forEach((c, i) => {
-		const cg = catGroups.append("g").attr("class", "cat-group").attr("data-i", i);
+		const cg = catGroups.append("g").attr("class", "cat-group").attr("data-i", i).datum(c);
 
 		const clipId = `ribbon-clip-${i}`;
-		defs.append("clipPath").attr("id", clipId).append("path").attr("d", ribbonPath(c, gslX1, ngslX0, mx));
+		defs
+			.append("clipPath")
+			.attr("id", clipId)
+			.append("path")
+			.attr("d", ribbonBandPath(c, ribbonLeft, marqueeClipRight, mx, ribbonCapTrim));
 
 		const fs = Math.max(bandFontSize(c) * fontScale, minBandFontSize);
 		const pathId = `center-${i}`;
-		defs.append("path").attr("id", pathId).attr("d", centerLinePath(c, gslX1, ngslX0, mx, fs));
+		defs
+			.append("path")
+			.attr("id", pathId)
+			.attr("d", centerLinePath(c, ribbonLeft, ribbonRight, mx, fs, marqueePathTailX));
 
 		cg
 			.append("path")
-			.attr("d", ribbonPath(c, gslX1, ngslX0, mx))
-			.attr("fill", c.dirColor)
-			.attr("fill-opacity", 0.5)
+			.attr("d", ribbonBandPath(c, ribbonLeft, ribbonRight, mx, ribbonCapTrim))
+			.attr("fill", c.dirFillRest)
+			.attr("fill-opacity", focusRibbonFillOpacity)
 			.attr("stroke", c.dirColor)
-			.attr("stroke-width", 0.5)
-			.attr("stroke-opacity", 0.5)
+			.attr("stroke-width", 0)
+			.attr("stroke-opacity", 0)
+			.attr("shape-rendering", "geometricPrecision")
 			.attr("class", "ribbon")
 			.style("cursor", "pointer");
 
-		const wordSet = marqueeWordSetForCategory(c);
+		const { words, wordSet } = marqueeDataForCategory(c);
 		const marqueeFont = marqueeFontForWordSet(wordSet);
-		const allWords = [...new Set(marqueeWordsForCategory(c))];
+		const allWords = [...new Set(words)];
 		d3.shuffle(allWords);
 		const wordStr = allWords.map((w) => w.toUpperCase()).join(",  ");
 		const repeatCount = 4;
@@ -398,7 +620,6 @@ export function renderSemanticsRibbons(containerEl, payload) {
 
 		c._wordStr = repeated;
 		c._repeatCount = repeatCount;
-		c._wordSet = wordSet;
 		c._wordFontFamily = marqueeFont.family;
 		c._wordFontStyle = marqueeFont.style;
 		c._wordFontWeight = marqueeFont.weight;
@@ -417,26 +638,13 @@ export function renderSemanticsRibbons(containerEl, payload) {
 
 		scrollText.append("textPath").attr("href", `#${pathId}`).attr("startOffset", "0").text(repeated);
 
-		c._scrollText = scrollText;
 		c._pathId = pathId;
 		c._offset = 0;
-		c._normalFs = fs;
 
 		const gH = c.gslY1 - c.gslY0;
 		const gMidY = c.gslY0 + gH / 2;
-		cg
-			.append("text")
-			.attr("class", "side-percent gsl-percent")
-			.attr("x", gslX1 - leftPercentOffset)
-			.attr("y", gMidY)
-			.attr("text-anchor", "end")
-			.attr("dominant-baseline", "central")
-			.attr("font-size", `${13 * fontScale}px`)
-			.attr("fill", c.dirColor)
-			.attr("font-weight", 600)
-			.attr("opacity", 0)
-			.style("pointer-events", "none")
-			.text(`${c.gslPct.toFixed(1)}%`);
+		const nH = c.ngslY1 - c.ngslY0;
+		const nMidY = c.ngslY0 + nH / 2;
 
 		const labelEl = cg
 			.append("text")
@@ -468,22 +676,6 @@ export function renderSemanticsRibbons(containerEl, payload) {
 			labelEl.text(labelLines[0]);
 		}
 
-		const nH = c.ngslY1 - c.ngslY0;
-		const nMidY = c.ngslY0 + nH / 2;
-		cg
-			.append("text")
-			.attr("class", "side-percent ngsl-percent")
-			.attr("x", ngslX0 + rightPercentOffset)
-			.attr("y", nMidY)
-			.attr("text-anchor", "start")
-			.attr("dominant-baseline", "central")
-			.attr("font-size", `${13 * fontScale}px`)
-			.attr("fill", c.dirColor)
-			.attr("font-weight", 600)
-			.attr("opacity", 0)
-			.style("pointer-events", "none")
-			.text(`${c.ngslPct.toFixed(1)}%`);
-
 		if (c.relChange != null && !useResponsiveBudget) {
 			const arrow = c.relChange > 0 ? "↑" : "↓";
 			const changeColor = c.relChange > 0 ? "var(--sem-ribbon-up)" : "var(--sem-ribbon-down)";
@@ -509,11 +701,11 @@ export function renderSemanticsRibbons(containerEl, payload) {
 			scrollText.style("display", "none");
 			const antsPath = cg
 				.append("path")
-				.attr("d", antsLinePath(c, gslX1, ngslX0, mx, fs, antsYOffset))
+				.attr("d", antsLinePath(c, ribbonLeft, ribbonRight, mx, fs, antsYOffset))
 				.attr("clip-path", `url(#${clipId})`)
 				.attr("fill", "none")
 				.attr("stroke", c.dirTextColor)
-				.attr("stroke-opacity", 0.85)
+				.attr("stroke-opacity", 1)
 				.attr("stroke-width", antsStrokeWidth)
 				.attr("stroke-linecap", "round")
 				.attr("stroke-dasharray", antsDashArray)
@@ -522,50 +714,98 @@ export function renderSemanticsRibbons(containerEl, payload) {
 			c._antsPath = antsPath.node();
 			c._antsOffset = Math.random() * 10;
 		}
-	});
 
-	cats.forEach((c) => {
-		const pathEl = defs.select(`#${c._pathId}`).node();
-		c._pathLen = pathEl ? pathEl.getTotalLength() : 600;
-		c._tpNode = c._scrollText.select("textPath").node();
+		appendPercentCapRect(cg, {
+			x: gslX1,
+			y: c.gslY0,
+			w: pctCapWidth,
+			h: gH,
+			fill: c.dirColor
+		});
+		appendPercentCapRect(cg, {
+			x: ngslX0 - pctCapWidth,
+			y: c.ngslY0,
+			w: pctCapWidth,
+			h: nH,
+			fill: c.dirColor
+		});
+
+		const focusOutlineD = c._thin
+			? expandedRibbonPath(c, ribbonLeft, ribbonRight, mx, thinThreshold)
+			: bandShellPath(c, gslX1, ngslX0, ribbonLeft, ribbonRight, mx, ribbonCapTrim);
+
+		appendBandFocusOutline(cg, c, focusOutlineD);
+
+		const capLabelLayer = cg
+			.append("g")
+			.attr("class", "pct-cap-label-layer")
+			.style("pointer-events", "none")
+			.style("overflow", "visible");
+
+		appendPercentCapLabel(capLabelLayer, {
+			x: gslX1,
+			y: c.gslY0,
+			w: pctCapWidth,
+			h: gH,
+			midY: gMidY,
+			pct: c.gslPct,
+			textColor: c.dirPctCapTextColor,
+			thinThreshold,
+			capLabelBottomPad
+		});
+		appendPercentCapLabel(capLabelLayer, {
+			x: ngslX0 - pctCapWidth,
+			y: c.ngslY0,
+			w: pctCapWidth,
+			h: nH,
+			midY: nMidY,
+			pct: c.ngslPct,
+			textColor: c.dirPctCapTextColor,
+			thinThreshold,
+			capLabelBottomPad
+		});
+
+		c._tpNode = scrollText.select("textPath").node();
 		c._textLen = c._tpNode ? c._tpNode.getComputedTextLength() : 2000;
 		c._cycleLen = c._textLen / c._repeatCount;
 		c._offset = c._cycleLen > 0 ? -Math.random() * c._cycleLen : 0;
+
+		if (c._thin) {
+			const expClipId = `exp-clip-${i}`;
+			defs
+				.append("clipPath")
+				.attr("id", expClipId)
+				.append("path")
+				.attr("d", expandedRibbonPath(c, ribbonLeft, ribbonRight, mx, thinThreshold));
+			const expPathId = `exp-center-${i}`;
+			defs
+				.append("path")
+				.attr("id", expPathId)
+				.attr("d", expandedCenterPath(c, ribbonLeft, ribbonRight, mx, defaultFontSize, thinThreshold, marqueePathTailX));
+			c._expClipId = expClipId;
+			c._expPathId = expPathId;
+		}
 	});
 
-	const hoverLayer = svg.append("g").attr("class", "hover-layer").style("pointer-events", "none");
-	const forcedLayer = svg.append("g").attr("class", "forced-layer").style("pointer-events", "none");
 	let interactionLocked = false;
 	let forcedFocusSet = null;
 	const focusTransitionMs = 240;
 
-	function resetVisualState() {
-		catGroups.selectAll(".cat-group").interrupt().attr("opacity", 1);
-		catGroups.selectAll(".cat-group .ribbon").attr("fill-opacity", 0.5).attr("stroke-opacity", 0.5).attr("stroke-width", 0.5);
-		catGroups.selectAll(".cat-group .category-name").attr("x", categoryLabelRestX);
-		catGroups.selectAll(".cat-group .side-percent").attr("opacity", 0);
+	function drawThinFocusOverlay(group, c) {
+		group.selectAll(".thin-band-focus-fill, .thin-band-focus-text").remove();
 
-		hoverLayer.selectAll("*").remove();
-		forcedLayer.selectAll("*").remove();
-		for (const c of cats) {
-			c._hoverActive = false;
-			c._hoverTpNode = null;
-			c._forcedActive = false;
-			c._forcedTpNode = null;
-			if (c._antsPath) d3.select(c._antsPath).style("display", null);
-		}
-	}
+		group
+			.insert("path", ".band-focus-outline")
+			.attr("class", "thin-band-focus-fill")
+			.attr("d", expandedRibbonPath(c, ribbonLeft, ribbonRight, mx, thinThreshold))
+			.attr("fill", c.dirFillFocused)
+			.attr("fill-opacity", focusRibbonFillOpacity)
+			.attr("stroke", "none")
+			.style("pointer-events", "none");
 
-	function drawForcedThinOverlay(c) {
-		forcedLayer
-			.append("path")
-			.attr("d", expandedRibbonPath(c, gslX1, ngslX0, mx, thinThreshold))
-			.attr("fill", c.dirColor)
-			.attr("fill-opacity", 0.2)
-			.attr("stroke", "none");
-
-		const text = forcedLayer
-			.append("text")
+		const text = group
+			.insert("text", ".band-focus-outline")
+			.attr("class", "thin-band-focus-text")
 			.attr("clip-path", `url(#${c._expClipId})`)
 			.attr("font-family", c._wordFontFamily)
 			.attr("font-size", `${defaultFontSize}px`)
@@ -578,40 +818,67 @@ export function renderSemanticsRibbons(containerEl, payload) {
 
 		text.append("textPath").attr("href", `#${c._expPathId}`).attr("startOffset", "0").text(c._wordStr);
 
-		c._forcedTpNode = text.select("textPath").node();
+		return text;
+	}
+
+	function clearThinFocusOverlay(group) {
+		group.selectAll(".thin-band-focus-fill, .thin-band-focus-text").remove();
+	}
+
+	function setThinBandFocus(group, c, focused) {
+		if (focused) {
+			if (c._antsPath) d3.select(c._antsPath).style("display", "none");
+			drawThinFocusOverlay(group, c);
+			setBandFocusStyle(group, true, 0);
+		} else {
+			setBandFocusStyle(group, false, 0);
+			clearThinFocusOverlay(group);
+			if (c._antsPath) d3.select(c._antsPath).style("display", null);
+		}
+	}
+
+	function resetCategoryMarqueeState(c) {
+		c._hoverActive = false;
+		c._hoverTpNode = null;
+		c._forcedActive = false;
+		c._forcedTpNode = null;
+		if (c._antsPath) d3.select(c._antsPath).style("display", null);
+	}
+
+	function drawForcedThinOverlay(c, group) {
+		setThinBandFocus(group, c, true);
+		const bound = bindMarqueeTextPath(c, group.select(".thin-band-focus-text"), c._offset);
+		if (!bound) return;
+		c._forcedTpNode = bound.tpNode;
 		c._forcedActive = true;
-		c._forcedCycleLen = c._forcedTpNode ? c._forcedTpNode.getComputedTextLength() / c._repeatCount : 2000;
-		c._forcedOffset = wrapLeftToRightOffset(c._offset, c._forcedCycleLen);
-		if (c._forcedTpNode) c._forcedTpNode.setAttribute("startOffset", c._forcedOffset);
+		c._forcedCycleLen = bound.cycleLen;
+		c._forcedOffset = bound.offset;
 	}
 
 	function applyForcedFocus(indices) {
 		const nextSet = indices && indices.length ? new Set(indices) : null;
 		forcedFocusSet = nextSet;
 
-		hoverLayer.selectAll("*").remove();
-		forcedLayer.interrupt().attr("opacity", 0).selectAll("*").remove();
-		for (const c of cats) {
-			c._hoverActive = false;
-			c._hoverTpNode = null;
-			c._forcedActive = false;
-			c._forcedTpNode = null;
-			if (c._antsPath) d3.select(c._antsPath).style("display", null);
-		}
+		for (const c of cats) resetCategoryMarqueeState(c);
 
 		catGroups.selectAll(".cat-group").interrupt();
 		catGroups.selectAll(".cat-group").each(function eachGroup() {
 			const group = d3.select(this);
+			clearThinFocusOverlay(group);
 			const i = Number(group.attr("data-i"));
+			const c = cats[i];
 			const focused = nextSet?.has(i);
 			group.raise().transition().duration(focusTransitionMs).attr("opacity", nextSet ? (focused ? 1 : 0.08) : 1);
-			group
-				.select(".ribbon")
-				.transition()
-				.duration(focusTransitionMs)
-				.attr("fill-opacity", focused ? 0.4 : 0.5)
-				.attr("stroke-opacity", focused ? 0.7 : 0.5)
-				.attr("stroke-width", focused ? 1 : 0.5);
+			if (c._thin) {
+				if (focused) {
+					drawForcedThinOverlay(c, group);
+				} else {
+					if (c._antsPath) d3.select(c._antsPath).style("display", null);
+					setBandFocusStyle(group, false, 0);
+				}
+			} else {
+				setBandFocusStyle(group, Boolean(focused), focusTransitionMs);
+			}
 			group
 				.select(".category-name")
 				.transition()
@@ -623,35 +890,7 @@ export function renderSemanticsRibbons(containerEl, payload) {
 				.duration(focusTransitionMs)
 				.attr("opacity", nextSet ? (focused ? 1 : 0) : 0);
 		});
-
-		if (!nextSet) return;
-		forcedLayer.attr("opacity", 0);
-		for (const idx of nextSet) {
-			const c = cats[idx];
-			if (c._thin) {
-				if (c._antsPath) d3.select(c._antsPath).style("display", "none");
-				drawForcedThinOverlay(c);
-			}
-		}
-		forcedLayer.transition().duration(focusTransitionMs).attr("opacity", 1);
 	}
-
-	cats.forEach((c, i) => {
-		if (!c._thin) return;
-		const expClipId = `exp-clip-${i}`;
-		defs
-			.append("clipPath")
-			.attr("id", expClipId)
-			.append("path")
-			.attr("d", expandedRibbonPath(c, gslX1, ngslX0, mx, thinThreshold));
-		const expPathId = `exp-center-${i}`;
-		defs
-			.append("path")
-			.attr("id", expPathId)
-			.attr("d", expandedCenterPath(c, gslX1, ngslX0, mx, defaultFontSize, thinThreshold));
-		c._expClipId = expClipId;
-		c._expPathId = expPathId;
-	});
 
 	let rafId = 0;
 	let marqueeRunning = true;
@@ -692,57 +931,37 @@ export function renderSemanticsRibbons(containerEl, payload) {
 
 		el.on("mouseenter", () => {
 			if (interactionLocked) return;
-			catGroups.selectAll(".cat-group").transition().duration(120).attr("opacity", 0.08);
+			catGroups.selectAll(".cat-group").transition().duration(120).attr("opacity", 0.25);
 			el.raise().transition().duration(120).attr("opacity", 1);
-			el.select(".ribbon").attr("fill-opacity", 0.4).attr("stroke-opacity", 0.7).attr("stroke-width", 1);
 			el.select(".category-name").transition().duration(hoverLabelTransitionMs).attr("x", categoryLabelHoverX);
 			el.selectAll(".side-percent").transition().duration(hoverLabelTransitionMs).attr("opacity", 1);
 
 			if (c._thin) {
-				if (c._antsPath) d3.select(c._antsPath).style("display", "none");
-				hoverLayer.selectAll("*").remove();
-				hoverLayer
-					.append("path")
-					.attr("d", expandedRibbonPath(c, gslX1, ngslX0, mx, thinThreshold))
-					.attr("fill", c.dirColor)
-					.attr("fill-opacity", 0.2)
-					.attr("stroke", "none");
-
-				const ht = hoverLayer
-					.append("text")
-					.attr("clip-path", `url(#${c._expClipId})`)
-					.attr("font-family", c._wordFontFamily)
-					.attr("font-size", `${defaultFontSize}px`)
-					.attr("font-weight", c._wordFontWeight)
-					.attr("font-style", c._wordFontStyle)
-					.attr("letter-spacing", "0.04em")
-					.attr("fill", c.dirTextColor)
-					.attr("fill-opacity", 1)
-					.style("pointer-events", "none");
-
-				ht.append("textPath").attr("href", `#${c._expPathId}`).attr("startOffset", "0").text(c._wordStr);
-
-				c._hoverText = ht;
-				c._hoverTpNode = ht.select("textPath").node();
-				c._hoverActive = true;
-				c._hoverCycleLen = c._hoverTpNode ? c._hoverTpNode.getComputedTextLength() / c._repeatCount : 2000;
-				c._hoverOffset = wrapLeftToRightOffset(c._offset, c._hoverCycleLen);
-				if (c._hoverTpNode) c._hoverTpNode.setAttribute("startOffset", c._hoverOffset);
+				setThinBandFocus(el, c, true);
+				const bound = bindMarqueeTextPath(c, el.select(".thin-band-focus-text"), c._offset);
+				if (bound) {
+					c._hoverTpNode = bound.tpNode;
+					c._hoverActive = true;
+					c._hoverCycleLen = bound.cycleLen;
+					c._hoverOffset = bound.offset;
+				}
+			} else {
+				setBandFocusStyle(el, true, hoverLabelTransitionMs);
 			}
 
 		})
 			.on("mouseleave", () => {
 				if (interactionLocked) return;
 				catGroups.selectAll(".cat-group").transition().duration(200).attr("opacity", 1);
-				el.select(".ribbon").attr("fill-opacity", 0.4).attr("stroke-opacity", 0.4).attr("stroke-width", 0.5);
 				el.select(".category-name").transition().duration(hoverLabelTransitionMs).attr("x", categoryLabelRestX);
 				el.selectAll(".side-percent").transition().duration(hoverLabelTransitionMs).attr("opacity", 0);
 
 				if (c._thin) {
 					c._hoverActive = false;
 					c._hoverTpNode = null;
-					if (c._antsPath) d3.select(c._antsPath).style("display", null);
-					hoverLayer.selectAll("*").remove();
+					setThinBandFocus(el, c, false);
+				} else {
+					setBandFocusStyle(el, false, hoverLabelTransitionMs);
 				}
 
 			});
@@ -768,7 +987,6 @@ export function renderSemanticsRibbons(containerEl, payload) {
 			applyForcedFocus(indices);
 		},
 		clearFocus() {
-			forcedFocusSet = null;
 			applyForcedFocus([]);
 		},
 		destroy() {
