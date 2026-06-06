@@ -370,7 +370,12 @@ svg {
 	.story-section{
 		margin: 0 calc(2.5 * var(--prose-margins)) 0 var(--prose-margins);
 	}
+}
 
-	
+@media (max-width: 768px) {
+
+	#intro.story-section {
+		margin-inline: var(--mobile-margins);
+	}
 }
 

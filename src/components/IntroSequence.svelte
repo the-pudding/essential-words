@@ -1,11 +1,20 @@
 <script>
 	import { getContext, onMount } from "svelte";
-	import { buildIntroSequenceGrid, INTRO_SEQUENCE_DEFAULTS } from "$utils/introWords.js";
+	import IntroWordGrid from "$components/IntroWordGrid.svelte";
+	import {
+		buildIntroFlowGrid,
+		buildIntroSequenceGrid,
+		buildWritePlanForCells,
+		INTRO_SEQUENCE_DEFAULTS
+	} from "$utils/introWords.js";
 
 	let { blocks = [] } = $props();
 
+	const MOBILE_LAYOUT_MQ = "(max-width: 768px)";
+
 	const getData = getContext("data");
 	const pools = $derived(getData?.()?.introWordPools ?? null);
+	let isMobileLayout = $state(false);
 	let gridConfig = $state({
 		cols: INTRO_SEQUENCE_DEFAULTS.cols,
 		rowScale: INTRO_SEQUENCE_DEFAULTS.rowScale,
@@ -17,6 +26,8 @@
 		centerExclusionHeight: INTRO_SEQUENCE_DEFAULTS.centerExclusionHeight,
 		centerExclusionNoise: INTRO_SEQUENCE_DEFAULTS.centerExclusionNoise
 	});
+	let flowConfig = $state({ cols: 5, rowsLong: 10, rowsShort: 5 });
+
 	const sequenceGrid = $derived(
 		pools
 			? buildIntroSequenceGrid(pools, {
@@ -36,6 +47,47 @@
 	const fullCells = $derived(sequenceGrid?.withRemovedCells ?? []);
 	const gridCols = $derived(sequenceGrid?.cols ?? 12);
 	const gridRows = $derived(sequenceGrid?.rows ?? 12);
+
+	const flowGridLong = $derived(
+		pools
+			? buildIntroFlowGrid(pools, {
+					cols: flowConfig.cols,
+					rows: flowConfig.rowsLong,
+					screenIndex: 0,
+					seed: 1101
+				})
+			: null
+	);
+	const flowGridShort = $derived(
+		pools
+			? buildIntroFlowGrid(pools, {
+					cols: flowConfig.cols,
+					rows: flowConfig.rowsShort,
+					screenIndex: 0,
+					seed: 1102
+				})
+			: null
+	);
+	const stickyGridGsl = $derived(
+		pools
+			? buildIntroFlowGrid(pools, {
+					cols: flowConfig.cols,
+					rows: flowConfig.rowsShort,
+					screenIndex: 1,
+					seed: 1103
+				})
+			: null
+	);
+	const stickyGridAll = $derived(
+		pools
+			? buildIntroFlowGrid(pools, {
+					cols: flowConfig.cols,
+					rows: flowConfig.rowsShort,
+					screenIndex: 3,
+					seed: 1104
+				})
+			: null
+	);
 
 	const part1 = $derived(blocks[0] ?? {});
 	const part2 = $derived(blocks[1] ?? {});
@@ -121,6 +173,11 @@
 		return plan;
 	});
 
+	const flowWritePlanLong = $derived(buildWritePlanForCells(flowGridLong?.cells ?? [], 5101));
+	const flowWritePlanShort = $derived(buildWritePlanForCells(flowGridShort?.cells ?? [], 5102));
+	const stickyWritePlanGsl = $derived(buildWritePlanForCells(stickyGridGsl?.cells ?? [], 5103));
+	const stickyWritePlanAll = $derived(buildWritePlanForCells(stickyGridAll?.cells ?? [], 5104));
+
 	function cssVhNumber(name, fallback) {
 		if (!rootMount) return fallback;
 		const raw = getComputedStyle(rootMount).getPropertyValue(name);
@@ -177,9 +234,14 @@
 				INTRO_SEQUENCE_DEFAULTS.centerExclusionNoise
 			)
 		};
+		flowConfig = {
+			cols: Math.max(3, Math.round(cssRatioNumber("--intro-flow-cols", 5))),
+			rowsLong: Math.max(1, Math.round(cssRatioNumber("--intro-flow-rows-long", 10))),
+			rowsShort: Math.max(1, Math.round(cssRatioNumber("--intro-flow-rows-short", 5)))
+		};
 	}
 
-	const stickyTotalVh = $derived(
+	const desktopStickyTotalVh = $derived(
 		timing.part1Scroll +
 			timing.part2Pre +
 			timing.part2Add +
@@ -191,12 +253,25 @@
 			timing.part3Release
 	);
 
-	const stickyY = $derived(stickyProgress * stickyTotalVh);
+	const mobileStickyTotalVh = $derived(
+		timing.part3Text +
+			timing.part3Drop +
+			timing.part3Add +
+			timing.part3Remain +
+			timing.part3Hold +
+			timing.part3Release
+	);
+
+	const activeStickyTotalVh = $derived(isMobileLayout ? mobileStickyTotalVh : desktopStickyTotalVh);
+	const stickyY = $derived(stickyProgress * activeStickyTotalVh);
+
 	const part1End = $derived(timing.part1Scroll);
 	const part1Progress = $derived(clamp01(stickyY / Math.max(1, timing.part1Scroll)));
 	const part2Cut = $derived(part1End + timing.part2Pre);
 	const part2End = $derived(part2Cut + timing.part2Add);
-	const part3TextEnd = $derived(part2End + timing.part3Text);
+
+	const part3Start = $derived(isMobileLayout ? 0 : part2End);
+	const part3TextEnd = $derived(part3Start + timing.part3Text);
 	const part3DropEnd = $derived(part3TextEnd + timing.part3Drop);
 	const part3AddEnd = $derived(part3DropEnd + timing.part3Add);
 	const part3RemainEnd = $derived(part3AddEnd + timing.part3Remain);
@@ -207,7 +282,7 @@
 		if (stickyY >= part1End) return 2;
 		return 1;
 	});
-	const removedOn = $derived(stickyY >= part2Cut);
+	const removedOn = $derived(!isMobileLayout && stickyY >= part2Cut);
 	const dropOn = $derived(stickyY >= part3TextEnd && stickyY < part3HoldEnd);
 	const addOn = $derived(stickyY >= part3DropEnd && stickyY < part3HoldEnd);
 	const remainOn = $derived(stickyY >= part3AddEnd && stickyY < part3HoldEnd);
@@ -250,70 +325,82 @@
 	}
 
 	onMount(() => {
+		const layoutMq = window.matchMedia(MOBILE_LAYOUT_MQ);
+		const syncLayout = () => {
+			isMobileLayout = layoutMq.matches;
+			scheduleMeasure();
+		};
+
 		readTimingVars();
+		syncLayout();
 		measureProgress();
 		startWriteReveal();
+		layoutMq.addEventListener("change", syncLayout);
 		window.addEventListener("scroll", scheduleMeasure, { passive: true });
 		window.addEventListener("resize", handleResize);
 		return () => {
 			if (rafId) cancelAnimationFrame(rafId);
 			if (writeRevealTimer) clearTimeout(writeRevealTimer);
+			layoutMq.removeEventListener("change", syncLayout);
 			window.removeEventListener("scroll", scheduleMeasure);
 			window.removeEventListener("resize", handleResize);
 		};
 	});
 </script>
 
-<div class="intro-sequence" bind:this={rootMount}>
-	<section class="intro-sticky-track" bind:this={stickyTrackMount}>
-		<div class="intro-stage">
-			<div
-				class="intro-bg-grid intro-bg-grid--stage"
-				class:is-write-reveal={writeReveal}
-				class:is-focus-drop={dropOn}
-				class:is-focus-add={addOn}
-				class:is-focus-remain={remainOn}
-				class:is-reveal-removed={removedOn}
-				style:grid-template-columns="repeat({gridCols}, minmax(0, 1fr))"
-				style:grid-template-rows="repeat({gridRows}, minmax(0, 1fr))"
-				style:transform={"translateY(" + part1BgShift + "vh)"}
-			>
-				{#each fullCells as cell, i}
-					<div class="intro-bg-cell">
-						{#if cell}
-							{@const baseCell = baseCells[i]}
-							{@const isExtraRemoved = !baseCell && cell?.set === "removed"}
-							{@const writePlan = writePlanByIndex.get(i)}
-							<span class="word word--{cell?.set ?? ''}" class:word--removed-extra={isExtraRemoved}>
-								<span
-									class="word-write"
-									class:word-write--static={isExtraRemoved || !writePlan}
-									style:--write-order={writePlan?.order ?? 0}
-									style:--write-ch={writePlan?.ch ?? 0}
-									style:--write-steps={writePlan?.steps ?? 0}
-								>
-									{cell.text}
-								</span>
-							</span>
-						{/if}
-					</div>
-				{/each}
-			</div>
+<div class="intro-sequence" class:intro-sequence--mobile={isMobileLayout} bind:this={rootMount}>
+	{#if isMobileLayout}
+		{#if flowGridLong}
+			<IntroWordGrid
+				variant="flow"
+				cells={flowGridLong.cells}
+				cols={flowGridLong.cols}
+				rows={flowGridLong.rows}
+				{writeReveal}
+				writePlan={flowWritePlanLong}
+			/>
+		{/if}
 
-			<div class="intro-copy intro-copy--sticky">
-				<div class="intro-copy-layer" class:is-visible={phase === 1}>
-					{#each part1Paragraphs as p}
-						<p>{@html p}</p>
-					{/each}
-				</div>
-				<div class="intro-copy-layer" class:is-visible={phase === 2}>
-					{#each part2Paragraphs as p}
-						<p>{@html p}</p>
-					{/each}
-				</div>
+		<section class="intro-copy intro-copy--flow">
+			{#each part1Paragraphs as p}
+				<p>{@html p}</p>
+			{/each}
+		</section>
+
+		{#if flowGridShort}
+			<IntroWordGrid
+				variant="flow"
+				cells={flowGridShort.cells}
+				cols={flowGridShort.cols}
+				rows={flowGridShort.rows}
+				{writeReveal}
+				writePlan={flowWritePlanShort}
+			/>
+		{/if}
+
+		<section class="intro-copy intro-copy--flow">
+			{#each part2Paragraphs as p}
+				<p>{@html p}</p>
+			{/each}
+		</section>
+
+		<section class="intro-mobile-sticky-track" bind:this={stickyTrackMount}>
+			<div class="intro-mobile-stage">
+				{#if stickyGridGsl}
+					<IntroWordGrid
+						variant="mobile-sticky"
+						cells={stickyGridGsl.cells}
+						cols={stickyGridGsl.cols}
+						rows={stickyGridGsl.rows}
+						{writeReveal}
+						writePlan={stickyWritePlanGsl}
+						focusDrop={dropOn}
+						focusRemain={remainOn}
+					/>
+				{/if}
+
 				<div
-					class="intro-copy-layer intro-copy-layer--part3"
-					class:is-visible={phase === 3 && stickyY < part3HoldEnd}
+					class="intro-copy intro-copy--part3-mobile"
 					class:is-highlight-drop={dropOn}
 					class:is-highlight-add={addOn}
 					class:is-highlight-remain={remainOn}
@@ -322,13 +409,72 @@
 						<p>{@html p}</p>
 					{/each}
 				</div>
+
+				{#if stickyGridAll}
+					<IntroWordGrid
+						variant="mobile-sticky"
+						cells={stickyGridAll.cells}
+						cols={stickyGridAll.cols}
+						rows={stickyGridAll.rows}
+						{writeReveal}
+						writePlan={stickyWritePlanAll}
+						focusDrop={dropOn}
+						focusAdd={addOn}
+						focusRemain={remainOn}
+					/>
+				{/if}
+
+				<div class="intro-fade-overlay" class:is-visible={overlayOn} aria-hidden="true"></div>
 			</div>
-			<div class="intro-fade-overlay" class:is-visible={overlayOn} aria-hidden="true"></div>
-		</div>
-	</section>
+		</section>
+	{:else}
+		<section class="intro-sticky-track" bind:this={stickyTrackMount}>
+			<div class="intro-stage">
+				<IntroWordGrid
+					variant="stage"
+					class="intro-bg-grid--stage"
+					cells={fullCells}
+					baseCells={baseCells}
+					cols={gridCols}
+					rows={gridRows}
+					{writeReveal}
+					writePlan={writePlanByIndex}
+					revealRemoved={removedOn}
+					focusDrop={dropOn}
+					focusAdd={addOn}
+					focusRemain={remainOn}
+					transform={"translateY(" + part1BgShift + "vh)"}
+				/>
+
+				<div class="intro-copy intro-copy--sticky">
+					<div class="intro-copy-layer" class:is-visible={phase === 1}>
+						{#each part1Paragraphs as p}
+							<p>{@html p}</p>
+						{/each}
+					</div>
+					<div class="intro-copy-layer" class:is-visible={phase === 2}>
+						{#each part2Paragraphs as p}
+							<p>{@html p}</p>
+						{/each}
+					</div>
+					<div
+						class="intro-copy-layer intro-copy-layer--part3"
+						class:is-visible={phase === 3 && stickyY < part3HoldEnd}
+						class:is-highlight-drop={dropOn}
+						class:is-highlight-add={addOn}
+						class:is-highlight-remain={remainOn}
+					>
+						{#each part3Paragraphs as p}
+							<p>{@html p}</p>
+						{/each}
+					</div>
+				</div>
+				<div class="intro-fade-overlay" class:is-visible={overlayOn} aria-hidden="true"></div>
+			</div>
+		</section>
+	{/if}
 
 	<section class="intro-copy intro-copy--part4" class:is-visible={part4Visible}>
-
 		{#each part4Paragraphs as p}
 			<p>{@html p}</p>
 		{/each}
@@ -349,12 +495,11 @@
 			</div>
 		</div>
 	</section>
-	
 </div>
 
 <style>
-	:global(#intro){
-		margin-bottom: 8rem;	
+	:global(#intro) {
+		margin-bottom: 8rem;
 	}
 
 	.intro-sequence {
@@ -373,7 +518,9 @@
 		--intro-part3-release-vh: 35;
 		--intro-stage-vh: 100;
 		--intro-part1-sticky-top: 36vh;
-		--intro-grid-rows: -1; /* set >0 to force exact rows */
+		--intro-grid-cols: 8;
+		--intro-grid-row-scale: 4.2;
+		--intro-grid-rows: -1;
 		--intro-copy-fade-ms: 420ms;
 		--intro-highlight-fade-ms: 420ms;
 		--intro-overlay-fade-ms: 460ms;
@@ -393,16 +540,21 @@
 		position: relative;
 		min-height: calc(
 			(
-					var(--intro-stage-vh) +
-					var(--intro-part1-vh) +
-					var(--intro-part2-pre-vh) +
-					var(--intro-part2-add-vh) +
-					var(--intro-part3-text-vh) +
-					var(--intro-part3-drop-vh) +
-					var(--intro-part3-add-vh) +
-					var(--intro-part3-remain-vh) +
-					var(--intro-part3-hold-vh) +
-					var(--intro-part3-release-vh)
+					var(--intro-stage-vh) + var(--intro-part1-vh) + var(--intro-part2-pre-vh) +
+						var(--intro-part2-add-vh) + var(--intro-part3-text-vh) + var(--intro-part3-drop-vh) +
+						var(--intro-part3-add-vh) + var(--intro-part3-remain-vh) + var(--intro-part3-hold-vh) +
+						var(--intro-part3-release-vh)
+				) * 1vh
+		);
+	}
+
+	.intro-mobile-sticky-track {
+		position: relative;
+		min-height: calc(
+			(
+					var(--intro-stage-vh) + var(--intro-part3-text-vh) + var(--intro-part3-drop-vh) +
+						var(--intro-part3-add-vh) + var(--intro-part3-remain-vh) + var(--intro-part3-hold-vh) +
+						var(--intro-part3-release-vh)
 				) * 1vh
 		);
 	}
@@ -414,106 +566,14 @@
 		overflow: hidden;
 	}
 
-	.intro-bg-grid {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		height: calc(var(--intro-bg-total-vh) * 1vh);
-		display: grid;
-		pointer-events: none;
-		margin: 0 2rem;
-		will-change: transform;
-	}
-
-	.intro-bg-cell {
+	.intro-mobile-stage {
+		position: sticky;
+		top: 2rem;
+		height: calc(100vh - 4rem);
 		display: flex;
-		align-items: center;
-		justify-content: start;
-		min-width: 0;
-		min-height: 0;
-	}
-
-	.word {
-		font-family: var(--font-sans);
-		font-style: italic;
-		font-size: 1rem;
-		text-transform: uppercase;
-		letter-spacing: 3%;
-		color: var(--color-secondary);
-		white-space: nowrap;
-		opacity: 0.75;
-		padding: 0 0.35rem;
-		background-repeat: no-repeat;
-		background-size: 0% var(--intro-highlight-fill-height);
-		background-position: 0 0.1rem;
-		box-decoration-break: clone;
-		transition:
-			background-size var(--intro-highlight-fade-ms) ease,
-			color var(--intro-highlight-fade-ms) ease,
-			opacity var(--intro-highlight-fade-ms) ease;
-	}
-
-	.word--removed {
-		font-family: var(--font-serif);
-	}
-
-	.word-write {
-		display: inline-block;
-		clip-path: inset(0 100% 0 0);
-	}
-
-	.word-write--static {
-		clip-path: none;
-	}
-
-	.intro-bg-grid--stage.is-write-reveal .word-write:not(.word-write--static) {
-		clip-path: inset(0 0 0 0);
-		transition: clip-path
-			clamp(
-				var(--intro-write-ms-min),
-				calc(var(--intro-write-ms-min) + (var(--write-ch, 6) - 1) * var(--intro-write-ms-per-ch)),
-				var(--intro-write-ms-max)
-			)
-			steps(var(--write-steps, 8), end);
-		transition-delay: calc(var(--write-order, 0) * var(--intro-write-stagger-ms));
-	}
-
-	.word--removed-extra {
-		opacity: 0;
-		transform: translateY(8px);
-		transition:
-			opacity var(--intro-removed-reveal-ms) ease,
-			transform var(--intro-removed-reveal-ms) ease,
-			background-size var(--intro-highlight-fade-ms) ease,
-			color var(--intro-highlight-fade-ms) ease;
-	}
-
-	.intro-bg-grid--stage.is-reveal-removed .word--removed-extra {
-		opacity: 0.75;
-		transform: translateY(0);
-		/* color: var(--color-primary); */
-	}
-
-	.intro-bg-grid--stage.is-focus-drop .word--removed {
-		background-image: linear-gradient(var(--color-gsl-highlight), var(--color-gsl-highlight));
-		background-size: 100% var(--intro-highlight-fill-height);
-		opacity: 1;
-		color: var(--color-highlight-text);
-	}
-
-	.intro-bg-grid--stage.is-focus-add .word--added {
-		background-image: linear-gradient(var(--color-ngsl-highlight), var(--color-ngsl-highlight));
-		background-size: 100% var(--intro-highlight-fill-height);
-		opacity: 1;
-		color: var(--color-highlight-text);
-	}
-
-	.intro-bg-grid--stage.is-focus-remain .word--remained {
-		background-image: linear-gradient(var(--color-remained-highlight), var(--color-remained-highlight));
-		background-size: 100% var(--intro-highlight-fill-height);
-		opacity: 1;
-		color: var(--color-highlight-text);
+		flex-direction: column;
+		justify-content: space-between;
+		gap: 2rem;
 	}
 
 	.intro-fade-overlay {
@@ -543,6 +603,11 @@
 		line-height: 1.45;
 	}
 
+	.intro-copy--flow {
+		padding-top: 1.5rem;
+		padding-bottom: 1.5rem;
+	}
+
 	.intro-copy--sticky {
 		position: relative;
 		height: 100%;
@@ -563,6 +628,11 @@
 		opacity: 1;
 	}
 
+	.intro-copy--part3-mobile {
+		padding: 0.5rem;
+		text-align: center;
+	}
+
 	.intro-copy--part4 {
 		position: relative;
 		z-index: 5;
@@ -570,7 +640,6 @@
 		margin-top: calc(var(--intro-stage-vh) * -0.8vh);
 		padding-top: 4rem;
 		padding-bottom: 2rem;
-		/* background: var(--color-bg); */
 		text-align: left;
 		opacity: 0;
 		transform: translateY(var(--intro-part4-translate));
@@ -578,6 +647,11 @@
 			opacity var(--intro-part4-fade-ms) ease,
 			transform var(--intro-part4-fade-ms) ease;
 		will-change: opacity, transform;
+	}
+
+	.intro-sequence--mobile .intro-copy--part4 {
+		margin-top: 0;
+		padding-top: 2rem;
 	}
 
 	.intro-copy--part4.is-visible {
@@ -591,7 +665,10 @@
 
 	.intro-copy-layer--part3 :global(.gsl),
 	.intro-copy-layer--part3 :global(.ngsl),
-	.intro-copy-layer--part3 :global(.remained) {
+	.intro-copy-layer--part3 :global(.remained),
+	.intro-copy--part3-mobile :global(.gsl),
+	.intro-copy--part3-mobile :global(.ngsl),
+	.intro-copy--part3-mobile :global(.remained) {
 		padding: 0;
 		background-image: linear-gradient(transparent, transparent);
 		background-repeat: no-repeat;
@@ -605,28 +682,28 @@
 			padding var(--intro-highlight-fade-ms) ease;
 	}
 
-	.intro-copy-layer--part3.is-highlight-drop :global(.gsl) {
+	.intro-copy-layer--part3.is-highlight-drop :global(.gsl),
+	.intro-copy--part3-mobile.is-highlight-drop :global(.gsl) {
 		background-image: linear-gradient(var(--color-gsl-highlight), var(--color-gsl-highlight));
 		background-size: 100% var(--intro-highlight-fill-height);
 		padding: 0 0.35rem;
 		color: var(--color-highlight-text);
-
 	}
 
-	.intro-copy-layer--part3.is-highlight-add :global(.ngsl) {
+	.intro-copy-layer--part3.is-highlight-add :global(.ngsl),
+	.intro-copy--part3-mobile.is-highlight-add :global(.ngsl) {
 		background-image: linear-gradient(var(--color-ngsl-highlight), var(--color-ngsl-highlight));
 		background-size: 100% var(--intro-highlight-fill-height);
 		padding: 0 0.35rem;
 		color: var(--color-highlight-text);
-
 	}
 
-	.intro-copy-layer--part3.is-highlight-remain :global(.remained) {
+	.intro-copy-layer--part3.is-highlight-remain :global(.remained),
+	.intro-copy--part3-mobile.is-highlight-remain :global(.remained) {
 		background-image: linear-gradient(var(--color-remained-highlight), var(--color-remained-highlight));
 		background-size: 100% var(--intro-highlight-fill-height);
 		padding: 0 0.35rem;
 		color: var(--color-highlight-text);
-
 	}
 
 	.intro-legend-container {
@@ -634,8 +711,6 @@
 		width: fit-content;
 		position: sticky;
 		bottom: 2rem;
-		/* left: -20vw;
-		transform: translateX(-150%); */
 	}
 
 	.intro-legend {
@@ -665,41 +740,66 @@
 		white-space: nowrap;
 	}
 
-	@media (max-width: 1024px){
-		.intro-sequence{
+
+	@media (min-width: 769px) and (max-width: 1024px) {
+		.intro-sequence {
 			--intro-grid-cols: 4;
 			--intro-grid-row-scale: 8.4;
 		}
 	}
 
-	@media (max-width: 768px){
-		.intro-stage{
+	@media (min-width: 769px) {
+		.intro-stage {
 			margin: 0 calc(-2.5 * var(--prose-margins)) 0 calc(var(--prose-margins) * -1);
-		}
-
-		.intro-bg-grid{
-			margin: 0 1rem;
-		}
-
-		.intro-sequence{
-			--intro-part1-sticky-top: 30vh;
-			--intro-grid-cols: 3;
-			--intro-grid-row-scale: 10.2;
-		}
-
-		.intro-copy{
-			max-width: calc(100vw - 2 * var(--mobile-margins));
-		}
-
-		.intro-copy p {
-			font-size: 1.375rem;
-			line-height: 1.3;
-		}
-
-		.word{
-			font-size: 0.875rem;
 		}
 	}
 
+	@media (max-width: 768px) {
+		:global(#intro) {
+			margin-bottom: 3rem;
+		}
 
+		.intro-sequence--mobile {
+			margin-top: 2rem;
+			margin-bottom: 0;
+			display: flex;
+			flex-direction: column;
+			gap: 3rem;
+			--intro-flow-cols: 5;
+			--intro-flow-rows-long: 10;
+			--intro-flow-rows-short: 5;
+		}
+
+		.intro-sequence--mobile .intro-copy {
+			max-width: 100%;
+			margin: 0;
+			padding: 0;
+		}
+
+		.intro-sequence--mobile .intro-copy p {
+			font-size: 1.375rem;
+			line-height: 1.3;
+			margin-top: 0;
+		}
+
+		.intro-sequence--mobile .intro-copy p:last-child {
+			margin-bottom: 0;
+		}
+
+		.intro-copy--part3-mobile p {
+			margin: 0;
+		}
+	}
+
+	@media (max-width: 600px) {
+		.intro-sequence--mobile {
+			--intro-flow-cols: 4;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.intro-sequence--mobile {
+			--intro-flow-cols: 3;
+		}
+	}
 </style>

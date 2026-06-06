@@ -218,3 +218,39 @@ export function buildIntroSequenceGrid(pools, options = {}) {
 		withRemovedCells: cells
 	};
 }
+
+export function buildIntroFlowGrid(pools, options = {}) {
+	const cols = Math.max(3, Math.round(options.cols ?? 4));
+	const rows = Math.max(1, Math.round(options.rows ?? 5));
+	const screenIndex = options.screenIndex ?? 0;
+	const seed = options.seed ?? screenIndex * 7919;
+	const allowedSets = options.allowedSets ?? INTRO_SCREEN_SETS[screenIndex] ?? INTRO_SCREEN_SETS.at(-1);
+	const count = cols * rows;
+	const words = pickWordsForScreen(pools, seed, count, allowedSets);
+
+	return placeWordsInGrid(words, seed, cols, rows, { fillFraction: 1 });
+}
+
+export function buildWritePlanForCells(cells, shuffleSeed = 4187) {
+	if (!cells?.length) return new Map();
+
+	const eligible = [];
+	for (let i = 0; i < cells.length; i++) {
+		if (cells[i]) eligible.push(i);
+	}
+
+	const shuffled = [...eligible];
+	for (let n = shuffled.length - 1; n > 0; n--) {
+		const j = Math.floor(seededUnit(shuffleSeed + n * 41) * (n + 1));
+		[shuffled[n], shuffled[j]] = [shuffled[j], shuffled[n]];
+	}
+
+	const plan = new Map();
+	for (let rank = 0; rank < shuffled.length; rank++) {
+		const i = shuffled[rank];
+		const len = cells[i].text.length;
+		plan.set(i, { order: rank, ch: len, steps: Math.max(4, len) });
+	}
+
+	return plan;
+}
