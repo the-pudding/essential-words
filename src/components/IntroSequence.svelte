@@ -111,6 +111,7 @@
 	let rafId = 0;
 	let writeRevealTimer = 0;
 	let scrollListenerActive = false;
+	let introObserver;
 
 	let timing = $state({
 		part1Scroll: 200,
@@ -292,6 +293,12 @@
 	const part1BgTravelVh = $derived(Math.max(0, geometry.bgTotalVh - geometry.stageVh));
 	const part1BgShift = $derived(-part1Progress * part1BgTravelVh);
 
+	function attachScrollListener() {
+		if (scrollListenerActive) return;
+		scrollListenerActive = true;
+		window.addEventListener("scroll", scheduleMeasure, { passive: true });
+	}
+
 	function detachScrollListener() {
 		if (!scrollListenerActive) return;
 		scrollListenerActive = false;
@@ -304,10 +311,26 @@
 			const scrollable = Math.max(1, rect.height - window.innerHeight);
 			stickyProgress = clamp01((-rect.top) / scrollable);
 		}
-		if (rootMount && rootMount.getBoundingClientRect().bottom <= 0) {
-			stickyProgress = 1;
-			detachScrollListener();
-		}
+	}
+
+	function setupIntroObserver() {
+		introObserver?.disconnect();
+		if (!rootMount) return;
+		introObserver = new IntersectionObserver(
+			([entry]) => {
+				if (!entry) return;
+				const pastIntro = entry.boundingClientRect.bottom <= 0;
+				if (pastIntro) {
+					stickyProgress = 1;
+					detachScrollListener();
+					return;
+				}
+				attachScrollListener();
+				scheduleMeasure();
+			},
+			{ root: null, threshold: 0 }
+		);
+		introObserver.observe(rootMount);
 	}
 
 	function scheduleMeasure() {
@@ -347,13 +370,14 @@
 		measureProgress();
 		startWriteReveal();
 		layoutMq.addEventListener("change", syncLayout);
-		scrollListenerActive = true;
-		window.addEventListener("scroll", scheduleMeasure, { passive: true });
+		attachScrollListener();
+		requestAnimationFrame(setupIntroObserver);
 		window.addEventListener("resize", handleResize);
 		return () => {
 			if (rafId) cancelAnimationFrame(rafId);
 			if (writeRevealTimer) clearTimeout(writeRevealTimer);
 			layoutMq.removeEventListener("change", syncLayout);
+			introObserver?.disconnect();
 			detachScrollListener();
 			window.removeEventListener("resize", handleResize);
 		};
