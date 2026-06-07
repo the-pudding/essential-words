@@ -1,6 +1,7 @@
 <script>
 	import { getContext, onDestroy, onMount } from "svelte";
 	import { renderScopeChart } from "./scopeChart.js";
+	import { observeChartVisibility } from "$utils/chartVisibility.js";
 
 	let { note = "", overlays = [] } = $props();
 
@@ -13,9 +14,11 @@
 	let scrollyMount = $state(null);
 	let chartController = null;
 	let stepObserver;
+	let visibilityObserver;
 	let unsubscribeHover = null;
 	let rafId = 0;
 	let chartReady = $state(false);
+	let chartSectionVisible = false;
 	let activeStep = $state(-1);
 
 	let hoverInfo = $state(null);
@@ -95,10 +98,21 @@
 	}
 
 	function scheduleRender() {
+		if (!chartSectionVisible) return;
 		if (rafId) cancelAnimationFrame(rafId);
 		rafId = requestAnimationFrame(() => {
 			rafId = 0;
 			renderChart();
+		});
+	}
+
+	function setupVisibilityObserver() {
+		visibilityObserver?.disconnect();
+		const target = chartMount?.closest?.(".story-section--chart") ?? chartMount;
+		if (!target) return;
+		visibilityObserver = observeChartVisibility(target, (visible) => {
+			chartSectionVisible = visible;
+			if (visible) scheduleRender();
 		});
 	}
 
@@ -152,6 +166,7 @@
 	onMount(() => {
 		chartReady = true;
 		setupStepObserver();
+		setupVisibilityObserver();
 		window.addEventListener("resize", handleWindowResize);
 	});
 
@@ -161,13 +176,14 @@
 			window.removeEventListener("resize", handleWindowResize);
 		}
 		stepObserver?.disconnect();
+		visibilityObserver?.disconnect();
 		unsubscribeHover?.();
 		chartController?.destroy();
 		chartController = null;
 	});
 
 	$effect(() => {
-		if (!chartReady) return;
+		if (!chartReady || !chartSectionVisible) return;
 		payload;
 		payloadError;
 		scheduleRender();

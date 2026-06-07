@@ -1,6 +1,7 @@
 <script>
 	import { getContext, onDestroy, onMount } from "svelte";
 	import { CONCRETENESS_KDE_CONFIG as cfg, renderConcretenessKde } from "./concretenessKdeChart.js";
+	import { observeChartVisibility } from "$utils/chartVisibility.js";
 
 	let { annotation = "" } = $props();
 
@@ -9,8 +10,10 @@
 	let chartMount = $state(null);
 	let chartController = null;
 	let resizeObserver;
+	let visibilityObserver;
 	let rafId = 0;
 	let chartReady = $state(false);
+	let chartSectionVisible = false;
 	let lastRenderedWidth = 0;
 
 	const payload = $derived(getData?.()?.concretenessKdePayload ?? null);
@@ -38,6 +41,7 @@
 	}
 
 	function scheduleRender() {
+		if (!chartSectionVisible) return;
 		if (rafId) cancelAnimationFrame(rafId);
 		rafId = requestAnimationFrame(() => {
 			rafId = 0;
@@ -45,8 +49,19 @@
 		});
 	}
 
+	function setupVisibilityObserver() {
+		visibilityObserver?.disconnect();
+		const target = chartMount?.closest?.(".story-section--chart") ?? chartMount;
+		if (!target) return;
+		visibilityObserver = observeChartVisibility(target, (visible) => {
+			chartSectionVisible = visible;
+			if (visible) scheduleRender();
+		});
+	}
+
 	onMount(() => {
 		chartReady = true;
+		setupVisibilityObserver();
 		if (!chartMount) return;
 		resizeObserver = new ResizeObserver(() => scheduleRender());
 		resizeObserver.observe(chartMount);
@@ -55,12 +70,13 @@
 	onDestroy(() => {
 		if (rafId) cancelAnimationFrame(rafId);
 		resizeObserver?.disconnect();
+		visibilityObserver?.disconnect();
 		chartController?.destroy();
 		chartController = null;
 	});
 
 	$effect(() => {
-		if (!chartReady) return;
+		if (!chartReady || !chartSectionVisible) return;
 		payload;
 		payloadError;
 		lastRenderedWidth = 0;

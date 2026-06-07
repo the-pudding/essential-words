@@ -114,10 +114,12 @@
 		visibilityObserver = observeChartVisibility(target, (visible) => {
 			chartSectionVisible = visible;
 			syncMarqueeActive();
+			if (visible) scheduleRender();
 		});
 	}
 
 	function scheduleRender() {
+		if (!chartSectionVisible) return;
 		if (rafId) cancelAnimationFrame(rafId);
 		rafId = requestAnimationFrame(() => {
 			rafId = 0;
@@ -184,7 +186,7 @@
 	});
 
 	$effect(() => {
-		if (!chartReady) return;
+		if (!chartReady || !chartSectionVisible) return;
 		payload;
 		payloadError;
 		lastRenderedWidth = 0;

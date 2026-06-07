@@ -1,3 +1,7 @@
+
+/** ~half a viewport above/below; IO only accepts px or %, not vh. */
+export const CHART_LAZY_INIT_MARGIN = "50% 0px";
+
 /**
  * Calls onChange when `target` enters or leaves the viewport.
  * @param {Element | null | undefined} target
@@ -15,7 +19,7 @@ export function observeChartVisibility(target, onChange, options = {}) {
 			visible = next;
 			onChange(visible);
 		},
-		{ root: null, threshold: 0, ...options }
+		{ root: null, rootMargin: CHART_LAZY_INIT_MARGIN, threshold: 0, ...options }
 	);
 
 	observer.observe(target);

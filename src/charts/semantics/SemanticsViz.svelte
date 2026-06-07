@@ -104,7 +104,7 @@
 		chartController = renderSemanticsRibbons(chartMount, payload);
 		applyStepFocus();
 		syncMarqueeActive();
-		// Run after the browser has painted the SVG so getBoundingClientRect is accurate.
+
 		requestAnimationFrame(updateStageTop);
 	}
 
@@ -115,16 +115,17 @@
 		visibilityObserver = observeChartVisibility(target, (visible) => {
 			chartSectionVisible = visible;
 			syncMarqueeActive();
+			if (visible) scheduleRender();
 		});
 	}
 
 	function scheduleRender() {
+		if (!chartSectionVisible) return;
 		if (rafId) cancelAnimationFrame(rafId);
 		rafId = requestAnimationFrame(() => {
 			rafId = 0;
 			renderChart();
-			// If the chart didn't re-render (same width), still re-check the top offset
-			// because the viewport height may have changed (e.g. mobile toolbar show/hide).
+
 			requestAnimationFrame(updateStageTop);
 		});
 	}
@@ -167,7 +168,6 @@
 	}
 
 	onMount(() => {
-		renderChart();
 		setupStepObserver();
 		setupVisibilityObserver();
 		if (!chartMount) return;
