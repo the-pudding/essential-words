@@ -104,13 +104,12 @@
     },
     {
       "type": "prose",
-      "html": "<p>The impression that abstract words are harder to hold onto has a name in cognitive science. When you read <span class=gsl>axe,</span> your brain doesn’t just decode letters, it reaches for something: an image, a weight, or a gesture. The word activates both a verbal label and a sensory trace. Psychologists call this dual coding: Concrete words travel through two channels, verbal and sensory; abstract words travel through one. Two channels mean two retrieval pathways, which is why concrete words are “stickier,” easier to hold in a line of thought and faster to recall. Abstract words, on the other hand, are purely verbal, and have to be understood through language alone.</p>\r\n\r\n\r\n<p>To put it another way: Concrete words are easier for us to process because they are bundled with a web of associations, tactile experiences, and memories that anchor their meaning. Here’s a more detailed view of the shift away from concrete language: </p>"
+      "html": "<p>The shift towards abstract words matters because they are processed by our brains in different ways. When you read <span class=gsl>axe,</span> your brain doesn’t just decode letters, it reaches for something: an image, a weight, or a gesture. The word activates both a verbal label and a sensory trace. Psychologists call this dual coding: Concrete words travel through two channels, verbal and sensory; abstract words travel through one. Two channels mean two retrieval pathways, which is why concrete words are “stickier,” easier to hold in a line of thought and faster to recall. Abstract words, on the other hand, are purely verbal, and have to be understood through language alone.</p>\r\n\r\n\r\n<p>To put it another way: Concrete words are easier for us to process because they are bundled with a web of associations, tactile experiences, and memories that anchor their meaning. Here’s a more detailed view of the shift away from concrete language: </p>"
     },
     {
       "type": "chart",
       "chartId": "concretenessBands",
       "title": "The Concrete End Got Hollowed Out. Something Murkier Filled In.",
-      "subhead": "Each row is a concreteness range. Bar length shows what proportional share of the removed words (left) and the added words (right) falls there. A longer bar means a larger share of the words scored in that range. Hover to see more words.",
       "note": "Data source: Brysbaert Concreteness ratings for 40 thousand generally known English word lemmas. The dataset provided 99.7% coverage of the words in both lists.",
       "overlays": [
         {

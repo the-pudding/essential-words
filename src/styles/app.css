@@ -44,6 +44,7 @@
 	--max-chart-width: 1200px;
 	--prose-margins: 1rem;
 	--mobile-margins: 1rem;
+	--explorer-rail-width: 2.5rem;
 	
 	--color-bg: #FFFFF1;
 	--color-fg: var(--color-gray-900);
@@ -365,6 +366,7 @@ svg {
 	:root{
 		--p-font-size: 1.125rem;
 		--chart-header-font-size: 1.5rem;
+		--explorer-rail-width: 1.5rem;
 	}
 
 	.story-section{

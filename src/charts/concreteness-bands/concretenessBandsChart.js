@@ -8,11 +8,139 @@ function readCssPx(el, varName, fallback) {
 	return Number.isFinite(n) ? n : fallback;
 }
 
+/**
+ * @param {import("d3").Selection<SVGSVGElement, unknown, null, undefined>} svg
+ * @param {{
+ *   x: number;
+ *   y: number;
+ *   anchor: "start" | "middle" | "end";
+ *   fill: string;
+ *   size: number;
+ *   lines: string[];
+ *   lineHeight?: number;
+ *   className?: string;
+ * }} opts
+ */
+function appendMultilineLabel(svg, opts) {
+	const {
+		x,
+		y,
+		anchor,
+		fill,
+		size,
+		lines,
+		lineHeight = 1.15,
+		className = "label"
+	} = opts;
+	const el = svg
+		.append("text")
+		.attr("class", className)
+		.attr("x", x)
+		.attr("y", y)
+		.attr("text-anchor", anchor)
+		.attr("dominant-baseline", lines.length > 1 ? "auto" : "central")
+		.attr("font-size", `${size}px`)
+		.attr("font-weight", 600)
+		.attr("letter-spacing", "0.08em")
+		.attr("fill", fill);
+
+	for (let i = 0; i < lines.length; i++) {
+		el.append("tspan")
+			.attr("x", x)
+			.attr("dy", i === 0 ? 0 : `${-lineHeight}em`)
+			.text(lines[i]);
+	}
+
+	return el;
+}
+
+/** @param {HTMLElement | null | undefined} container */
+export function measureConcretenessBandsWidth(container) {
+	const root = container?.closest?.(".concr-bands") ?? container;
+	const layoutW = container?.clientWidth ?? 0;
+	if (!root || layoutW < 1) return layoutW;
+	const rail = readCssPx(root, "--explorer-rail-width", 40);
+	const viewportW =
+		typeof window !== "undefined" ? document.documentElement.clientWidth : layoutW;
+	return Math.min(layoutW, Math.max(1, viewportW - rail));
+}
+
+/** @param {"removed" | "added"} side */
+function axisTickLabelAnchor(side, tick, niceMax) {
+	if (tick <= 0.001) return side === "removed" ? "end" : "start";
+	if (tick >= niceMax - 0.001) return side === "removed" ? "start" : "end";
+	return "middle";
+}
+
+/**
+ * @param {import("d3").Selection<SVGSVGElement, unknown, null, undefined>} svg
+ * @param {{
+ *   textX: number;
+ *   arrowX: number;
+ *   y: number;
+ *   textAnchor: "start" | "end";
+ *   arrowAnchor: "start" | "end";
+ *   fill: string;
+ *   size: number;
+ *   lines: string[];
+ *   lineHeight?: number;
+ *   arrow: string;
+ *   arrowOffsetY?: number;
+ * }} opts
+ */
+function appendDirectionLabelGroup(svg, opts) {
+	const {
+		textX,
+		arrowX,
+		y,
+		textAnchor,
+		arrowAnchor,
+		fill,
+		size,
+		lines,
+		lineHeight = 1.15,
+		arrow,
+		arrowOffsetY = 0
+	} = opts;
+
+	const labelEl = appendMultilineLabel(svg, {
+		x: textX,
+		y,
+		anchor: textAnchor,
+		fill,
+		size,
+		lines,
+		lineHeight
+	});
+
+	const labelNode = labelEl.node();
+	const labelBox = labelNode?.getBBox?.();
+	let arrowY =
+		lines.length > 1 && labelBox?.height > 0
+			? labelBox.y + labelBox.height / 2
+			: y;
+	if (lines.length > 1 && arrowOffsetY) arrowY -= arrowOffsetY;
+
+	svg
+		.append("text")
+		.attr("class", "label concr-bands-dir-arrow")
+		.attr("x", arrowX)
+		.attr("y", arrowY)
+		.attr("text-anchor", arrowAnchor)
+		.attr("dominant-baseline", "central")
+		.attr("font-size", `${size}px`)
+		.attr("font-weight", 600)
+		.attr("letter-spacing", "0.08em")
+		.attr("fill", fill)
+		.text(arrow);
+}
 
 export function readConcretenessBandsMetrics(containerEl) {
 	const root = containerEl?.closest?.(".concr-bands") ?? containerEl;
 	const px = (name, fb) => readCssPx(root, name, fb);
 	return {
+		compactBreakpoint: px("--concr-bands-compact-breakpoint", 690),
+		phoneBreakpoint: px("--concr-bands-phone-breakpoint", 520),
 		margin: {
 			top: px("--concr-bands-margin-top", 72),
 			right: px("--concr-bands-margin-right", 24),
@@ -27,8 +155,13 @@ export function readConcretenessBandsMetrics(containerEl) {
 		minBarWidth: px("--concr-bands-min-bar-width", 4),
 		textPad: px("--concr-bands-text-pad", 4),
 		axisLinePad: px("--concr-bands-axis-line-pad", 8),
-		dirLabelOffsetY: px("--concr-bands-dir-label-offset-y", 28),
 		dirLabelOffsetX: px("--concr-bands-dir-label-offset-x", 8),
+		dirArrowGap: px("--concr-bands-dir-arrow-gap", 4),
+		dirArrowOffsetY: px("--concr-bands-dir-arrow-offset-y", 0),
+		dirLabelGap: px("--concr-bands-dir-label-gap", 22),
+		dirLabelNudge: px("--concr-bands-dir-label-nudge", 0),
+		dirLabelLineHeight: px("--concr-bands-dir-label-line-height", 1.15),
+		axisTickLabelOffset: px("--concr-bands-axis-tick-label-offset", 20),
 		endpointOffsetTop: px("--concr-bands-endpoint-offset-top", 10),
 		endpointOffsetBottom: px("--concr-bands-endpoint-offset-bottom", 20),
 		axisLabelW: px("--concr-bands-axis-label-w", 28),
@@ -37,7 +170,13 @@ export function readConcretenessBandsMetrics(containerEl) {
 		axisWholeSizePx: px("--concr-bands-axis-whole-size", 11),
 		axisHalfSizePx: px("--concr-bands-axis-half-size", 9),
 		endpointSizePx: px("--concr-bands-endpoint-size", 12),
-		axisTickOffset: px("--concr-bands-axis-tick-offset", 40)
+		axisTickOffset: px("--concr-bands-axis-tick-offset", 40),
+		annotLeader: px("--concr-bands-annot-leader", 16),
+		annotStack: px("--concr-bands-annot-stack", 30),
+		annotTextGap: px("--concr-bands-annot-text-gap", 16),
+		annotTextInset: px("--concr-bands-annot-text-inset", 6),
+		annotDotR: px("--concr-bands-annot-dot-r", 2.5),
+		annotFontSize: px("--concr-bands-annot-font-size", 16)
 	};
 }
 
@@ -74,7 +213,15 @@ export const CONCRETENESS_BANDS_CONFIG = {
 export function renderConcretenessBands(container, payload, { width }) {
 	const cfg = CONCRETENESS_BANDS_CONFIG;
 	const m = readConcretenessBandsMetrics(container);
-	const W = Math.max(1, Math.round(width));
+	const layoutW = Math.max(1, Math.round(width));
+	const root = container?.closest?.(".concr-bands") ?? container;
+	const railW = readCssPx(root, "--explorer-rail-width", 40);
+	const viewportW =
+		typeof window !== "undefined" ? document.documentElement.clientWidth : layoutW;
+	const W = Math.min(layoutW, Math.max(1, viewportW - railW));
+
+	const isCompact = viewportW <= m.compactBreakpoint;
+	const isPhone = viewportW <= m.phoneBreakpoint;
 
 	const margin = { ...m.margin };
 	const bandH = m.bandH;
@@ -88,9 +235,11 @@ export function renderConcretenessBands(container, payload, { width }) {
 	const halfGap = centerGap / 2;
 	const halfW = (plotW - centerGap) / 2;
 
-	const niceMax = Math.ceil((maxPct || 1) / 10) * 10;
-	const tickStep = niceMax <= 30 ? 10 : 20;
+	const niceMax = Math.ceil((maxPct || 1) / 5) * 5;
+	let tickStep = niceMax > 30 ? 20 : 10;
+	if (isCompact && niceMax > 20) tickStep = 20;
 	const axisTicks = d3.range(0, niceMax + 0.001, tickStep);
+	if (axisTicks.at(-1) < niceMax - 0.001) axisTicks.push(niceMax);
 	const axisTickPx = (pct) => (pct / niceMax) * halfW;
 	const axisY = margin.top - m.axisTickOffset;
 
@@ -174,9 +323,10 @@ export function renderConcretenessBands(container, payload, { width }) {
 
 			svg
 				.append("text")
+				.attr("class", "concr-bands-axis-tick-label")
 				.attr("x", tickX)
-				.attr("y", axisY + 20)
-				.attr("text-anchor", "middle")
+				.attr("y", axisY + m.axisTickLabelOffset)
+				.attr("text-anchor", axisTickLabelAnchor(side, tick, niceMax))
 				.attr("dominant-baseline", "auto")
 				.attr("font-size", `${m.axisHalfSizePx}px`)
 				.attr("fill", cfg.colors.gridText)
@@ -188,35 +338,41 @@ export function renderConcretenessBands(container, payload, { width }) {
 	}
 
 	// direction labels ─────────────────────────────────────────
-	const dirY = axisY - 22;
+	const dirY = axisY - m.dirLabelGap + m.dirLabelNudge;
 	const removedDirX = centerX - halfGap - m.dirLabelOffsetX;
 	const addedDirX = centerX + halfGap + m.dirLabelOffsetX;
+	const removedDirLines = isCompact
+		? ["from the 1953 list", "all words removed"]
+		: ["all words removed from the 1953 list"];
+	const addedDirLines = isCompact ? ["to the 2023 list", "all words added"] : ["all words added to the 2023 list"];
 
-	svg
-		.append("text")
-		.attr("class", "label")
-		.attr("x", removedDirX)
-		.attr("y", dirY)
-		.attr("text-anchor", "end")
-		.attr("dominant-baseline", "central")
-		.attr("font-size", `${m.dirLabelSizePx}px`)
-		.attr("font-weight", 600)
-		.attr("letter-spacing", "0.08em")
-		.attr("fill", colors.removed.text)
-		.text("removed from the 1953 list <");
+	appendDirectionLabelGroup(svg, {
+		textX: removedDirX,
+		arrowX: centerX - halfGap - m.dirArrowGap,
+		y: dirY,
+		textAnchor: "end",
+		arrowAnchor: "end",
+		fill: colors.removed.text,
+		size: m.dirLabelSizePx,
+		lines: removedDirLines,
+		lineHeight: m.dirLabelLineHeight,
+		arrow: "<",
+		arrowOffsetY: m.dirArrowOffsetY
+	});
 
-	svg
-		.append("text")
-		.attr("class", "label")
-		.attr("x", addedDirX)
-		.attr("y", dirY)
-		.attr("text-anchor", "start")
-		.attr("dominant-baseline", "central")
-		.attr("font-size", `${m.dirLabelSizePx}px`)
-		.attr("font-weight", 600)
-		.attr("letter-spacing", "0.08em")
-		.attr("fill", colors.added.text)
-		.text("> added to the 2023 list");
+	appendDirectionLabelGroup(svg, {
+		textX: addedDirX,
+		arrowX: centerX + halfGap + m.dirArrowGap,
+		y: dirY,
+		textAnchor: "start",
+		arrowAnchor: "start",
+		fill: colors.added.text,
+		size: m.dirLabelSizePx,
+		lines: addedDirLines,
+		lineHeight: m.dirLabelLineHeight,
+		arrow: ">",
+		arrowOffsetY: m.dirArrowOffsetY
+	});
 
 	function yForLabel(v) {
 		if (v <= 1.0) return binY(0);
@@ -547,8 +703,7 @@ export function renderConcretenessBands(container, payload, { width }) {
 	let marqueeRunning = false;
 	let rafId = 0;
 	let lastT = performance.now();
-	const marqueeHalfRate =
-		typeof window !== "undefined" && window.matchMedia("(max-width: 768px)").matches;
+	const marqueeHalfRate = isPhone;
 	let marqueeSkipFrame = false;
 
 	function setMarqueeActive(active) {
@@ -635,7 +790,14 @@ const hoverLayer = svg.append("g").attr("class", "hover-layer");
 	}
 
 
-	const ANNOT = { leader: 16, dotR: 2.5, stackStep: 30, textGap: 16, textInset: 6 };
+	const ANNOT = {
+		leader: m.annotLeader,
+		dotR: m.annotDotR,
+		stackStep: m.annotStack,
+		textGap: m.annotTextGap,
+		textInset: m.annotTextInset,
+		fontSize: m.annotFontSize
+	};
 
 	const formatPct = (p) => {
 		const v = Math.round((Number(p) || 0) * 10) / 10;
@@ -699,8 +861,8 @@ const hoverLayer = svg.append("g").attr("class", "hover-layer");
 					.attr("y", dotY + ANNOT.textGap)
 					.attr("text-anchor", textAnchor)
 					.attr("dominant-baseline", "hanging")
-					.attr("font-family", "var(--font-mono)")
-					.attr("font-size", "16px")
+					.attr("font-family", cfg.typography.monoFont)
+					.attr("font-size", `${ANNOT.fontSize}px`)
 					.attr("font-weight", 600)
 					.attr("fill", cfg.colors.primary);
 

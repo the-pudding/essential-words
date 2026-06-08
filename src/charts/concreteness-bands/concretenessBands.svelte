@@ -1,6 +1,9 @@
 <script>
 	import { getContext, onDestroy, onMount } from "svelte";
-	import { renderConcretenessBands } from "./concretenessBandsChart.js";
+	import {
+		measureConcretenessBandsWidth,
+		renderConcretenessBands
+	} from "./concretenessBandsChart.js";
 	import { CHART_ONSCREEN_MARGIN, observeChartVisibility } from "$utils/chartVisibility.js";
 
 	let { note = "", overlays = [] } = $props();
@@ -104,7 +107,7 @@
 			chartController = null;
 			return;
 		}
-		const width = chartMount.clientWidth;
+		const width = measureConcretenessBandsWidth(chartMount);
 		if (width < 1) return;
 		if (chartController && Math.abs(width - lastRenderedWidth) < 2) return;
 
@@ -259,6 +262,8 @@
 <style>
 	
 	.concr-bands {
+		--concr-bands-compact-breakpoint: 935;
+		--concr-bands-phone-breakpoint: 520;
 		--concr-bands-margin-top: 100px;
 		--concr-bands-axis-tick-offset: 62px;
 		--concr-bands-margin-right: 24px;
@@ -268,12 +273,17 @@
 		--concr-bands-band-gap: 14px;
 		--concr-bands-center-gap: 32px;
 		--concr-bands-marquee-font-size: 36px;
-		--concr-bands-marquee-speed: 24;
+		--concr-bands-marquee-speed: 28;
 		--concr-bands-min-bar-width: 4px;
 		--concr-bands-text-pad: 4px;
 		--concr-bands-axis-line-pad: 8px;
-		--concr-bands-dir-label-offset-y: 56px;
-		--concr-bands-dir-label-offset-x: 0px;
+		--concr-bands-dir-label-offset-x: 16px;
+		--concr-bands-dir-arrow-gap: 0px;
+		--concr-bands-dir-arrow-offset-y: 0px;
+		--concr-bands-dir-label-gap: 22px;
+		--concr-bands-dir-label-nudge: 0px;
+		--concr-bands-dir-label-line-height: 1.15;
+		--concr-bands-axis-tick-label-offset: 16px;
 		--concr-bands-endpoint-offset-top: 18px;
 		--concr-bands-endpoint-offset-bottom: 30px;
 		--concr-bands-axis-label-w: 28px;
@@ -282,24 +292,70 @@
 		--concr-bands-axis-whole-size: 14px;
 		--concr-bands-axis-half-size: 14px;
 		--concr-bands-endpoint-size: 14px;
+		--concr-bands-annot-leader: 16px;
+		--concr-bands-annot-stack: 30px;
+		--concr-bands-annot-text-gap: 16px;
+		--concr-bands-annot-text-inset: 6px;
+		--concr-bands-annot-dot-r: 2.5px;
+		--concr-bands-annot-font-size: 16px;
 		--concr-bands-removed-bg-row: rgba(237, 144, 39, 0.12);
 		--concr-bands-added-bg-row: rgba(219, 106, 232, 0.12);
 
-
-		width: 100vw;
-		max-width: 100vw;
-		margin-inline: calc(50% - 50vw);
+		width: calc(100vw - var(--explorer-rail-width));
+		max-width: calc(100vw - var(--explorer-rail-width));
+		margin-inline: calc(50% - 50vw) calc(50% - 50vw + var(--explorer-rail-width));
 		box-sizing: border-box;
+	}
+
+	@supports (width: 100dvw) {
+		.concr-bands {
+			width: calc(100dvw - var(--explorer-rail-width));
+			max-width: calc(100dvw - var(--explorer-rail-width));
+			margin-inline: calc(50% - 50dvw) calc(50% - 50dvw + var(--explorer-rail-width));
+		}
+	}
+
+	@media (max-width: 935px) {
+		.concr-bands {
+			--concr-bands-margin-top: 130px;
+			--concr-bands-axis-tick-offset: 54px;
+			--concr-bands-margin-left: 16px;
+			--concr-bands-margin-right: 16px;
+			--concr-bands-center-gap: 24px;
+			--concr-bands-dir-label-size: 14px;
+			--concr-bands-dir-label-gap: 36px;
+			--concr-bands-dir-label-nudge: 8px;
+			--concr-bands-dir-arrow-offset-y: 12px;
+			--concr-bands-axis-whole-size: 13px;
+			--concr-bands-axis-half-size: 13px;
+			--concr-bands-endpoint-size: 13px;
+			--concr-bands-annot-font-size: 14px;
+			--concr-bands-annot-stack: 24px;
+			--concr-bands-annot-leader: 12px;
+		}
 	}
 
 	@media (max-width: 520px) {
 		.concr-bands {
 			--concr-bands-band-h: 28px;
+			--concr-bands-band-gap: 16px;
 			--concr-bands-marquee-font-size: 18px;
-		--concr-bands-margin-top: 72px;
-		--concr-bands-axis-tick-offset: 36px;
-		--concr-bands-margin-bottom: 48px;
-			--concr-bands-dir-label-offset-y: 22px;
+			--concr-bands-margin-top: 96px;
+			--concr-bands-axis-tick-offset: 48px;
+			--concr-bands-margin-bottom: 48px;
+			--concr-bands-margin-left: 12px;
+			--concr-bands-margin-right: 12px;
+			--concr-bands-center-gap: 16px;
+			--concr-bands-endpoint-offset-top: 12px;
+			--concr-bands-dir-label-size: 13px;
+			--concr-bands-dir-label-gap: 34px;
+			--concr-bands-axis-whole-size: 13px;
+			--concr-bands-axis-half-size: 13px;
+			--concr-bands-endpoint-size: 13px;
+			--concr-bands-annot-font-size: 13px;
+			--concr-bands-annot-stack: 22px;
+			--concr-bands-annot-leader: 10px;
+			--concr-bands-annot-text-gap: 12px;
 		}
 	}
 
@@ -321,7 +377,6 @@
 	}
 
     .concr-bands-chart :global(.endpoint-text) {
-        font-size: 14px;
         font-family: var(--font-mono);
         text-transform: uppercase;
         color: var(--color-primary);
@@ -353,7 +408,7 @@
 
 	.concr-bands-stage {
 		--chart-overlay-stage-height: auto;
-		--chart-overlay-stage-top: 20vh;
+		--chart-overlay-stage-top: 22vh;
 	}
 
 

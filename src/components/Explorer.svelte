@@ -115,7 +115,6 @@
 
 <style>
 	.explorer {
-		--explorer-rail-width: 2.5rem;
 		--explorer-panel-width: min(320px, calc(100vw - var(--explorer-rail-width)));
 		--explorer-transition-duration: 360ms;
 		--explorer-transition-ease: cubic-bezier(0.4, 0, 0.2, 1);
@@ -315,10 +314,6 @@
     }
 
     @media (max-width: 720px){
-        .explorer {
-            --explorer-rail-width: 1.5rem;
-        }
-
         .explorer-rail .explorer-tab-label{
             font-size: 13px;
         }

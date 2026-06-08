@@ -14,7 +14,7 @@ export const CONCRETENESS_KDE_CONFIG = {
 		domainTopPadding: 1.08
 	},
 	zones: {
-		concrete: { from: 4.5, to: 5.0, fill: "var(--color-accent)", fillOpacity: 0.25 }
+		concrete: { from: 4.5, to: 5.0, fill: "var(--color-secondary)", fillOpacity: 0.1 }
 	},
 	boundaries: {
 		xValues: [1, 2, 3, 4, 5],
@@ -40,11 +40,11 @@ export const CONCRETENESS_KDE_CONFIG = {
 	},
 	strokes: {
 		baselineWidth: 1,
-		kdeLineWidth: 2,
+		kdeLineWidth: 3,
 		kdeOpacity: 1
 	},
 	series: [
-		{ key: "gsl", label: "1953 list", color: "var(--color-accent)", dash: "4 4", lineWidthPx: 2 },
+		{ key: "gsl", label: "1953 list", color: "var(--color-accent)", dash: "5 5", lineWidthPx: 2 },
 		{ key: "ngsl", label: "2023 list", color: "var(--color-accent)", lineWidthPx: 1.5 }
 	],
 	seriesLabels: {
