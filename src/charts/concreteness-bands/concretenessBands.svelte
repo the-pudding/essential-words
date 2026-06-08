@@ -344,7 +344,7 @@
 	@media (max-width: 520px) {
 		.concr-bands {
 			--concr-bands-band-h: 28px;
-			--concr-bands-band-gap: 16px;
+			--concr-bands-band-gap: 18px;
 			--concr-bands-marquee-font-size: 18px;
 			--concr-bands-margin-top: 96px;
 			--concr-bands-axis-tick-offset: 48px;
@@ -355,13 +355,19 @@
 			--concr-bands-endpoint-offset-top: 12px;
 			--concr-bands-dir-label-size: 13px;
 			--concr-bands-dir-label-gap: 34px;
-			--concr-bands-axis-whole-size: 13px;
-			--concr-bands-axis-half-size: 13px;
+			--concr-bands-axis-whole-size: 12px;
+			--concr-bands-axis-half-size: 10px;
 			--concr-bands-endpoint-size: 13px;
 			--concr-bands-annot-font-size: 13px;
-			--concr-bands-annot-stack: 22px;
-			--concr-bands-annot-leader: 10px;
-			--concr-bands-annot-text-gap: 12px;
+			--concr-bands-annot-stack: 44px;
+			--concr-bands-annot-leader: 14px;
+			--concr-bands-annot-text-gap: 8px;
+		}
+	}
+
+	@media (max-width: 400px){
+		.concr-bands{
+			--concr-bands-annot-font-size: 12px;
 		}
 	}
 

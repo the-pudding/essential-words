@@ -803,14 +803,16 @@ const hoverLayer = svg.append("g").attr("class", "hover-layer");
 		return Number.isInteger(v) ? String(v) : v.toFixed(1);
 	};
 
-	function drawBandAnnotations(bands) {
+	function drawBandAnnotations(bands, placement = "below") {
 		const list = (bands || []).filter((b) => b && Number.isFinite(b.pct));
 		if (!list.length) return;
+		const above = placement === "above";
 
 		for (const side of ["removed", "added"]) {
 			const sideBands = list.filter((b) => b.set === side).sort((a, b) => a.y - b.y);
 			if (!sideBands.length) continue;
 
+			const minTop = Math.min(...sideBands.map((b) => b.y));
 			const maxBottom = Math.max(...sideBands.map((b) => b.y + bandH));
 			const stroke = colors[side].text;
 			const label = side === "removed" ? "REMOVED" : "ADDED";
@@ -820,7 +822,9 @@ const hoverLayer = svg.append("g").attr("class", "hover-layer");
 			sideBands.forEach((band, i) => {
 				const bx = side === "removed" ? band.anchor - band.w : band.anchor;
 				const cx = bx + band.w / 2;
-				const dotY = maxBottom + ANNOT.leader + i * ANNOT.stackStep;
+				const dotY = above
+					? minTop - ANNOT.leader - i * ANNOT.stackStep
+					: maxBottom + ANNOT.leader + i * ANNOT.stackStep;
 				const textX =
 					side === "removed" ? cx + ANNOT.textInset : cx - ANNOT.textInset;
 
@@ -842,7 +846,7 @@ const hoverLayer = svg.append("g").attr("class", "hover-layer");
 				g.append("line")
 					.attr("x1", cx)
 					.attr("x2", cx)
-					.attr("y1", band.y + bandH)
+					.attr("y1", above ? band.y : band.y + bandH)
 					.attr("y2", dotY)
 					.attr("stroke", stroke)
 					.attr("stroke-width", 1);
@@ -857,25 +861,38 @@ const hoverLayer = svg.append("g").attr("class", "hover-layer");
 					.append("text")
 					.attr("class", "concr-bands-annotation-text")
 					.attr("x", textX)
-					.attr("y", dotY + ANNOT.textGap)
 					.attr("text-anchor", textAnchor)
-					.attr("dominant-baseline", "hanging")
 					.attr("font-family", cfg.typography.monoFont)
 					.attr("font-size", `${ANNOT.fontSize}px`)
 					.attr("font-weight", 600)
+					.attr("line-height", 5)
 					.attr("fill", cfg.colors.primary);
 
-				labelText
-					.append("tspan")
-					.attr("x", textX)
-					.attr("dy", 0)
-					.text(`${formatPct(band.pct)}% OF`);
-				labelText
-					.append("tspan")
-					.attr("x", textX)
-					.attr("dy", "1.2em")
-					.text(`${label} WORDS`);
-
+				if (above) {
+					labelText
+						.attr("y", dotY - ANNOT.textGap)
+						.attr("dominant-baseline", "alphabetic")
+						.append("tspan")
+						.attr("x", textX)
+						.attr("dy", "-1.2em")
+						.text(`${formatPct(band.pct)}% OF`)
+						.append("tspan")
+						.attr("x", textX)
+						.attr("dy", "1.2em")
+						.text(`${label} WORDS`);
+				} else {
+					labelText
+						.attr("y", dotY + ANNOT.textGap)
+						.attr("dominant-baseline", "hanging")
+						.append("tspan")
+						.attr("x", textX)
+						.attr("dy", 0)
+						.text(`${formatPct(band.pct)}% OF`)
+						.append("tspan")
+						.attr("x", textX)
+						.attr("dy", "1.2em")
+						.text(`${label} WORDS`);
+				}
 			});
 		}
 	}
@@ -896,6 +913,14 @@ const hoverLayer = svg.append("g").attr("class", "hover-layer");
 function isBandFocused(band) {
 	if (!focusRanges.length) return true;
 	return focusRanges.some((range) => band.lo >= range.lo && band.hi <= range.hi);
+}
+
+
+function focusUsesAboveAnnotations() {
+	if (!focusRanges.length) return false;
+	return focusRanges.every(
+		(r) => r.lo >= 4.5 - 0.001 && r.hi <= 5.0 + 0.001
+	);
 }
 
 function applyFocusState() {
@@ -936,7 +961,7 @@ function applyFocusState() {
 		showRowHighlight(band);
 	}
 
-	drawBandAnnotations(focusedBands);
+	drawBandAnnotations(focusedBands, focusUsesAboveAnnotations() ? "above" : "below");
 }
 
 	function clearHover() {
