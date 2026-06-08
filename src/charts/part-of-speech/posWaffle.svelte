@@ -30,6 +30,27 @@
 		return POS_ORDER.includes(p) ? p : "other";
 	}
 
+
+	function layoutCellsBottomUp(cells, cols, bottomSet = null) {
+		const ordered = bottomSet
+			? [
+					...cells.filter((cell) => cell.set === bottomSet),
+					...cells.filter((cell) => cell.set !== bottomSet)
+				]
+			: cells;
+		const count = ordered.length;
+		if (count === 0) return { cells: [], rows: 0 };
+		const rows = Math.ceil(count / cols);
+		return {
+			rows,
+			cells: ordered.map((cell, i) => ({
+				...cell,
+				gridRow: rows - Math.floor(i / cols),
+				gridColumn: (i % cols) + 1
+			}))
+		};
+	}
+
 	function buildList(sourceRows, label, includeSets, setOrder) {
 		const grouped = Object.fromEntries(POS_ORDER.map((pos) => [pos, []]));
 		sourceRows
@@ -163,15 +184,21 @@
 					<div class="pos-label-cell">{lists[0].label}</div>
 					<div class="pos-chart-area pos-chart-area--bottom">
 						{#each POS_ORDER as pos}
+							{@const layout = layoutCellsBottomUp(lists[0].posCells[pos], COLS_PER_POS[pos], "removed")}
 							<div class="pos-block" style:width={`${blockWidths[pos]}px`}>
 								<div
 									class="pos-grid"
 									style:grid-template-columns={`repeat(${COLS_PER_POS[pos]}, var(--pos-cell-size))`}
+									style:grid-template-rows={layout.rows
+										? `repeat(${layout.rows}, var(--pos-cell-size))`
+										: undefined}
 									style:gap={`var(--pos-cell-gap)`}
 								>
-									{#each lists[0].posCells[pos] as cell}
+									{#each layout.cells as cell}
 										<span
 											class={`pos-cell pos-cell--${cell.set}`}
+											style:grid-row={cell.gridRow}
+											style:grid-column={cell.gridColumn}
 											data-word={cell.word}
 											data-set={cell.set}
 											role="presentation"

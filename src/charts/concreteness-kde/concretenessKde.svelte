@@ -1,4 +1,5 @@
 <script>
+	import { browser } from "$app/environment";
 	import { getContext, onDestroy, onMount } from "svelte";
 	import { CONCRETENESS_KDE_CONFIG as cfg, renderConcretenessKde } from "./concretenessKdeChart.js";
 	import { observeChartVisibility } from "$utils/chartVisibility.js";
@@ -79,7 +80,7 @@
 
 	onDestroy(() => {
 		if (rafId) cancelAnimationFrame(rafId);
-		window.removeEventListener("resize", scheduleRender);
+		if (browser) window.removeEventListener("resize", scheduleRender);
 		resizeObserver?.disconnect();
 		visibilityObserver?.disconnect();
 		chartController?.destroy();
