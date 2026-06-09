@@ -10,6 +10,7 @@
 		focusDrop = false,
 		focusAdd = false,
 		focusRemain = false,
+		prefersReducedMotion = false,
 		variant = "flow",
 		transform = "",
 		class: className = ""
@@ -18,6 +19,7 @@
 
 <div
 	class="intro-word-grid intro-word-grid--{variant} {className}"
+	class:is-reduced-motion={prefersReducedMotion}
 	class:is-write-reveal={writeReveal}
 	class:is-focus-drop={focusDrop}
 	class:is-focus-add={focusAdd}
@@ -135,6 +137,20 @@
 			)
 			steps(var(--write-steps, 8), end);
 		transition-delay: calc(var(--write-order, 0) * var(--intro-write-stagger-ms));
+	}
+
+	.intro-word-grid.is-reduced-motion .word-write {
+		clip-path: none;
+		transition: none;
+	}
+
+	.intro-word-grid.is-reduced-motion .word--removed-extra {
+		transform: none;
+		transition:
+			background-size var(--intro-highlight-fade-ms) ease,
+			color var(--intro-highlight-fade-ms) ease,
+			opacity 0s,
+			transform 0s;
 	}
 
 	.word--removed-extra {

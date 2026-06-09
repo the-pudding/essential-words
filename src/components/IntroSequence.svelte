@@ -2,6 +2,7 @@
 	import { browser } from "$app/environment";
 	import { getContext, onMount } from "svelte";
 	import IntroWordGrid from "$components/IntroWordGrid.svelte";
+	import { subscribePrefersReducedMotion, getPrefersReducedMotion } from "$utils/prefersReducedMotion.js";
 	import {
 		buildIntroFlowGrid,
 		buildIntroSequenceGrid,
@@ -126,6 +127,8 @@
 
 	let stickyProgress = $state(0);
 	let writeReveal = $state(false);
+	let prefersReducedMotion = $state(browser ? getPrefersReducedMotion() : false);
+	let prefersReducedMotionSub;
 	let rafId = 0;
 	let writeRevealTimer = 0;
 	let scrollListenerActive = false;
@@ -369,8 +372,7 @@
 
 	function startWriteReveal() {
 		if (writeReveal) return;
-		const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-		if (reduced) {
+		if (prefersReducedMotion) {
 			writeReveal = true;
 			return;
 		}
@@ -380,6 +382,11 @@
 	}
 
 	onMount(() => {
+		prefersReducedMotionSub = subscribePrefersReducedMotion((reduced) => {
+			prefersReducedMotion = reduced;
+			if (reduced) startWriteReveal();
+		});
+
 		const layoutMq = window.matchMedia(MOBILE_LAYOUT_MQ);
 		const syncLayout = () => {
 			isMobileLayout = layoutMq.matches;
@@ -396,6 +403,7 @@
 		requestAnimationFrame(setupIntroObserver);
 		window.addEventListener("resize", handleResize);
 		return () => {
+			prefersReducedMotionSub?.destroy();
 			if (rafId) cancelAnimationFrame(rafId);
 			if (writeRevealTimer) clearTimeout(writeRevealTimer);
 			layoutMq.removeEventListener("change", syncLayout);
@@ -415,6 +423,7 @@
 				cols={flowGridLong.cols}
 				rows={flowGridLong.rows}
 				{writeReveal}
+				{prefersReducedMotion}
 				writePlan={flowWritePlanLong}
 			/>
 		{/if}
@@ -432,6 +441,7 @@
 				cols={flowGridShort.cols}
 				rows={flowGridShort.rows}
 				{writeReveal}
+				{prefersReducedMotion}
 				writePlan={flowWritePlanShort}
 			/>
 		{/if}
@@ -451,6 +461,7 @@
 						cols={stickyGridGsl.cols}
 						rows={stickyGridGsl.rows}
 						{writeReveal}
+						{prefersReducedMotion}
 						writePlan={stickyWritePlanGsl}
 						focusDrop={dropOn}
 						focusRemain={remainOn}
@@ -475,6 +486,7 @@
 						cols={stickyGridAll.cols}
 						rows={stickyGridAll.rows}
 						{writeReveal}
+						{prefersReducedMotion}
 						writePlan={stickyWritePlanAll}
 						focusDrop={dropOn}
 						focusAdd={addOn}
@@ -496,6 +508,7 @@
 					cols={gridCols}
 					rows={gridRows}
 					{writeReveal}
+					{prefersReducedMotion}
 					writePlan={writePlanByIndex}
 					revealRemoved={removedOn}
 					focusDrop={dropOn}
