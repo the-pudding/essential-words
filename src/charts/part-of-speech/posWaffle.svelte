@@ -18,17 +18,17 @@
 		other: "other"
 	};
 
-	// Screen-width tiers — same logic as @media (max-width: …).
 	const BREAKPOINTS = [
 		{
 			maxWidth: mobileScreen,
-			cellSize: 3,
+			layout: "butterfly",
+			cellSize: 4,
 			cellGap: 0,
-			interactive: false,
-			cols: { noun: 24, adjective: 16, adverb: 16, verb: 16, other: 16 }
+			interactive: false
 		},
 		{
 			maxWidth: 580,
+			layout: "stacked",
 			cellSize: 4,
 			cellGap: 0,
 			interactive: false,
@@ -36,6 +36,7 @@
 		},
 		{
 			maxWidth: 768,
+			layout: "stacked",
 			cellSize: 4,
 			cellGap: 0,
 			interactive: false,
@@ -43,6 +44,7 @@
 		},
 		{
 			maxWidth: Infinity,
+			layout: "desktop",
 			cellSize: 6,
 			cellGap: 1,
 			interactive: true,
@@ -72,16 +74,66 @@
 				]
 			: cells;
 		const count = ordered.length;
-		if (count === 0) return { cells: [], rows: 0 };
+		if (count === 0) return { cells: [], rows: 0, cols: 0 };
 		const rows = Math.ceil(count / cols);
 		return {
 			rows,
+			cols,
 			cells: ordered.map((cell, i) => ({
 				...cell,
 				gridRow: rows - Math.floor(i / cols),
 				gridColumn: (i % cols) + 1
 			}))
 		};
+	}
+
+	function orderCellsOuterLast(cells, outerSet = null) {
+		if (!outerSet) return cells;
+		return [
+			...cells.filter((cell) => cell.set !== outerSet),
+			...cells.filter((cell) => cell.set === outerSet)
+		];
+	}
+
+
+	function layoutCellsWrapped(cells, maxCols, side, outerSet = null) {
+		const ordered = orderCellsOuterLast(cells, outerSet);
+		const count = ordered.length;
+		if (count === 0 || maxCols < 1) return { cells: [], rows: 0, cols: 0 };
+
+		const cols = maxCols;
+		const rows = Math.ceil(count / cols);
+
+		return {
+			rows,
+			cols,
+			cells: ordered.map((cell, i) => {
+				const row = Math.floor(i / cols) + 1;
+				const indexInRow = i % cols;
+				const gridColumn = side === "left" ? cols - indexInRow : indexInRow + 1;
+				return { ...cell, gridRow: row, gridColumn };
+			})
+		};
+	}
+
+	function maxColsForWidth(widthPx, size, gap) {
+		if (widthPx <= 0) return 1;
+		return Math.max(1, Math.floor((widthPx + gap) / (size + gap)));
+	}
+
+	function estimateButterflyColWidth(viewportW) {
+		if (viewportW <= 0) return 120;
+		const margin = viewportW <= 480 ? 16 : 32;
+		const rail = viewportW <= 720 ? 24 : 40;
+		const center = 72;
+		const gap = 12;
+		const content = viewportW - rail - margin * 2;
+		return Math.max(40, (content - center - gap) / 2);
+	}
+
+	function blockWidth(cols) {
+		if (!cols) return 0;
+		return cols * (cellSize + cellGap) - cellGap;
 	}
 
 	function buildList(sourceRows, label, includeSets, setOrder) {
@@ -105,18 +157,42 @@
 		buildList(rows, "1953 list", ["remained", "removed"], { remained: 0, removed: 1 }),
 		buildList(rows, "2023 list", ["remained", "added"], { added: 0, remained: 1 })
 	]);
+	const list1953 = $derived(lists[0]);
+	const list2023 = $derived(lists[1]);
 	let screenWidth = $state(0);
 	const activeBreakpoint = $derived(breakpointForScreenWidth(screenWidth));
-	const colsPerPos = $derived(activeBreakpoint.cols);
+	const layoutMode = $derived(activeBreakpoint.layout ?? "desktop");
+	const isButterflyLayout = $derived(layoutMode === "butterfly");
+	const colsPerPos = $derived(activeBreakpoint.cols ?? {});
 	const cellSize = $derived(activeBreakpoint.cellSize);
 	const cellGap = $derived(activeBreakpoint.cellGap);
 	const interactive = $derived(activeBreakpoint.interactive);
+	let butterflyMount = $state(null);
+	let butterflyColWidth = $state(0);
+	let butterflyResizeObserver;
+	const butterflyMaxCols = $derived(
+		maxColsForWidth(
+			butterflyColWidth || estimateButterflyColWidth(screenWidth),
+			cellSize,
+			cellGap
+		)
+	);
 	const blockWidths = $derived.by(() => {
 		const widths = {};
 		for (const pos of POS_ORDER) {
-			widths[pos] = colsPerPos[pos] * (cellSize + cellGap) - cellGap;
+			widths[pos] = blockWidth(colsPerPos[pos]);
 		}
 		return widths;
+	});
+	const butterflyLayouts = $derived.by(() => {
+		const maxCols = butterflyMaxCols;
+		const layouts = {};
+		for (const pos of POS_ORDER) {
+			const layout1953 = layoutCellsWrapped(list1953.posCells[pos], maxCols, "left", "removed");
+			const layout2023 = layoutCellsWrapped(list2023.posCells[pos], maxCols, "right", "added");
+			layouts[pos] = { list1953: layout1953, list2023: layout2023 };
+		}
+		return layouts;
 	});
 
 	let rootMount = $state(null);
@@ -196,6 +272,20 @@
 		});
 	}
 
+	function measureButterflyColWidth() {
+		const side = butterflyMount?.querySelector(".pos-butterfly-side--1953");
+		butterflyColWidth = side?.clientWidth ?? 0;
+	}
+
+	$effect(() => {
+		if (!isButterflyLayout || !butterflyMount) return;
+		measureButterflyColWidth();
+		butterflyResizeObserver?.disconnect();
+		butterflyResizeObserver = new ResizeObserver(measureButterflyColWidth);
+		butterflyResizeObserver.observe(butterflyMount);
+		return () => butterflyResizeObserver?.disconnect();
+	});
+
 	onMount(() => {
 		setupVisibilityObserver();
 		const onResize = () => {
@@ -221,6 +311,7 @@
 		<div
 			class="pos-waffle-inner"
 			class:pos-waffle-inner--static={!interactive}
+			class:pos-waffle-inner--butterfly={isButterflyLayout}
 			role="group"
 			aria-label="Parts of speech waffle chart"
 			onmouseover={interactive ? handleCellOver : undefined}
@@ -228,11 +319,73 @@
 			onmousemove={interactive ? handleCellMove : undefined}
 			onmouseleave={interactive ? handleWaffleLeave : undefined}
 		>
+			{#if isButterflyLayout}
+				<div class="pos-butterfly" bind:this={butterflyMount}>
+					<div class="pos-butterfly-list-row">
+						<div class="pos-butterfly-list-label pos-butterfly-list-label--1953">{list1953.label}</div>
+						<div class="pos-butterfly-list-label-spacer" aria-hidden="true"></div>
+						<div class="pos-butterfly-list-label pos-butterfly-list-label--2023">{list2023.label}</div>
+					</div>
+
+					{#each POS_ORDER as pos}
+						{@const layout = butterflyLayouts[pos]}
+						<div class="pos-butterfly-row">
+							<div class="pos-butterfly-side pos-butterfly-side--1953">
+								<div class="pos-block pos-block--butterfly">
+									<div
+										class="pos-grid pos-grid--butterfly"
+										style:--pos-grid-cols={layout.list1953.cols}
+										style:grid-template-rows={`repeat(${layout.list1953.rows}, var(--pos-cell-size))`}
+										style:gap={`var(--pos-cell-gap)`}
+									>
+										{#each layout.list1953.cells as cell (cell.word + cell.set)}
+											<span
+												class={`pos-cell pos-cell--${cell.set}`}
+												style:grid-row={cell.gridRow}
+												style:grid-column={cell.gridColumn}
+												data-word={cell.word}
+												data-set={cell.set}
+												role="presentation"
+												aria-hidden="true"
+											></span>
+										{/each}
+									</div>
+								</div>
+							</div>
+
+							<div class="pos-butterfly-pos-header">{POS_HEADERS[pos]}</div>
+
+							<div class="pos-butterfly-side pos-butterfly-side--2023">
+								<div class="pos-block pos-block--butterfly">
+									<div
+										class="pos-grid pos-grid--butterfly"
+										style:--pos-grid-cols={layout.list2023.cols}
+										style:grid-template-rows={`repeat(${layout.list2023.rows}, var(--pos-cell-size))`}
+										style:gap={`var(--pos-cell-gap)`}
+									>
+										{#each layout.list2023.cells as cell (cell.word + cell.set)}
+											<span
+												class={`pos-cell pos-cell--${cell.set}`}
+												style:grid-row={cell.gridRow}
+												style:grid-column={cell.gridColumn}
+												data-word={cell.word}
+												data-set={cell.set}
+												role="presentation"
+												aria-hidden="true"
+											></span>
+										{/each}
+									</div>
+								</div>
+							</div>
+						</div>
+					{/each}
+				</div>
+			{:else}
 				<div class="pos-layout-row pos-layout-row--top">
-					<div class="pos-label-cell">{lists[0].label}</div>
+					<div class="pos-label-cell">{list1953.label}</div>
 					<div class="pos-chart-area pos-chart-area--top">
 						{#each POS_ORDER as pos}
-							{@const layout = layoutCellsBottomUp(lists[0].posCells[pos], colsPerPos[pos], "removed")}
+							{@const layout = layoutCellsBottomUp(list1953.posCells[pos], colsPerPos[pos], "removed")}
 							<div class="pos-block" style:width={`${blockWidths[pos]}px`}>
 								<div
 									class="pos-grid"
@@ -242,7 +395,7 @@
 										: undefined}
 									style:gap={`var(--pos-cell-gap)`}
 								>
-									{#each layout.cells as cell}
+									{#each layout.cells as cell (cell.word + cell.set)}
 										<span
 											class={`pos-cell pos-cell--${cell.set}`}
 											style:grid-row={cell.gridRow}
@@ -260,7 +413,7 @@
 				</div>
 
 				<div class="pos-layout-row pos-layout-row--headers">
-					<div class="pos-label-cell" aria-hidden="true"></div>
+					<div class="pos-label-cell pos-label-cell--spacer" aria-hidden="true"></div>
 					<div class="pos-chart-area pos-chart-area--headers">
 						{#each POS_ORDER as pos}
 							<div class="pos-header" style:width={`${blockWidths[pos]}px`}>{POS_HEADERS[pos]}</div>
@@ -269,7 +422,7 @@
 				</div>
 
 				<div class="pos-layout-row pos-layout-row--bottom">
-					<div class="pos-label-cell">{lists[1].label}</div>
+					<div class="pos-label-cell">{list2023.label}</div>
 					<div class="pos-chart-area pos-chart-area--bottom">
 						{#each POS_ORDER as pos}
 							<div class="pos-block" style:width={`${blockWidths[pos]}px`}>
@@ -278,7 +431,7 @@
 									style:grid-template-columns={`repeat(${colsPerPos[pos]}, var(--pos-cell-size))`}
 									style:gap={`var(--pos-cell-gap)`}
 								>
-									{#each lists[1].posCells[pos] as cell}
+									{#each list2023.posCells[pos] as cell (cell.word + cell.set)}
 										<span
 											class={`pos-cell pos-cell--${cell.set}`}
 											data-word={cell.word}
@@ -292,7 +445,9 @@
 						{/each}
 					</div>
 				</div>
-				<div class="pos-legend-container">
+			{/if}
+
+			<div class="pos-legend-container">
 					<div class="pos-legend-item">
 						<div class="pos-legend-item-color" style="background: var(--pos-color-remained);"></div>
 						<div class="pos-legend-item-label">in both lists</div>
@@ -330,8 +485,7 @@
 </div>
 
 <style>
-	/* NOTE TO SELF: FIX POS DIAGRAM!!!!!!!! this is a temporary bandaid for mobile so I can work on other things */
-	:global(#posDiagram){
+	:global(#posDiagram) {
 		overflow: hidden;
 	}
 
@@ -390,6 +544,98 @@
 	.pos-layout-row--top .pos-label-cell{
 		top: auto;
 		bottom: 0%;
+	}
+
+	.pos-layout-row--headers .pos-label-cell--spacer {
+		visibility: hidden;
+	}
+
+	.pos-butterfly {
+		--pos-butterfly-center-gap: 0.5rem;
+		--pos-butterfly-row-gap: 1rem;
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+		column-gap: var(--pos-butterfly-center-gap);
+		row-gap: var(--pos-butterfly-row-gap);
+		align-items: start;
+	}
+
+	.pos-butterfly-list-row,
+	.pos-butterfly-row {
+		display: contents;
+	}
+
+	.pos-butterfly-side {
+		min-width: 0;
+		width: 100%;
+		align-self: start;
+	}
+
+	.pos-butterfly-side--1953 {
+		grid-column: 1;
+		justify-self: end;
+	}
+
+	.pos-butterfly-side--2023 {
+		grid-column: 3;
+		justify-self: start;
+	}
+
+	.pos-block--butterfly {
+		width: 100%;
+		max-width: 100%;
+	}
+
+	.pos-grid--butterfly {
+		width: 100%;
+		grid-template-columns: repeat(var(--pos-grid-cols), var(--pos-cell-size));
+	}
+
+	.pos-butterfly-list-label {
+		font-family: var(--font-mono);
+		font-size: 15px;
+		line-height: 1.1;
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 2%;
+		color: var(--color-primary);
+	}
+
+	.pos-butterfly-list-label--1953 {
+		grid-column: 1;
+	}
+
+	.pos-butterfly-list-label-spacer {
+		grid-column: 2;
+	}
+
+	.pos-butterfly-list-label--2023 {
+		grid-column: 3;
+		justify-self: end;
+		text-align: right;
+	}
+
+	.pos-butterfly-pos-header {
+		grid-column: 2;
+		justify-self: center;
+		align-self: center;
+		font-family: var(--font-mono);
+		font-size: 13px;
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 2%;
+		color: var(--color-secondary);
+		text-align: center;
+		white-space: nowrap;
+	}
+
+	.pos-waffle-inner--butterfly .pos-legend-container {
+		position: static;
+		border: none;
+		padding: 0;
+		margin-top: 0;
+		/* border-bottom: 1px solid var(--color-border);
+		padding-bottom: 0.5rem;  */
 	}
 
 	.pos-chart-area {
@@ -542,7 +788,7 @@
 			min-width: 0;
 		}
 
-		.pos-header{
+		.pos-header {
 			font-size: 12px;
 		}
 
@@ -550,7 +796,6 @@
 			--pos-label-width: 92px;
 			--pos-gap: 8px;
 		}
-
 
 		.pos-layout-row {
 			display: flex;
@@ -560,10 +805,15 @@
 
 		.pos-label-cell {
 			position: static;
+			flex: 0 0 var(--pos-label-width);
 			font-size: 1rem;
 			line-height: 1.2;
 			max-width: 5ch;
 			text-align: left;
+		}
+
+		.pos-layout-row--headers .pos-label-cell--spacer {
+			visibility: visible;
 		}
 
 		.pos-layout-row--top {
@@ -571,27 +821,18 @@
 		}
 	}
 
-	@media (max-width: 580px) {
-		.pos-label-cell{
-			font-size: 13px;
-		}
-	}
+	@media (max-width: 530px){
 
-
-	@media (max-width: 530px) {
-		.pos-layout-row--top,
-		.pos-layout-row--bottom {
-			flex-direction: column;
-			align-items: center;
+		.pos-waffle .chart-note{
+			margin-top: 2.5rem;
 		}
 
-		.pos-layout-row--bottom{
+		.pos-waffle-inner{
+			display: flex;
 			flex-direction: column-reverse;
-		}
-
-		.pos-label-cell{
-			max-width: none;
-			margin-bottom: -1.5rem;
+			gap: 2rem;
 		}
 	}
-	</style>
+
+
+</style>
