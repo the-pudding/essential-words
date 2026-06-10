@@ -7,6 +7,8 @@
 	const getData = getContext("data");
 	const rows = $derived(getData?.()?.posRows ?? []);
 
+	const mobileScreen = 530;
+
 	const POS_ORDER = ["noun", "adjective", "adverb", "verb", "other"];
 	const POS_HEADERS = {
 		noun: "nouns",
@@ -19,25 +21,25 @@
 	// Screen-width tiers — same logic as @media (max-width: …).
 	const BREAKPOINTS = [
 		{
-			maxWidth: 480,
+			maxWidth: mobileScreen,
 			cellSize: 3,
-			cellGap: 1,
+			cellGap: 0,
 			interactive: false,
-			cols: { noun: 14, adjective: 5, adverb: 5, verb: 5, other: 5 }
+			cols: { noun: 24, adjective: 16, adverb: 16, verb: 16, other: 16 }
 		},
 		{
-			maxWidth: 660,
+			maxWidth: 580,
 			cellSize: 4,
-			cellGap: 1,
+			cellGap: 0,
 			interactive: false,
-			cols: { noun: 35, adjective: 8, adverb: 8, verb: 8, other: 8 }
+			cols: { noun: 24, adjective: 16, adverb: 16, verb: 16, other: 16 }
 		},
 		{
 			maxWidth: 768,
 			cellSize: 4,
-			cellGap: 1,
+			cellGap: 0,
 			interactive: false,
-			cols: { noun: 35, adjective: 10, adverb: 10, verb: 10, other: 10 }
+			cols: { noun: 32, adjective: 16, adverb: 16, verb: 16, other: 16 }
 		},
 		{
 			maxWidth: Infinity,
@@ -226,9 +228,9 @@
 			onmousemove={interactive ? handleCellMove : undefined}
 			onmouseleave={interactive ? handleWaffleLeave : undefined}
 		>
-				<div class="pos-layout-row pos-layout-row--bottom">
+				<div class="pos-layout-row pos-layout-row--top">
 					<div class="pos-label-cell">{lists[0].label}</div>
-					<div class="pos-chart-area pos-chart-area--bottom">
+					<div class="pos-chart-area pos-chart-area--top">
 						{#each POS_ORDER as pos}
 							{@const layout = layoutCellsBottomUp(lists[0].posCells[pos], colsPerPos[pos], "removed")}
 							<div class="pos-block" style:width={`${blockWidths[pos]}px`}>
@@ -266,9 +268,9 @@
 					</div>
 				</div>
 
-				<div class="pos-layout-row pos-layout-row--top">
+				<div class="pos-layout-row pos-layout-row--bottom">
 					<div class="pos-label-cell">{lists[1].label}</div>
-					<div class="pos-chart-area pos-chart-area--top">
+					<div class="pos-chart-area pos-chart-area--bottom">
 						{#each POS_ORDER as pos}
 							<div class="pos-block" style:width={`${blockWidths[pos]}px`}>
 								<div
@@ -288,6 +290,20 @@
 								</div>
 							</div>
 						{/each}
+					</div>
+				</div>
+				<div class="pos-legend-container">
+					<div class="pos-legend-item">
+						<div class="pos-legend-item-color" style="background: var(--pos-color-remained);"></div>
+						<div class="pos-legend-item-label">in both lists</div>
+					</div>
+					<div class="pos-legend-item">
+						<div class="pos-legend-item-color" style="background: var(--pos-color-removed);"></div>
+						<div class="pos-legend-item-label">Removed from the 1953 list</div>
+					</div>
+					<div class="pos-legend-item">
+						<div class="pos-legend-item-color" style="background: var(--pos-color-added);"></div>
+						<div class="pos-legend-item-label">Added to the 2023 list</div>
 					</div>
 				</div>
 			</div>
@@ -335,6 +351,7 @@
 		--pos-rows-gap: 20px;
 		--pos-gap: 12px;
 		width: 100%;
+		position: relative;
 	}
 
 	.pos-layout-row {
@@ -370,6 +387,11 @@
 		color: var(--color-primary);
 	}
 
+	.pos-layout-row--top .pos-label-cell{
+		top: auto;
+		bottom: 0%;
+	}
+
 	.pos-chart-area {
 		width: 100%;
 		display: flex;
@@ -377,13 +399,15 @@
 		gap: var(--pos-gap);
 	}
 
-	.pos-chart-area--bottom {
+	.pos-chart-area--top {
 		align-items: flex-end;
 	}
 
-	.pos-chart-area--top {
+	.pos-chart-area--bottom {
 		align-items: flex-start;
 	}
+
+
 
 	.pos-header {
         display: flex;
@@ -486,32 +510,33 @@
 		color: var(--color-secondary);
 	}
 
-
-	@media (max-width: 900px) {
-		.pos-waffle-inner {
-			--pos-label-width: 92px;
-			--pos-gap: 8px;
-		}
-
-		.pos-label-cell {
-			font-size: 1rem;
-			line-height: 1.2;
-		}
+	.pos-legend-container {
+		position: absolute;
+		top: 0;
+		right: 0;
+		font-family: var(--font-mono);
+		font-size: 13px;
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 2%;
+		color: var(--color-secondary);
+		border-bottom: 1px solid var(--color-border);
+		padding-bottom: 0.5rem;
 	}
 
-	@media (max-width: 768px) {
-		.pos-layout-row {
-			display: flex;
-			align-items: flex-start;
-			gap: 0.5rem;
-		}
+	.pos-legend-item{
+		display: flex;
+		gap: 0.75rem;
+		align-items: center;
+	}
 
-		.pos-label-cell {
-			position: static;
-			max-width: 5ch;
-			text-align: left;
-		}
+	.pos-legend-item-color{
+		width: 6px;
+		height: 6px;
+	}
 
+
+	@media (max-width: 920px) {
 		.pos-chart-area {
 			flex: 1;
 			min-width: 0;
@@ -520,6 +545,53 @@
 		.pos-header{
 			font-size: 12px;
 		}
+
+		.pos-waffle-inner {
+			--pos-label-width: 92px;
+			--pos-gap: 8px;
+		}
+
+
+		.pos-layout-row {
+			display: flex;
+			align-items: flex-start;
+			gap: 0.5rem;
+		}
+
+		.pos-label-cell {
+			position: static;
+			font-size: 1rem;
+			line-height: 1.2;
+			max-width: 5ch;
+			text-align: left;
+		}
+
+		.pos-layout-row--top {
+			align-items: flex-end;
+		}
 	}
 
-</style>
+	@media (max-width: 580px) {
+		.pos-label-cell{
+			font-size: 13px;
+		}
+	}
+
+
+	@media (max-width: 530px) {
+		.pos-layout-row--top,
+		.pos-layout-row--bottom {
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.pos-layout-row--bottom{
+			flex-direction: column-reverse;
+		}
+
+		.pos-label-cell{
+			max-width: none;
+			margin-bottom: -1.5rem;
+		}
+	}
+	</style>
