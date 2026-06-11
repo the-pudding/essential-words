@@ -260,7 +260,7 @@
 		--sem-left-label-offset: 18;
 		--sem-left-label-hover-shift: 0;
 		--sem-right-change-offset: 46;
-		--sem-responsive-breakpoint: 1080;
+		--sem-responsive-breakpoint: 1150;
 		--sem-compact-breakpoint: 700;
 		--sem-mobile-margin: 8;
 		--sem-mobile-margin-right: 16;
@@ -278,7 +278,7 @@
 		--sem-ribbon-tan-text: #988f77;
 		--sem-ribbon-label: #8f8a77;
 		--sem-ribbon-header: #706b66;
-		--sem-pct-cap-width: 44;
+		--sem-pct-cap-width: 50;
 		--sem-pct-cap-label-bottom: 2;
 		--sem-ribbon-cap-trim: -1;
 		--sem-pct-cap-up-text: #962FA2;
@@ -315,10 +315,10 @@
 	.semantics-viz-chart :global(.pct-cap-label) {
 		font-family: var(--font-mono);
 		font-size: 13px;
-		letter-spacing: -0.02em;
+		letter-spacing: -0.1em;
 	}
 
-	@media (max-width: 1080px) {
+	@media (max-width: 1150px) {
 		.semantics-viz {
 			--sem-slope-width: 100%;
 		}

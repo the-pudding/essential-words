@@ -107,10 +107,24 @@
 		chartController.setFocus(overlaySteps[activeStep].focusRanges ?? []);
 	}
 
+	function syncStageLayout() {
+		if (!chartMount || !scrollyMount) return;
+		const svgEl = chartMount.querySelector("svg");
+		if (!svgEl) return;
+		const chartH = Math.round(svgEl.getBoundingClientRect().height);
+		if (chartH < 1) return;
+		scrollyMount.style.setProperty("--chart-overlay-stage-height", `${chartH}px`);
+	}
+
+	function clearStageLayout() {
+		scrollyMount?.style.removeProperty("--chart-overlay-stage-height");
+	}
+
 	function renderChart() {
 		if (!chartMount || !payload || payloadError) {
 			chartController?.destroy();
 			chartController = null;
+			clearStageLayout();
 			return;
 		}
 		const width = measureConcretenessBandsWidth(chartMount);
@@ -123,6 +137,7 @@
 		syncPrefersReducedMotion();
 		applyStepFocus();
 		syncMarqueeActive();
+		requestAnimationFrame(syncStageLayout);
 	}
 
 	function disconnectVisibilityObservers() {
@@ -154,6 +169,7 @@
 		rafId = requestAnimationFrame(() => {
 			rafId = 0;
 			renderChart();
+			requestAnimationFrame(syncStageLayout);
 		});
 	}
 
@@ -222,6 +238,7 @@
 		disconnectVisibilityObservers();
 		chartController?.destroy();
 		chartController = null;
+		clearStageLayout();
 	});
 
 	$effect(() => {
@@ -276,7 +293,7 @@
 		--concr-bands-compact-breakpoint: 935;
 		--concr-bands-phone-breakpoint: 520;
 		--concr-bands-margin-top: 100px;
-		--concr-bands-axis-tick-offset: 62px;
+		--concr-bands-axis-tick-offset: 80px;
 		--concr-bands-margin-right: 24px;
 		--concr-bands-margin-bottom: 32px;
 		--concr-bands-margin-left: 24px;
@@ -294,7 +311,7 @@
 		--concr-bands-dir-label-gap: 22px;
 		--concr-bands-dir-label-nudge: 0px;
 		--concr-bands-dir-label-line-height: 1.15;
-		--concr-bands-axis-tick-label-offset: 16px;
+		--concr-bands-axis-tick-label-offset: 24px;
 		--concr-bands-endpoint-offset-top: 18px;
 		--concr-bands-endpoint-offset-bottom: 30px;
 		--concr-bands-axis-label-w: 28px;
@@ -323,6 +340,7 @@
 			width: calc(100dvw - var(--explorer-rail-width));
 			max-width: calc(100dvw - var(--explorer-rail-width));
 			margin-inline: calc(50% - 50dvw) calc(50% - 50dvw + var(--explorer-rail-width));
+			margin-top: 1.5rem;
 		}
 	}
 
@@ -340,7 +358,7 @@
 
 	.concr-bands-chart :global(svg) {
 		display: block;
-		overflow: visible;
+		overflow: hidden;
 	}
 
     .concr-bands-chart :global(.endpoint-text) {
@@ -381,7 +399,6 @@
 	@media (max-width: 935px) {
 		.concr-bands {
 			--concr-bands-margin-top: 120px;
-			--concr-bands-axis-tick-offset: 54px;
 			--concr-bands-margin-left: 16px;
 			--concr-bands-margin-right: 16px;
 			--concr-bands-center-gap: 24px;
@@ -415,7 +432,7 @@
 			--concr-bands-band-gap: 18px;
 			--concr-bands-marquee-font-size: 18px;
 			--concr-bands-margin-top: 96px;
-			--concr-bands-axis-tick-offset: 48px;
+			/* --concr-bands-axis-tick-offset: 48px; */
 			--concr-bands-margin-bottom: 48px;
 			--concr-bands-margin-left: 12px;
 			--concr-bands-margin-right: 12px;

@@ -256,11 +256,12 @@
         text-transform: uppercase;
         letter-spacing: 2%;
         border-bottom: 1px solid var(--color-border);
+		box-shadow: 0 0 20px 0 rgba(173, 161, 148, 0.25);
 
 	}
 
     .exp-col-name{
-        margin: 0.5rem 0 0 0;
+        margin: 0 0 0.25rem 0;
         font-size: 1rem;
     }
 
@@ -287,7 +288,7 @@
 	.exp-word-list {
 		flex: 1 1 auto;
 		margin: 0;
-		padding:1rem;
+		padding:0.5rem;
 		overflow-y: auto;
 		list-style: none;
         direction: rtl;
@@ -301,7 +302,7 @@
 		font-size: 15px;
 		line-height: 1.2;
         hyphens: auto;
-        font-weight: 500;
+        font-weight: 400;
         margin-bottom: 1.5rem;
 	}
 

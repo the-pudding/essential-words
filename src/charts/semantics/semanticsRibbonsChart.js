@@ -233,6 +233,7 @@ function bandFontSize(c) {
 
 
 const PCT_CAP_LABEL_FONT_SIZE = 14;
+const PCT_CAP_SIGN_GAP = "0.2em";
 
 function percentCapLabelLayout(y, h, midY, thinThreshold, capLabelBottomPad) {
 	if (h >= thinThreshold) {
@@ -267,7 +268,7 @@ function appendPercentCapLabel(group, { x, y, w, h, midY, pct, textColor, thinTh
 	if (h <= 0) return;
 
 	const layout = percentCapLabelLayout(y, h, midY, thinThreshold, capLabelBottomPad);
-	group
+	const label = group
 		.append("text")
 		.attr("class", layout.hidden ? "pct-cap-label pct-cap-label--hidden" : "pct-cap-label")
 		.attr("x", x + w / 2)
@@ -277,8 +278,14 @@ function appendPercentCapLabel(group, { x, y, w, h, midY, pct, textColor, thinTh
 		.attr("font-size", `${PCT_CAP_LABEL_FONT_SIZE}px`)
 		.attr("font-weight", 600)
 		.attr("fill", textColor)
-		.attr("opacity", layout.hidden ? 0 : 1)
-		.text(`${pct.toFixed(1)}%`);
+		.attr("opacity", layout.hidden ? 0 : 1);
+
+	label.append("tspan").text(pct.toFixed(1));
+	label
+		.append("tspan")
+		.attr("class", "pct-cap-sign")
+		.attr("dx", PCT_CAP_SIGN_GAP)
+		.text("%");
 }
 
 function marqueeDataForCategory(c) {
@@ -653,11 +660,10 @@ export function renderSemanticsRibbons(containerEl, payload) {
 			.attr("y", gMidY)
 			.attr("text-anchor", "end")
 			.attr("dominant-baseline", "middle")
-			.attr("font-family", "\"Source Serif 4\", serif")
+			.attr("font-family", "var(--font-mono)")
 			.attr("font-size", `${13 * fontScale}px`)
 			.attr("fill", "var(--sem-ribbon-label)")
 			.attr("font-weight", 500)
-			.attr("letter-spacing", "0.02em")
 			.style("pointer-events", "none");
 
 		const labelLines = useCompactLabels ? splitLabelTwoLines(c.shortName, labelWrapChars) : [c.shortName];

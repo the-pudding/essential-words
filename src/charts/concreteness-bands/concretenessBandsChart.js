@@ -136,6 +136,18 @@ function appendDirectionLabelGroup(svg, opts) {
 		.text(arrow);
 }
 
+/**
+ * @param {{ dirY: number; fontSize: number; lineCount: number; lineHeight: number }} opts
+ */
+function computeDirectionLabelTopPad({ dirY, fontSize, lineCount, lineHeight }) {
+	if (lineCount < 1 || fontSize < 1) return 0;
+	const topEdge =
+		lineCount > 1
+			? dirY - (lineCount - 1) * lineHeight * fontSize - fontSize * 0.88
+			: dirY - fontSize * 0.56;
+	return Math.max(0, Math.ceil(2 - topEdge));
+}
+
 export function readConcretenessBandsMetrics(containerEl) {
 	const root = containerEl?.closest?.(".concr-bands") ?? containerEl;
 	const px = (name, fb) => readCssPx(root, name, fb);
@@ -229,6 +241,19 @@ export function renderConcretenessBands(container, payload, { width }) {
 	const bandGap = m.bandGap;
 	const centerGap = m.centerGap;
 	const fontSize = m.fontSize;
+
+	const removedDirLines = isCompact
+		? ["the 1953 list", "removed from"]
+		: ["words removed from the 1953 list"];
+	const addedDirLines = isCompact ? ["the 2023 list", "added to"] : ["words added to the 2023 list"];
+	const dirYBase = margin.top - m.axisTickOffset - m.dirLabelGap + m.dirLabelNudge;
+	const topPad = computeDirectionLabelTopPad({
+		dirY: dirYBase,
+		fontSize: m.dirLabelSizePx,
+		lineCount: Math.max(removedDirLines.length, addedDirLines.length),
+		lineHeight: m.dirLabelLineHeight
+	});
+	margin.top += topPad;
 
 	const { bins, numBins, binW, maxPct } = payload;
 	const plotW = W - margin.left - margin.right;
@@ -341,10 +366,6 @@ export function renderConcretenessBands(container, payload, { width }) {
 	const dirY = axisY - m.dirLabelGap + m.dirLabelNudge;
 	const removedDirX = centerX - halfGap - m.dirLabelOffsetX;
 	const addedDirX = centerX + halfGap + m.dirLabelOffsetX;
-	const removedDirLines = isCompact
-		? ["the 1953 list", "removed from"]
-		: ["words removed from the 1953 list"];
-	const addedDirLines = isCompact ? ["the 2023 list", "added to"] : ["words added to the 2023 list"];
 
 	appendDirectionLabelGroup(svg, {
 		textX: removedDirX,

@@ -37,7 +37,7 @@
 
     .tofrom{
         color: var(--color-primary);
-        font-family: var(--font-mono);
+        font-family: var(--font-sans);
         font-size: 35px;
         letter-spacing: 5%;
         font-weight: 400;
