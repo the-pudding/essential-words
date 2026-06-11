@@ -43,7 +43,7 @@ function layoutFromWidth(containerWidth, bandThick) {
 	const plotR = width / 2 - pad;
 	const maxR = plotR;
 	const centerR = maxR * (32 / 550); // 390
-	const ringGap = Math.max(0, maxR * 0.034);
+	const ringGap = Math.max(32, maxR * 0.034); //0.034
 	const labelFontSize = Math.max(20, maxR * 0.042);
 	const wordFontSize = Math.max(20, maxR * 0.03);
 	const svgW = (plotR + bandThick / 2 + pad) * 2;

@@ -240,7 +240,7 @@
 		--scope-arcs-color-removed: var(--color-gsl, #ed9027);
 		--scope-arcs-color-added: var(--color-ngsl, #db6ae8);
 		
-		--scope-arcs-max-width: 840px;
+		--scope-arcs-max-width: 800px;
 		--scope-arcs-band-thick: 36;
 		--scope-arcs-band-thin: 12;
 		--scope-arcs-focus-fade-ms: 220;
@@ -248,7 +248,7 @@
 		--scope-arcs-zoom-max: 6;
 		--scope-arcs-segment-gap: 4;
 		--scope-arcs-unfocused-opacity: 0.35;
-		--scope-arcs-side-gap: 24;
+		--scope-arcs-side-gap: 4;
 		--scope-arcs-divider-color: var(--color-secondary);
 		--scope-arcs-divider-width: 1;
 		--scope-arcs-divider-dash: 5 5;

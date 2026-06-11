@@ -9,13 +9,13 @@
 	/* font */
 	--font-sans: "Source Sans 3", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
 	--font-serif: "Source Serif 4", Times New Roman, Times, serif;
-	--font-mono: "Source Code Pro", Menlo, Consolas, Monaco, monospace;
+	/* --font-mono: "Source Code Pro", Menlo, Consolas, Monaco, monospace; */
 
 	
 	/* --font-sans: "Atlas Grotesk", Helvetica, Arial, sans-serif;
 	--font-serif: "Tiempos Text", Times, serif;
-	--font-serif-headline: "Tiempos Headline", Times, serif;
-	--font-mono: "Atlas Typewriter", monospace; */
+	--font-serif-headline: "Tiempos Headline", Times, serif; */
+	--font-mono: "Atlas Typewriter", monospace; 
 
 	/* font sizes*/
 	--p-font-size: 1.25rem;
