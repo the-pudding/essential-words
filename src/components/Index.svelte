@@ -8,6 +8,7 @@
 	import ConcretenessBands from "../charts/concreteness-bands/concretenessBands.svelte";
 	import PosAdverbs from "../charts/part-of-speech/posAdverbs.svelte";
 	import PosWaffle from "../charts/part-of-speech/posWaffle.svelte";
+	import ScopeArcs from "../charts/scope-arcs/scopeArcs.svelte";
 	import Title from "$components/Title.svelte";
 	import Explorer from "$components/Explorer.svelte";
 
@@ -115,6 +116,8 @@
 						<PosWaffle note={block.note} />
 					{:else if block.chartId === "adverbsAdded"}
 						<PosAdverbs />
+					{:else if block.chartId === "semanticsScopeArcs"}
+						<ScopeArcs note={block.note} overlays={block.overlays ?? []} />
 					{:else}
 						<div class="chart-placeholder" data-chart-id={block.chartId}>
 							<p class="chart-placeholder-label">Chart not wired yet: {block.chartId}</p>

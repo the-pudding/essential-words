@@ -303,7 +303,7 @@
 		--scope-list-header-transition-ms: 700;
 		--scope-header-font-size: 16;
 
-		--scope-intro-offset: -30vh;
+		--scope-intro-offset: -34vh;
 		--scope-final-hold: calc(100vh - var(--scope-intro-offset));
 
 		--chart-overlay-steps-top-pad: 25vh;

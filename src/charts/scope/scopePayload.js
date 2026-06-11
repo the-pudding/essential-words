@@ -3,10 +3,10 @@ export const SCOPE_RING_ORDER = [1, 2, 3, 4, 5];
 
 export const SCOPE_RING_NAMES = {
 	1: "the self",
-	2: "local–immediate",
+	2: "local",
 	3: "institutional",
-	4: "social–communicative",
-	5: "universal–abstract"
+	4: "cultural",
+	5: "universal"
 };
 
 export const SCOPE_CATEGORY_TO_RING = {
