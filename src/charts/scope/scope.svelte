@@ -303,7 +303,7 @@
 		--scope-list-header-transition-ms: 700;
 		--scope-header-font-size: 16;
 
-		--scope-intro-offset: -34vh;
+		--scope-intro-offset: -30vh;
 		--scope-final-hold: calc(100vh - var(--scope-intro-offset));
 
 		--chart-overlay-steps-top-pad: 25vh;
@@ -447,10 +447,10 @@
 		position: fixed;
 		z-index: var(--z-overlay);
 		pointer-events: none;
-		background: rgba(255, 255, 241, 0.95);
+		background: var(--color-bg);
 		color: var(--color-primary);
-		border: 1px solid #ededd8;
-		border-radius: 2px;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-sm);
 		padding: 0.75rem 0.75rem;
 		max-width: 240px;
 		font-family: var(--font-mono);
@@ -459,6 +459,7 @@
 		opacity: 0;
 		transform: translate(14px, -50%);
 		transition: opacity 140ms ease;
+		box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.05);
 	}
 
 	.scope-tooltip.is-visible {
