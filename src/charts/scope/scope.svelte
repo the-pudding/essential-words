@@ -2,10 +2,17 @@
 	import { getContext, onDestroy, onMount } from "svelte";
 	import { renderScopeChart } from "./scopeChart.js";
 	import { observeChartVisibility } from "$utils/chartVisibility.js";
+	import useWindowDimensions from "$runes/useWindowDimensions.svelte.js";
 
 	let { note = "", overlays = [] } = $props();
 
 	const getData = getContext("data");
+
+	const win = new useWindowDimensions(150);
+
+	const MIN_REDRAW_DELTA = 4;
+	
+	const HOVER_MIN_WIDTH = 700;
 
 
 	const DEFAULT_STEP_FOCUS = [[1], [2], [3], [4], [5]];
@@ -66,12 +73,9 @@
 		const reveal = activeStep < 0 ? 1 : activeStep >= N ? nRings : Math.min(activeStep + 1, nRings);
 		chartController.setVisibleRings(reveal);
 
-	const shouldExpandDivider = activeStep >= 0;
-	if (shouldExpandDivider !== dividerExpanded) {
-		dividerExpanded = shouldExpandDivider;
-		if (shouldExpandDivider) chartController.expandDivider();
-		else chartController.collapseDivider();
-		}
+		// Zoom out one ring per step; the final/overview step shows the whole chart (scale 1).
+		const overview = N > 0 && activeStep >= N;
+		chartController.setZoom(reveal, overview, true);
 
 		if (activeStep < 0 || activeStep >= N) {
 			chartController.setInteractionLocked(false);
@@ -96,27 +100,21 @@
 			chartController = null;
 			return;
 		}
-		const width = typeof window !== "undefined" ? window.innerWidth : 0;
-		if (chartController && width > 0 && Math.abs(width - lastRenderedWidth) < 2) return;
+		const width = win.width || (typeof window !== "undefined" ? window.innerWidth : 0);
+		if (chartController && width > 0 && Math.abs(width - lastRenderedWidth) < MIN_REDRAW_DELTA) return;
 
 		unsubscribeHover?.();
 		chartController?.destroy();
-		dividerExpanded = false;
 		lastRenderedWidth = width;
-		chartController = renderScopeChart(chartMount, payload);
-		unsubscribeHover = chartController?.onHover((dot) => {
-			hoverInfo = dot;
-		});
+		const interactive = width > HOVER_MIN_WIDTH;
+		chartController = renderScopeChart(chartMount, payload, { interactive });
+		unsubscribeHover = interactive
+			? chartController?.onHover((dot) => {
+					hoverInfo = dot;
+				})
+			: null;
+		if (!interactive) hoverInfo = null;
 		applyStepFocus();
-		requestAnimationFrame(() => syncScrollMetrics());
-	}
-
-	function syncScrollMetrics() {
-		if (!chartMount || !scrollyMount) return;
-		const panel = chartMount.closest(".scope-chart-panel");
-		if (!panel) return;
-
-		scrollyMount.style.setProperty("--scope-chart-flow-height", `${panel.offsetHeight}px`);
 	}
 
 	function scheduleRender() {
@@ -214,14 +212,16 @@
 		for (const node of nodes) stepObserver.observe(node);
 	}
 
-	function handleWindowResize() {
-		scheduleRender();
-		syncScrollMetrics();
-	}
-
 	$effect(() => {
 		if (!scrollyMount) return;
 		setupScrollyObserver();
+	});
+
+	// only redraw on meaningful vw change (gate is in renderChart)
+	$effect(() => {
+		win.width;
+		if (!chartReady || !chartSectionVisible) return;
+		scheduleRender();
 	});
 
 	$effect(() => {
@@ -235,14 +235,10 @@
 		setupStepObserver();
 		setupLegendObserver();
 		setupVisibilityObserver();
-		window.addEventListener("resize", handleWindowResize);
 	});
 
 	onDestroy(() => {
 		if (rafId) cancelAnimationFrame(rafId);
-		if (typeof window !== "undefined") {
-			window.removeEventListener("resize", handleWindowResize);
-		}
 		stepObserver?.disconnect();
 		legendObserver?.disconnect();
 		scrollyObserver?.disconnect();
@@ -307,15 +303,15 @@
 			<div class="scope-legend">
 				<span class="scope-legend-item">
 					<span class="scope-legend-dot scope-legend-dot--remained"></span>
-					in both lists
+					words in both lists
 				</span>
 				<span class="scope-legend-item">
 					<span class="scope-legend-dot scope-legend-dot--removed"></span>
-					discarded words
+					words discarded from the 1953 list
 				</span>
 				<span class="scope-legend-item">
 					<span class="scope-legend-dot scope-legend-dot--added"></span>
-					added words
+					words added to the 2023 list
 				</span>
 			</div>
 		</div>
@@ -351,38 +347,46 @@
 		--scope-max-r: 400;
 		--scope-ring-gap: 40;
 		--scope-min-ring-depth: 10;
-		--scope-split-gap: 8;
+		--scope-split-gap: 16;
 		--scope-label-gap-bias: 0.05;
 		--scope-label-outer-pad: 8;
+		--scope-ring-label-size: 26;
 
 		--scope-rect-w: 10;
 		--scope-rect-h: 3;
 		--scope-dot-edge-gap: 2;
 		--scope-dot-align: inner; /* "inner" or "center" */
 		--scope-hit-radius: 5;
-		--scope-hover-scale: 1.6;
+		--scope-hover-scale: 1.1;
+		--scope-hover-ms: 180;
 
-		--scope-ring-label-size: 20;
-		--scope-pct-label-size: 13;
+		--scope-header-layout: side;
+		--scope-header-top-pad: 10;
+
 
 		--scope-focus-fade-ms: 220;
-		--scope-divider-expand-ms: 700;
-		--scope-list-header-gap: 32;
-		--scope-list-header-transition-ms: 700;
+		--scope-list-header-gap: 24;
+		--scope-list-header-transition-ms: 350;
 		--scope-header-font-size: 16;
 
-		--scope-intro-offset: -30vh;
-		--scope-final-hold: 100vh;
+		--scope-zoom-max: 2;
+		--scope-zoom-ms: 700;
 
-		--chart-overlay-steps-top-pad: 120vh;
-		--chart-overlay-steps-bottom-pad: 0;
-		--chart-overlay-step-min-h: 125vh;
+		--scope-final-hold: 70vh;
+		
+		--scope-fit-pad-top: 4vh;
+		--scope-fit-pad-bottom: 9vh;
+
+		--chart-overlay-steps-top-pad: 60vh;
+		--chart-overlay-steps-bottom-pad: 40vh;
+		--chart-overlay-step-min-h: 100vh;
 		--chart-overlay-step-spacer-h: 0;
 
 		--scope-color-remained: var(--color-secondary);
 		--scope-color-removed: var(--color-gsl);
 		--scope-color-added: var(--color-ngsl);
 		--scope-ring-stroke: #d0cbc4;
+		--scope-ring-arc-offset: 2;
 		--scope-divider: var(--color-primary);
 		--scope-label: var(--color-primary);
 
@@ -392,10 +396,14 @@
 		box-sizing: border-box;
 	}
 
+
 	.scope-stage {
-		--chart-overlay-stage-height: calc(var(--scope-chart-flow-height, 90vh) + var(--scope-intro-offset));
-		--chart-overlay-stage-top: 35vh;
-		overflow: visible;
+		--chart-overlay-stage-top: 0px;
+		--chart-overlay-stage-height: 100dvh;
+		width: 100%;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
 	}
 
 	.scope :global(.scope-overlay-spacer-bottom) {
@@ -408,23 +416,39 @@
 	}
 
 	.scope-chart-wrap {
-		width: fit-content;
+		width: 100%;
+		max-width: var(--max-chart-width);
+		height: 100%;
 		margin-inline: auto;
 		display: flex;
 		flex-direction: column;
-		align-items: stretch;
-		overflow: visible;
-		transform: translateY(var(--scope-intro-offset));
+		justify-content: center;
+		overflow: hidden;
 	}
 
 	.scope-chart-panel {
+		flex: 1 1 auto;
+		min-height: 0;
 		display: flex;
+		align-items: center;
 		justify-content: center;
-		overflow: visible;
+		padding: var(--scope-fit-pad-top) 0 var(--scope-fit-pad-bottom);
+		box-sizing: border-box;
+		overflow: hidden;
 	}
 
 	.scope-chart {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.scope-chart :global(svg) {
 		display: block;
+		width: 100%;
+		height: 100%;
 	}
 
 	.scope-chart :global(.scope-header-label) {
@@ -435,20 +459,13 @@
 		fill: var(--color-primary);
 	}
 
-	.scope-chart :global(svg) {
-		display: block;
-	}
-
     .scope-chart :global(.scope-ring-name) {
+		font-family: var(--font-sans);
         font-size: var(--scope-ring-label-size);
-        font-weight: 400;
+        font-weight: 500;
         letter-spacing: 4%;
         line-height: 1;
     }
-
-	.scope-chart :global(.scope-ring-label) {
-		font-family: var(--font-sans);
-	}
 
     .scope-chart :global(.scope-pct){
         display: none;
@@ -498,16 +515,15 @@
 		gap: 0.5rem 1.25rem;
 		justify-content: center;
 		width: fit-content;
-		padding: 0.5rem 1rem;
-		box-sizing: border-box;
+		/* padding: 0.5rem 1rem; */
 		font-family: var(--font-mono);
 		font-size: 13px;
 		color: var(--color-secondary);
 		text-transform: uppercase;
 		letter-spacing: 2%;
-		background: var(--color-bg);
+		/* background: var(--color-bg);
 		border: 1px solid var(--color-border);
-		border-radius: var(--radius-sm);
+		border-radius: var(--radius-sm); */
 		opacity: 0;
 		transform: translateY(1.25rem);
 		transition:
@@ -622,13 +638,19 @@
 		font-family: var(--font-sans);
 	}
 
-	@media (max-width: 1080px) {
+	@media (max-width: 1100px) {
 		.scope {
 			--scope-max-r: 320;
 			--scope-ring-gap: 26;
 			--scope-rect-w: 7;
 			--scope-rect-h: 2;
+			--scope-header-layout: top;
+
+			--scope-label-gap-bias: 0.02;
+			--scope-label-outer-pad: 8;
+			--scope-ring-label-size: 18;
 		}
+
 	}
 
 	@media (max-width: 700px) {

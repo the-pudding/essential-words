@@ -35,6 +35,7 @@ export function readScopeMetrics(containerEl) {
 		dotEdgeGap: px("--scope-dot-edge-gap", 1.5),
 		dotAlign: str("--scope-dot-align", "inner"),
 		hitRadius: px("--scope-hit-radius", 5),
+		ringArcOffset: px("--scope-ring-arc-offset", 2),
 		hoverScale: parseFloat(str("--scope-hover-scale", "1.6")) || 1.6,
 		// typography
 		ringLabelSize: px("--scope-ring-label-size", 12),
@@ -45,7 +46,13 @@ export function readScopeMetrics(containerEl) {
 		focusFadeMs: px("--scope-focus-fade-ms", 220),
 		dividerExpandMs: px("--scope-divider-expand-ms", 700),
 		listHeaderGap: px("--scope-list-header-gap", 32),
-		listHeaderTransitionMs: px("--scope-list-header-transition-ms", 700)
+		listHeaderTransitionMs: px("--scope-list-header-transition-ms", 700),
+		headerLayout: str("--scope-header-layout", "side"),
+		headerTopPad: px("--scope-header-top-pad", 12),
+		hoverMs: px("--scope-hover-ms", 180),
+		// zoom stuff
+		zoomMax: parseFloat(str("--scope-zoom-max", "6")) || 6,
+		zoomMs: px("--scope-zoom-ms", 700)
 	};
 }
 
@@ -59,7 +66,7 @@ export const SCOPE_COLORS = {
 	label: "var(--scope-label, var(--color-primary, #504a44))"
 };
 
-export const SCOPE_RING_STROKE_WIDTH = 0.5;
+export const SCOPE_RING_STROKE_WIDTH = 1;
 
 const SET_LABELS = {
 	remained: "in both lists",
@@ -71,8 +78,9 @@ const SET_LABELS = {
  * @param {HTMLElement} container
  * @param {ReturnType<typeof import("./scopePayload.js").buildScopePayload>} payload
  */
-export function renderScopeChart(container, payload) {
+export function renderScopeChart(container, payload, options = {}) {
 	if (!container || !payload) return null;
+	const { interactive = true } = options;
 	const m = readScopeMetrics(container);
 
 	const W = m.viewBox;
@@ -223,9 +231,14 @@ export function renderScopeChart(container, payload) {
 	const plotR = Math.max(m.maxR, outerR);
 
 	const dividerClearance = 24;
-	const padTop = dividerClearance;
+	const padTop =
+		m.headerLayout === "top"
+			? dividerClearance + m.headerFontSize + m.headerTopPad
+			: dividerClearance;
 	const padBottom = dividerClearance;
-	const padX = m.rectW;
+	
+	const headerAllowance = m.rectW;
+	const padX = Math.max(m.rectW, headerAllowance);
 	const vbX = cx - plotR - padX;
 	const vbY = cy - plotR - padTop;
 	const vbW = plotR * 2 + padX * 2;
@@ -235,12 +248,17 @@ export function renderScopeChart(container, payload) {
 		.create("svg")
 		.attr("class", "scope-svg")
 		.attr("viewBox", [vbX, vbY, vbW, vbH])
-		.attr("width", vbW)
-		.attr("height", vbH)
+		.attr("preserveAspectRatio", "xMidYMid meet")
+		.attr("width", "100%")
+		.attr("height", "100%")
 		.style("display", "block")
-		.style("overflow", "visible");
+		.style("overflow", "hidden");
 
 	const defs = svg.append("defs");
+
+	// geometry layers live inside this group so each step can zoom toward the focused
+	// ring. defs stays on <svg> (it is never rendered, only referenced).
+	const zoomG = svg.append("g").attr("class", "scope-zoom-root");
 
 	// Ring boundary arcs
 	function semiArc(r, side) {
@@ -251,10 +269,13 @@ export function renderScopeChart(container, payload) {
 		return `M ${top} A ${r} ${r} 0 0 ${flag} ${bot}`;
 	}
 
-	const ringArcsG = svg.append("g").attr("class", "scope-ring-arcs");
+	const ringArcsG = zoomG.append("g").attr("class", "scope-ring-arcs");
+	const arcOut = m.ringArcOffset;
 	bands.forEach((band, ringIdx) => {
+		const innerR = band.rMin - arcOut;
+		const outerR = band.rMax + arcOut;
 		for (const side of ["left", "right"]) {
-			for (const r of [band.rMin, band.rMax]) {
+			for (const r of [innerR, outerR]) {
 				if (r <= m.centerR + 0.5) continue;
 				ringArcsG
 					.append("path")
@@ -262,27 +283,26 @@ export function renderScopeChart(container, payload) {
 					.attr("d", semiArc(r, side))
 					.attr("fill", "none")
 					.attr("stroke", SCOPE_COLORS.ringStroke)
-					.attr("stroke-width", SCOPE_RING_STROKE_WIDTH);
+					.attr("stroke-width", SCOPE_RING_STROKE_WIDTH)
+					.attr("vector-effect", "non-scaling-stroke");
 			}
 		}
 	});
 
-	const ring1R = bands[0]?.rMax ?? m.centerR;
-	const dividerCollapsedY1 = cy - ring1R - 12;
-	const dividerCollapsedY2 = cy + ring1R + 12;
-	const dividerExpandedY1 = cy - plotR - 12;
-	const dividerExpandedY2 = cy + plotR + 12;
-	const divider = svg
+	const dividerY1 = cy - plotR - 12;
+	const dividerY2 = cy + plotR + 12;
+	const divider = zoomG
 		.append("line")
 		.attr("class", "scope-divider")
 		.attr("x1", cx)
 		.attr("x2", cx)
-		.attr("y1", dividerCollapsedY1)
-		.attr("y2", dividerCollapsedY2)
+		.attr("y1", dividerY1)
+		.attr("y2", dividerY2)
 		.attr("stroke", SCOPE_COLORS.divider)
-		.attr("stroke-width", 0.5)
-		.attr("stroke-dasharray", "5,5")
-		.attr("stroke-opacity", 0.5);
+		.attr("stroke-width", 1)
+		.attr("stroke-dasharray", "4,8")
+		.attr("vector-effect", "non-scaling-stroke")
+		.attr("stroke-opacity", 0.7);
 
 	const allDots = [];
 	for (const ring of rings) {
@@ -290,7 +310,7 @@ export function renderScopeChart(container, payload) {
 		for (const w of ring.ngslWords) if (w.x != null) allDots.push(w);
 	}
 
-	const dotLayer = svg.append("g").attr("class", "scope-dots");
+	const dotLayer = zoomG.append("g").attr("class", "scope-dots");
 
 	const dotSel = dotLayer
 		.selectAll("rect.scope-dot")
@@ -311,22 +331,24 @@ export function renderScopeChart(container, payload) {
 		.attr("transform", (d) => `rotate(${(d.theta * 180) / Math.PI}, ${d.x}, ${d.y})`)
 		.style("pointer-events", "none");
 
-	// Invisible hit targets so small rectangles are easy to hover
-	const hitSel = dotLayer
-		.selectAll("circle.scope-hit")
-		.data(allDots, (d) => d._id)
-		.join("circle")
-		.attr("class", "scope-hit")
-		.attr("data-id", (d) => d._id)
-		.attr("data-ring", (d) => d._ringIdx + 1)
-		.attr("cx", (d) => d.x)
-		.attr("cy", (d) => d.y)
-		.attr("r", m.hitRadius)
-		.attr("fill", "transparent")
-		.style("cursor", "default");
+
+	const hitSel = interactive
+		? dotLayer
+				.selectAll("circle.scope-hit")
+				.data(allDots, (d) => d._id)
+				.join("circle")
+				.attr("class", "scope-hit")
+				.attr("data-id", (d) => d._id)
+				.attr("data-ring", (d) => d._ringIdx + 1)
+				.attr("cx", (d) => d.x)
+				.attr("cy", (d) => d.y)
+				.attr("r", m.hitRadius)
+				.attr("fill", "transparent")
+				.style("cursor", "default")
+		: null;
 
 	// Ring labels
-	const labelLayer = svg.append("g").attr("class", "scope-ring-labels");
+	const labelLayer = zoomG.append("g").attr("class", "scope-ring-labels");
 	const spc = "\u00A0\u00A0\u00A0\u00A0";
 	const span = 1.4;
 
@@ -447,26 +469,41 @@ export function renderScopeChart(container, payload) {
 		for (const fn of onHoverChange.listeners) fn(payload);
 	}
 
+	function dotTransform(dd, scale) {
+		const deg = (dd.theta * 180) / Math.PI;
+		return `translate(${dd.x},${dd.y}) rotate(${deg}) scale(${scale}) translate(${-dd.x},${-dd.y})`;
+	}
+
 	function setHover(d) {
+		const prevId = hoveredId;
 		hoveredId = d ? d._id : null;
+		const ease = d3.easeCubicOut;
+		const dur = m.hoverMs;
+
 		dotSel.each(function eachDot(dd) {
+			const isTarget = d && dd._id === d._id;
+			const wasTarget = prevId === dd._id;
+			if (!isTarget && !wasTarget) return;
+
 			const sel = d3.select(this);
-			if (d && dd._id === d._id) {
-				const deg = (dd.theta * 180) / Math.PI;
-				sel
-					.attr("stroke", "var(--color-primary, #222)")
-					.attr("stroke-width", 0.6)
-					.attr(
-						"transform",
-						`translate(${dd.x},${dd.y}) rotate(${deg}) scale(${m.hoverScale}) translate(${-dd.x},${-dd.y})`
-					);
-				sel.raise();
-			} else {
-				sel
-					.attr("stroke", null)
-					.attr("stroke-width", null)
-					.attr("transform", `rotate(${(dd.theta * 180) / Math.PI}, ${dd.x}, ${dd.y})`);
-			}
+			const targetScale = isTarget ? m.hoverScale : 1;
+			const startScale = wasTarget && !isTarget ? m.hoverScale : 1;
+			const startBright = wasTarget && !isTarget ? 0.75 : 1;
+			const endBright = isTarget ? 0.75 : 1;
+
+			sel.interrupt("hover")
+				.transition("hover")
+				.duration(dur)
+				.ease(ease)
+				.attrTween("transform", () => (t) =>
+					dotTransform(dd, startScale + (targetScale - startScale) * t)
+				)
+				.attrTween("filter", () => (t) => {
+					const b = startBright + (endBright - startBright) * t;
+					return `brightness(${b})`;
+				});
+
+			if (isTarget) sel.raise();
 		});
 		notifyHover(d ?? null);
 	}
@@ -504,80 +541,138 @@ export function renderScopeChart(container, payload) {
 		setOpacity(ringArcsG.selectAll("path"), arcOp);
 	}
 
-	hitSel.on("mouseenter", function onEnter(_event, d) {
-		const ring = d._ringIdx + 1;
-		if (ring > visibleRings) return;
-		if (interactionLocked && !focusRings.has(ring)) return;
-		if (hoveredId === d._id) return;
-		setHover(d);
-	});
-	hitSel.on("mouseleave", function onLeave() {
-		if (hoveredId == null) return;
-		setHover(null);
-	});
+	if (hitSel) {
+		hitSel.on("mouseenter", function onEnter(_event, d) {
+			const ring = d._ringIdx + 1;
+			if (ring > visibleRings) return;
+			if (interactionLocked && !focusRings.has(ring)) return;
+			if (hoveredId === d._id) return;
+			setHover(d);
+		});
+		hitSel.on("mouseleave", function onLeave() {
+			if (hoveredId == null) return;
+			setHover(null);
+		});
+	}
 
 	// ---- List header labels (in SVG so position is always exact) ----
-	function headerXForRing(n) {
+	function headerPosForRing(n) {
 		const outerStrokeR = bands[n - 1].rMax + SCOPE_RING_STROKE_WIDTH / 2;
+		const edgeR = outerStrokeR + m.ringArcOffset;
+		const leftX = cxLeft - edgeR;
+		const rightX = cxRight + edgeR;
+		if (m.headerLayout === "top") {
+			const topY = cy - outerStrokeR - m.headerTopPad;
+			return {
+				left: { x: leftX, y: topY, anchor: "start" },
+				right: { x: rightX, y: topY, anchor: "end" }
+			};
+		}
 		return {
-			left: cxLeft - outerStrokeR - m.listHeaderGap,
-			right: cxRight + outerStrokeR + m.listHeaderGap
+			left: { x: leftX, y: cy, anchor: "start" },
+			right: { x: rightX, y: cy, anchor: "end" }
 		};
 	}
 
-	const initHPos = headerXForRing(1);
-	const headerLabelsG = svg.append("g").attr("class", "scope-header-labels");
+	const initHPos = headerPosForRing(1);
+	const headerLabelsG = zoomG.append("g").attr("class", "scope-header-labels");
 
 	const headerLabelLeft = headerLabelsG
 		.append("text")
 		.attr("class", "scope-header-label scope-header-label--left")
-		.attr("x", initHPos.left)
-		.attr("y", cy)
-		.attr("text-anchor", "end")
-		.attr("dominant-baseline", "middle")
+		.attr("x", initHPos.left.x)
+		.attr("y", initHPos.left.y)
+		.attr("text-anchor", initHPos.left.anchor)
+		.attr("dominant-baseline", m.headerLayout === "top" ? "hanging" : "middle")
 		.attr("font-size", m.headerFontSize)
+		.style("opacity", 1)
 		.text("1953 LIST");
 
 	const headerLabelRight = headerLabelsG
 		.append("text")
 		.attr("class", "scope-header-label scope-header-label--right")
-		.attr("x", initHPos.right)
-		.attr("y", cy)
-		.attr("text-anchor", "start")
-		.attr("dominant-baseline", "middle")
+		.attr("x", initHPos.right.x)
+		.attr("y", initHPos.right.y)
+		.attr("text-anchor", initHPos.right.anchor)
+		.attr("dominant-baseline", m.headerLayout === "top" ? "hanging" : "middle")
 		.attr("font-size", m.headerFontSize)
+		.style("opacity", 1)
 		.text("2023 LIST");
 
 	function moveHeaders(n, animate) {
-		const pos = headerXForRing(n);
+		const pos = headerPosForRing(n);
 		if (animate) {
 			headerLabelLeft
 				.transition("header")
 				.duration(m.listHeaderTransitionMs)
 				.ease(d3.easeCubicInOut)
-				.attr("x", pos.left);
+				.attr("x", pos.left.x)
+				.attr("y", pos.left.y)
+				.attr("text-anchor", pos.left.anchor);
 			headerLabelRight
 				.transition("header")
 				.duration(m.listHeaderTransitionMs)
 				.ease(d3.easeCubicInOut)
-				.attr("x", pos.right);
+				.attr("x", pos.right.x)
+				.attr("y", pos.right.y)
+				.attr("text-anchor", pos.right.anchor);
 		} else {
-			headerLabelLeft.attr("x", pos.left);
-			headerLabelRight.attr("x", pos.right);
+			headerLabelLeft
+				.attr("x", pos.left.x)
+				.attr("y", pos.left.y)
+				.attr("text-anchor", pos.left.anchor);
+			headerLabelRight
+				.attr("x", pos.right.x)
+				.attr("y", pos.right.y)
+				.attr("text-anchor", pos.right.anchor);
 		}
 	}
 
-	function setDividerExpanded(expanded) {
-		divider
-			.interrupt()
-			.transition("divider")
-			.duration(m.dividerExpandMs)
-			.ease(d3.easeCubicInOut)
-			.attr("y1", expanded ? dividerExpandedY1 : dividerCollapsedY1)
-			.attr("y2", expanded ? dividerExpandedY2 : dividerCollapsedY2);
+	// zoom 
+	let overview = false;
+	let zoomScale = 1;
+
+	function outerRadiusForRing(n) {
+		const idx = Math.max(0, Math.min(bands.length - 1, (n || 1) - 1));
+		return Math.max(bands[idx]?.rMax ?? plotR, m.centerR + 1);
+	}
+
+	function zoomScaleForRing(focusedRing) {
+		if (overview || !focusedRing) return 1;
+		
+		return Math.min(m.zoomMax, (plotR * 0.92) / outerRadiusForRing(focusedRing));
+	}
+
+	function applyZoom(animate) {
+		const s = zoomScale;
+		const dur = animate ? m.zoomMs : 0;
+		const tf = `translate(${cx},${cy}) scale(${s}) translate(${-cx},${-cy})`;
+		// counter-scale text so labels keep a constant on-screen size through the zoom.
+		const ringSize = `${m.ringLabelSize / s}px`;
+		const headerSize = m.headerFontSize / s;
+		const ringNames = labelLayer.selectAll(".scope-ring-name");
+		const headers = headerLabelsG.selectAll("text");
+
+		if (animate && dur > 0) {
+			const ease = d3.easeCubicInOut;
+			zoomG.interrupt().transition("zoom").duration(dur).ease(ease).attr("transform", tf);
+			ringNames.interrupt().transition("zoom-text").duration(dur).ease(ease).style("font-size", ringSize);
+			headers
+				.interrupt()
+				.transition("zoom-text")
+				.duration(dur)
+				.ease(ease)
+				.attr("font-size", headerSize);
+		} else {
+			zoomG.attr("transform", tf);
+			ringNames.style("font-size", ringSize);
+			headers.attr("font-size", headerSize);
+		}
 	}
 
 	applyFocusState({ immediate: true });
+	zoomScale = zoomScaleForRing(1);
+	applyZoom(false);
 	container.replaceChildren(svg.node());
 
 	return {
@@ -605,12 +700,6 @@ export function renderScopeChart(container, payload) {
 			focusRings = new Set();
 			applyFocusState();
 		},
-		expandDivider() {
-			setDividerExpanded(true);
-		},
-		collapseDivider() {
-			setDividerExpanded(false);
-		},
 		setVisibleRings(n) {
 			const next = Math.max(1, Math.min(nRings, Math.floor(Number(n) || 1)));
 			if (next === visibleRings) return;
@@ -621,6 +710,11 @@ export function renderScopeChart(container, payload) {
 			visibleRings = next;
 			applyFocusState();
 			moveHeaders(next, true);
+		},
+		setZoom(focusedRing, isOverview, animate = true) {
+			overview = Boolean(isOverview);
+			zoomScale = zoomScaleForRing(focusedRing);
+			applyZoom(animate);
 		},
 		destroy() {
 			onHoverChange.listeners = [];
