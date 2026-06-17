@@ -331,7 +331,7 @@ export function renderScopeArcsChart(container, payload) {
 		return path.node();
 	}
 
-	/** @type {Array<{ ring: number, textEl: SVGTextElement, tpNode: SVGTextPathElement, offset: number, cycleLen: number }>} */
+	/** @type {Array<{ ring: number, textEl: SVGTextElement, tpNode: SVGTextPathElement, offset: number, cycleLen: number, cycleText: string, font: { family: string, style: string, weight: string | number } }>} */
 	const marqueeTracks = [];
 
 	/** @type {Array<{ ring: number, node: SVGPathElement, r: number, start: number, end: number, restThick: number }>} */
@@ -433,7 +433,8 @@ export function renderScopeArcsChart(container, payload) {
 			.style("pointer-events", "none");
 		const addWords = (pathId, clipId, words, font, color) => {
 			if (!words?.length || !pathId || !clipId) return;
-			const repeated = buildWordStr(words).repeat(marqueeRepeat);
+			const cycleText = buildWordStr(words);
+			const repeated = cycleText.repeat(marqueeRepeat);
 			const clipG = wordsG.append("g").attr("class", "sarc-word-clip").attr("clip-path", `url(#${clipId})`);
 			const tEl = clipG
 				.append("text")
@@ -457,7 +458,9 @@ export function renderScopeArcsChart(container, payload) {
 					textEl: tEl.node(),
 					tpNode,
 					offset: 0,
-					cycleLen: 1
+					cycleLen: 1,
+					cycleText,
+					font
 				});
 			}
 		};
@@ -590,13 +593,56 @@ export function renderScopeArcsChart(container, payload) {
 		}, ms);
 	}
 
+	function measureMarqueeCycleLen(track, fontSize) {
+		track.textEl.setAttribute("font-size", fontSize);
+
+		// Prefer the live textPath length when Safari returns a sane value.
+		const pathLen = track.tpNode.getComputedTextLength();
+		if (pathLen > 8) return pathLen / marqueeRepeat;
+
+		// iOS often returns 0 / tiny lengths for clipped, transformed textPath nodes —
+		// measure one cycle with a plain off-screen <text> probe instead.
+		const probe = svg
+			.append("text")
+			.attr("visibility", "hidden")
+			.attr("pointer-events", "none")
+			.attr("font-size", fontSize)
+			.attr("font-family", track.font.family)
+			.attr("font-style", track.font.style)
+			.attr("font-weight", track.font.weight)
+			.attr("letter-spacing", "0.04em")
+			.text(track.cycleText);
+		const probeLen = probe.node()?.getComputedTextLength?.() ?? 0;
+		probe.remove();
+		return probeLen > 0 ? probeLen : 0;
+	}
+
 	function measureMarqueeTracks(fontSize, resetOffsets = false) {
+		const MIN_CYCLE = 8;
 		for (const track of marqueeTracks) {
-			track.textEl.setAttribute("font-size", fontSize);
-			const textLen = track.tpNode.getComputedTextLength();
-			const newCycle = textLen / marqueeRepeat;
+			const measured = measureMarqueeCycleLen(track, fontSize);
+			let newCycle = measured;
+
+			// Reject glitchy reads that would make the marquee snap back every frame.
+			if (!Number.isFinite(newCycle) || newCycle < MIN_CYCLE) {
+				if (track.cycleLen >= MIN_CYCLE) {
+					if (resetOffsets) {
+						track.offset = -Math.random() * track.cycleLen;
+						track.tpNode.setAttribute("startOffset", track.offset);
+					}
+					continue;
+				}
+				newCycle = MIN_CYCLE;
+			} else if (track.cycleLen >= MIN_CYCLE && newCycle < track.cycleLen * 0.25) {
+				if (resetOffsets) {
+					track.offset = -Math.random() * track.cycleLen;
+					track.tpNode.setAttribute("startOffset", track.offset);
+				}
+				continue;
+			}
+
 			if (resetOffsets) {
-				track.offset = newCycle > 0 ? -Math.random() * newCycle : 0;
+				track.offset = -Math.random() * newCycle;
 			} else {
 				track.offset = wrapPathOffset(track.offset, newCycle);
 			}

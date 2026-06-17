@@ -3,10 +3,14 @@
 	import { renderScopeArcsChart } from "./scopeArcsChart.js";
 	import { observeChartVisibility, CHART_ONSCREEN_MARGIN } from "$utils/chartVisibility.js";
 	import { subscribePrefersReducedMotion } from "$utils/prefersReducedMotion.js";
+	import useWindowDimensions, { getHeight } from "$runes/useWindowDimensions.svelte.js";
 
 	let { note = "", overlays = [] } = $props();
 
 	const getData = getContext("data");
+	const win = new useWindowDimensions(150);
+	const MIN_REDRAW_DELTA = 4;
+	const STEP_SETTLE_MS = 120;
 	const payload = $derived(getData?.()?.scopePayload ?? null);
 	const payloadError = $derived(getData?.()?.scopeError ?? null);
 
@@ -28,6 +32,8 @@
 	let activeStep = $state(-1);
 	let lastRenderedWidth = 0;
 	let prefersReducedMotionSub;
+	let stepSettleTimer = 0;
+	let pendingStep = null;
 
 	const overlaySteps = $derived(overlays ?? []);
 	const nRings = $derived(payload?.rings?.length ?? 5);
@@ -63,16 +69,32 @@
 		});
 	}
 
+	function commitStep(next) {
+		if (next === activeStep) return;
+		activeStep = next;
+		applyStepFocus();
+	}
+
+	function scheduleStep(next) {
+		pendingStep = next;
+		if (stepSettleTimer) clearTimeout(stepSettleTimer);
+		stepSettleTimer = setTimeout(() => {
+			stepSettleTimer = 0;
+			const step = pendingStep;
+			pendingStep = null;
+			if (step != null) commitStep(step);
+		}, STEP_SETTLE_MS);
+	}
+
 	function renderChart() {
 		if (!chartMount || !payload || payloadError) {
 			chartController?.destroy();
 			chartController = null;
 			return;
 		}
-		const root = chartMount.closest(".scope-arcs");
-		const width = root?.clientWidth || chartMount.clientWidth;
+		const width = win.width || chartMount.clientWidth;
 		if (!width || width < 2) return;
-		if (chartController && Math.abs(width - lastRenderedWidth) < 2) return;
+		if (chartController && Math.abs(width - lastRenderedWidth) < MIN_REDRAW_DELTA) return;
 		chartController?.destroy();
 		chartController = null;
 		lastRenderedWidth = width;
@@ -131,7 +153,7 @@
 			([entry]) => {
 				legendInRange = entry?.isIntersecting ?? false;
 			},
-			{ root: null, rootMargin: "100% 0px 50% 0px", threshold: 0 }
+			{ root: null, rootMargin: "20% 0px -80% 0px", threshold: 0 }
 		);
 		legendObserver.observe(firstStep);
 	}
@@ -151,22 +173,16 @@
 				}
 				if (best) {
 					const idx = Number(best.target.getAttribute("data-step"));
-					if (Number.isInteger(idx) && idx !== activeStep) {
-						activeStep = idx;
-						applyStepFocus();
-					}
+					if (Number.isInteger(idx)) scheduleStep(idx);
 					return;
 				}
 				const firstTop = nodes[0].getBoundingClientRect().top;
 				const lastBottom = nodes.at(-1)?.getBoundingClientRect().bottom ?? 0;
-				const midY = window.innerHeight * 0.5;
+				const midY = (win.height || getHeight()) * 0.5;
 				let next = activeStep;
 				if (firstTop > midY) next = -1;
 				else if (lastBottom < midY) next = nodes.length;
-				if (next !== activeStep) {
-					activeStep = next;
-					applyStepFocus();
-				}
+				scheduleStep(next);
 			},
 			{ root: null, rootMargin: "-40% 0px -40% 0px", threshold: [0, 0.2, 0.5, 0.8, 1] }
 		);
@@ -194,6 +210,7 @@
 
 	onDestroy(() => {
 		if (rafId) cancelAnimationFrame(rafId);
+		if (stepSettleTimer) clearTimeout(stepSettleTimer);
 		resizeObserver?.disconnect();
 		stepObserver?.disconnect();
 		visibilityObserver?.disconnect();
@@ -210,6 +227,12 @@
 		payload;
 		payloadError;
 		lastRenderedWidth = 0;
+		scheduleRender();
+	});
+
+	$effect(() => {
+		win.width;
+		if (!chartReady || !chartNear) return;
 		scheduleRender();
 	});
 

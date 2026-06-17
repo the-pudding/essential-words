@@ -2,7 +2,7 @@
 	import { getContext, onDestroy, onMount } from "svelte";
 	import { renderScopeChart } from "./scopeChart.js";
 	import { observeChartVisibility } from "$utils/chartVisibility.js";
-	import useWindowDimensions from "$runes/useWindowDimensions.svelte.js";
+	import useWindowDimensions, { getHeight } from "$runes/useWindowDimensions.svelte.js";
 
 	let { note = "", overlays = [] } = $props();
 
@@ -197,7 +197,7 @@
 				}
 				const firstTop = nodes[0].getBoundingClientRect().top;
 				const lastBottom = nodes.at(-1)?.getBoundingClientRect().bottom ?? 0;
-				const midY = window.innerHeight * 0.5;
+				const midY = (win.height || getHeight()) * 0.5;
 				let next = activeStep;
 				if (firstTop > midY) next = -1;
 				else if (lastBottom < midY) next = nodes.length;

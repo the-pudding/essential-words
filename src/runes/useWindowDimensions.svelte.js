@@ -7,11 +7,11 @@ let dimensions = new useWindowDimensions();
 
 import debounce from "lodash.debounce";
 
-function getWidth() {
+export function getWidth() {
 	return window?.visualViewport?.width || document.documentElement.clientWidth;
 }
 
-function getHeight() {
+export function getHeight() {
 	return (
 		window?.visualViewport?.height || document.documentElement.clientHeight
 	);
@@ -33,13 +33,15 @@ export default class useWindowDimensions {
 			this.#onResize();
 			this.#debouncedResize = debounce(this.#onResize.bind(this), ms);
 
-			window?.visualViewport.addEventListener("resize", this.#debouncedResize);
+			window?.visualViewport?.addEventListener("resize", this.#debouncedResize);
+			window?.addEventListener("resize", this.#debouncedResize);
 
 			return () => {
-				window?.visualViewport.removeEventListener(
+				window?.visualViewport?.removeEventListener(
 					"resize",
 					this.#debouncedResize
 				);
+				window?.removeEventListener("resize", this.#debouncedResize);
 			};
 		});
 	}
