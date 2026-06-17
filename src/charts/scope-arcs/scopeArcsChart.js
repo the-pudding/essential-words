@@ -24,30 +24,17 @@ function readCssPx(el, varName, fallback) {
 	return Number.isFinite(n) ? n : fallback;
 }
 
-function computeRingRadii(pcts, centerR, radialSpan, ringGap) {
-	const n = pcts.length;
-	const totalGaps = ringGap * Math.max(0, n - 1);
-	const usable = radialSpan - totalGaps;
-	let inner = centerR;
-	return pcts.map((pct, i) => {
-		const thickness = (pct / 100) * usable;
-		const outer = inner + thickness;
-		inner = outer + (i < n - 1 ? ringGap : 0);
-		return outer;
-	});
-}
-
-function layoutFromWidth(containerWidth, bandThick) {
+function layoutFromWidth(containerWidth) {
 	const width = Math.max(1, containerWidth);
 	const pad = Math.round(width * 0.045);
 	const plotR = width / 2 - pad;
 	const maxR = plotR;
-	const centerR = maxR * (32 / 550); // 390
-	const ringGap = Math.max(32, maxR * 0.034); //0.034
-	const labelFontSize = Math.max(20, maxR * 0.042);
+	const centerR = maxR * (32 / 550);
+
+	const labelFontSize = Math.min(20, Math.max(14, maxR * 0.06));
 	const wordFontSize = Math.max(20, maxR * 0.03);
-	const svgW = (plotR + bandThick / 2 + pad) * 2;
-	return { pad, plotR, maxR, centerR, ringGap, labelFontSize, wordFontSize, svgW };
+	const svgW = (plotR + pad) * 2;
+	return { pad, plotR, maxR, centerR, labelFontSize, wordFontSize, svgW };
 }
 
 function arcPath(cx, cy, r, startAngle, endAngle, sweepFlag) {
@@ -116,21 +103,20 @@ export function renderScopeArcsChart(container, payload) {
 	if (!layoutWidth || layoutWidth < 2) return null;
 
 	container.innerHTML = "";
-	const bandThick = readCssPx(root, "--scope-arcs-band-thick", 40);
-	const bandThin = readCssPx(root, "--scope-arcs-band-thin", 20);
 	const focusFadeMs = readCssPx(root, "--scope-arcs-focus-fade-ms", 220);
 	const zoomMs = readCssPx(root, "--scope-arcs-zoom-ms", 600);
 	const zoomMax = readCssPx(root, "--scope-arcs-zoom-max", 3);
 	const segmentGapPx = readCssPx(root, "--scope-arcs-segment-gap", 4);
+
+	const wordsBandPx = readCssPx(root, "--scope-arcs-words-band", 30);
 	const sideGapPx = readCssPx(root, "--scope-arcs-side-gap", 8);
 	const unfocusedOpacity = readCssPx(root, "--scope-arcs-unfocused-opacity", 0.35);
 	const dividerWidth = readCssPx(root, "--scope-arcs-divider-width", 1);
 	const dividerDash = getComputedStyle(root).getPropertyValue("--scope-arcs-divider-dash").trim() || "5 5";
 
 	const textOutsetPx = readCssPx(root, "--scope-arcs-text-outset", 0);
-	const textOutsetBand = readCssPx(root, "--scope-arcs-text-outset-band", -0.15);
 	const textOutsetRatio = readCssPx(root, "--scope-arcs-text-outset-ratio", 0);
-	const labelOutset = readCssPx(root, "--scope-arcs-label-outset", 0);
+	const labelInset = readCssPx(root, "--scope-arcs-label-inset", 6);
 	const marqueeSpeed = readCssPx(root, "--scope-arcs-marquee-speed", 18);
 	const marqueeRepeat = Math.max(2, Math.round(readCssPx(root, "--scope-arcs-marquee-repeat", 3)));
 
@@ -144,15 +130,33 @@ export function renderScopeArcsChart(container, payload) {
 		return { ...ring, remainedWords, removedWords, addedWords, removedShare, addedShare };
 	});
 
-	const layout = layoutFromWidth(layoutWidth, bandThick);
-	const { maxR, centerR, ringGap, labelFontSize, wordFontSize, svgW } = layout;
+	const layout = layoutFromWidth(layoutWidth);
+	const { maxR, centerR, labelFontSize, wordFontSize, svgW } = layout;
 	const minArcShare = 0.008;
+
 
 	const gslPcts = ringData.map((r) => r.gslPct);
 	const ngslPcts = ringData.map((r) => r.ngslPct);
 	const radialSpan = maxR - centerR;
-	const gslRadii = computeRingRadii(gslPcts, centerR, radialSpan, ringGap);
-	const ngslRadii = computeRingRadii(ngslPcts, centerR, radialSpan, ringGap);
+	const n = ringData.length;
+	const trackStep = radialSpan / n;
+
+	const trackGapWanted = readCssPx(
+		root,
+		"--scope-arcs-track-gap",
+		Math.max(labelFontSize + labelInset + 4, trackStep * 0.2)
+	);
+	const trackGap = Math.min(Math.max(8, trackGapWanted), trackStep * 0.72);
+	const maxBand = Math.max(4, trackStep - trackGap);
+
+	const minBand = Math.min(readCssPx(root, "--scope-arcs-min-band", 2), maxBand);
+	const maxShare = Math.max(1e-6, d3.max([...gslPcts, ...ngslPcts]) ?? 1);
+	const unit = maxBand / maxShare;
+	const trackR = ringData.map((_, i) => centerR + (i + 0.5) * trackStep);
+	const gslRadii = trackR.slice();
+	const ngslRadii = trackR.slice();
+	const gslThick = gslPcts.map((p) => Math.max(minBand, p * unit));
+	const ngslThick = ngslPcts.map((p) => Math.max(minBand, p * unit));
 
 	const svgCx = svgW / 2;
 	const svgCy = svgW / 2;
@@ -172,7 +176,16 @@ export function renderScopeArcsChart(container, payload) {
 
 	function outerRadiusForRing(ringNum) {
 		const i = ringNum - 1;
-		return Math.max(gslRadii[i] ?? centerR, ngslRadii[i] ?? centerR);
+		const r = trackR[i] ?? centerR;
+		const t = Math.max(gslThick[i] ?? 0, ngslThick[i] ?? 0);
+		return r + t / 2;
+	}
+
+	function innerRadiusForRing(ringNum) {
+		const i = ringNum - 1;
+		const r = trackR[i] ?? centerR;
+		const t = Math.max(gslThick[i] ?? 0, ngslThick[i] ?? 0);
+		return r - t / 2;
 	}
 
 	function zoomScaleForState({ focusedRing, overview }) {
@@ -196,10 +209,6 @@ export function renderScopeArcsChart(container, payload) {
 	}
 
 
-	function segmentGapAngle(R) {
-		return segmentGapPx / Math.max(R, 1);
-	}
-
 	function splitSemicircle(partialShare, side, R) {
 		const { start: arcStart, end: arcEnd, span: semi } = sideArcBounds(side, R);
 		const hasPartial = partialShare >= minArcShare;
@@ -207,63 +216,72 @@ export function renderScopeArcsChart(container, payload) {
 		const remainedOnly = !hasPartial;
 
 		if (remainedOnly) {
-			return { remained: { start: arcStart, end: arcEnd }, partial: null };
+			return { remained: { start: arcStart, end: arcEnd }, partial: null, boundary: null };
 		}
 
 		if (partialOnly) {
-			const arc =
-				side === "left"
-					? { start: arcEnd - semi, end: arcEnd }
-					: { start: arcStart, end: arcStart + semi };
-			return { remained: null, partial: arc };
+			return { remained: null, partial: { start: arcStart, end: arcEnd }, boundary: null };
 		}
 
-		const gap = segmentGapAngle(R);
-		const usable = semi - gap;
-		const partialSpan = partialShare * usable;
-		const remainedSpan = usable - partialSpan;
+		const partialSpan = partialShare * semi;
+		const remainedSpan = semi - partialSpan;
 
 		if (side === "left") {
+			const boundary = arcStart + remainedSpan;
 			return {
-				remained: { start: arcStart, end: arcStart + remainedSpan },
-				partial: { start: arcEnd - partialSpan, end: arcEnd }
+				remained: { start: arcStart, end: boundary },
+				partial: { start: boundary, end: arcEnd },
+				boundary
 			};
 		}
 
+		const boundary = arcStart + partialSpan;
 		return {
-			partial: { start: arcStart, end: arcStart + partialSpan },
-			remained: { start: arcStart + partialSpan + gap, end: arcEnd }
+			partial: { start: arcStart, end: boundary },
+			remained: { start: boundary, end: arcEnd },
+			boundary
 		};
+	}
+
+	function drawSeparator(g, cx, cy, R, angle, thick) {
+		
+		const half = Math.max(thick / 2, wordsBandPx / 2) + 1;
+		const ri = Math.max(1, R - half);
+		const ro = R + half;
+		g.append("line")
+			.attr("class", "sarc-seg-gap")
+			.attr("x1", cx + ri * Math.cos(angle))
+			.attr("y1", cy + ri * Math.sin(angle))
+			.attr("x2", cx + ro * Math.cos(angle))
+			.attr("y2", cy + ro * Math.sin(angle))
+			.attr("stroke", COLORS.bg)
+			.attr("stroke-width", segmentGapPx)
+			.attr("stroke-linecap", "butt")
+			.attr("vector-effect", "non-scaling-stroke")
+			.attr("pointer-events", "none");
 	}
 
 	function readTextOutset(ringNum) {
 		const px = readCssPx(root, `--scope-arcs-text-outset-${ringNum}`, NaN);
-		const band = readCssPx(root, `--scope-arcs-text-outset-band-${ringNum}`, NaN);
 		const ratio = readCssPx(root, `--scope-arcs-text-outset-ratio-${ringNum}`, NaN);
 		return {
 			px: Number.isFinite(px) ? px : textOutsetPx,
-			band: Number.isFinite(band) ? band : textOutsetBand,
 			ratio: Number.isFinite(ratio) ? ratio : textOutsetRatio
 		};
 	}
 
 	function ribbonTextRadius(r, ringNum) {
-		const { px, band, ratio } = readTextOutset(ringNum);
-		return r + px + band * (bandThick / 2) + r * ratio;
+		const { px, ratio } = readTextOutset(ringNum);
+		return r + px + r * ratio;
 	}
 
-	function readLabelOutset(ringNum) {
-		const perRing = readCssPx(root, `--scope-arcs-label-outset-${ringNum}`, NaN);
-		if (Number.isFinite(perRing)) return perRing;
-		return labelOutset;
-	}
 
 	function labelRadiusForRing(ringNum) {
-		const outerR = outerRadiusForRing(ringNum);
-		return Math.max(10, outerR + bandThin / 2 + readLabelOutset(ringNum));
+		const inner = innerRadiusForRing(ringNum);
+		return Math.max(labelFontSize, inner - labelInset - labelFontSize * 0.72);
 	}
 
-	function drawHitArc(g, cx, cy, r, start, end) {
+	function drawHitArc(g, cx, cy, r, start, end, width) {
 		const d = arcPath(cx, cy, r, start, end, 1);
 		if (!d) return;
 		g.append("path")
@@ -272,7 +290,7 @@ export function renderScopeArcsChart(container, payload) {
 			.attr("fill", "none")
 			.attr("stroke", "#000")
 			.attr("stroke-opacity", 0.001)
-			.attr("stroke-width", Math.max(bandThin * 2.5, 28))
+			.attr("stroke-width", Math.max(width ?? 0, 28))
 			.attr("vector-effect", "non-scaling-stroke")
 			.style("pointer-events", "none");
 	}
@@ -280,15 +298,17 @@ export function renderScopeArcsChart(container, payload) {
 	function drawBandArc(g, className, cx, cy, r, start, end, color, strokeW) {
 		const d = arcPath(cx, cy, r, start, end, 1);
 		if (!d) return null;
-		g.append("path")
+		g
+			.append("path")
 			.attr("class", `sarc-arc ${className}`)
 			.attr("d", d)
 			.attr("fill", "none")
 			.attr("stroke", color)
 			.attr("stroke-width", strokeW)
+			.attr("data-thick", strokeW)
 			.attr("stroke-linecap", "butt")
-			.attr("vector-effect", "non-scaling-stroke")
 			.attr("opacity", ARC_OPACITY);
+		
 		return d;
 	}
 
@@ -301,18 +321,21 @@ export function renderScopeArcsChart(container, payload) {
 
 	function registerSegmentClip(id, cx, cy, r, start, end, halfBand) {
 		const d = arcBandClipD(cx, cy, r, halfBand, start, end);
-		if (!d) return false;
-		defs
+		if (!d) return null;
+		const path = defs
 			.append("clipPath")
 			.attr("id", id)
 			.attr("clipPathUnits", "userSpaceOnUse")
 			.append("path")
 			.attr("d", d);
-		return true;
+		return path.node();
 	}
 
 	/** @type {Array<{ ring: number, textEl: SVGTextElement, tpNode: SVGTextPathElement, offset: number, cycleLen: number }>} */
 	const marqueeTracks = [];
+
+	/** @type {Array<{ ring: number, node: SVGPathElement, r: number, start: number, end: number, restThick: number }>} */
+	const clipMeta = [];
 
 	const zoomG = svg
 		.append("g")
@@ -324,6 +347,15 @@ export function renderScopeArcsChart(container, payload) {
 		const R_L = gslRadii[i];
 		const R_R = ngslRadii[i];
 		const ringNum = i + 1;
+		const thickL = gslThick[i];
+		const thickR = ngslThick[i];
+		const hitL = Math.max(thickL, 22);
+		const hitR = Math.max(thickR, 22);
+
+		const addClip = (id, r, start, end, restThick) => {
+			const node = registerSegmentClip(id, svgCx, svgCy, r, start, end, restThick / 2);
+			if (node) clipMeta.push({ ring: ringNum, node, r, start, end, restThick });
+		};
 
 		const g = zoomG.append("g").attr("class", "sarc-ring").attr("data-ring", ringNum);
 
@@ -338,7 +370,6 @@ export function renderScopeArcsChart(container, payload) {
 		const removedClipId = `sarc-removed-clip-${i}`;
 		const rightRemClipId = `sarc-rem-right-clip-${i}`;
 		const addedClipId = `sarc-added-clip-${i}`;
-		const clipBand = bandThick / 2;
 
 		let hasLeftRem = false;
 		let hasRemoved = false;
@@ -348,44 +379,44 @@ export function renderScopeArcsChart(container, payload) {
 		if (leftSegs.remained) {
 			hasLeftRem = !!drawBandArc(
 				g, "sarc-arc--remained", svgCx, svgCy, R_L,
-				leftSegs.remained.start, leftSegs.remained.end, COLORS.remained, bandThick
+				leftSegs.remained.start, leftSegs.remained.end, COLORS.remained, thickL
 			);
 			if (hasLeftRem) {
 				registerTextPath(leftRemTextId, svgCx, svgCy, R_L, leftSegs.remained.start, leftSegs.remained.end, ringNum);
-				registerSegmentClip(leftRemClipId, svgCx, svgCy, R_L, leftSegs.remained.start, leftSegs.remained.end, clipBand);
+				addClip(leftRemClipId, R_L, leftSegs.remained.start, leftSegs.remained.end, thickL);
 			}
 		}
 
 		if (leftSegs.partial) {
 			hasRemoved = !!drawBandArc(
 				g, "sarc-arc--removed", svgCx, svgCy, R_L,
-				leftSegs.partial.start, leftSegs.partial.end, COLORS.removed, bandThick
+				leftSegs.partial.start, leftSegs.partial.end, COLORS.removed, thickL
 			);
 			if (hasRemoved) {
 				registerTextPath(removedTextId, svgCx, svgCy, R_L, leftSegs.partial.start, leftSegs.partial.end, ringNum);
-				registerSegmentClip(removedClipId, svgCx, svgCy, R_L, leftSegs.partial.start, leftSegs.partial.end, clipBand);
+				addClip(removedClipId, R_L, leftSegs.partial.start, leftSegs.partial.end, thickL);
 			}
 		}
 
 		if (rightSegs.remained) {
 			hasRightRem = !!drawBandArc(
 				g, "sarc-arc--remained", svgCx, svgCy, R_R,
-				rightSegs.remained.start, rightSegs.remained.end, COLORS.remained, bandThick
+				rightSegs.remained.start, rightSegs.remained.end, COLORS.remained, thickR
 			);
 			if (hasRightRem) {
 				registerTextPath(rightRemTextId, svgCx, svgCy, R_R, rightSegs.remained.start, rightSegs.remained.end, ringNum);
-				registerSegmentClip(rightRemClipId, svgCx, svgCy, R_R, rightSegs.remained.start, rightSegs.remained.end, clipBand);
+				addClip(rightRemClipId, R_R, rightSegs.remained.start, rightSegs.remained.end, thickR);
 			}
 		}
 
 		if (rightSegs.partial) {
 			hasAdded = !!drawBandArc(
 				g, "sarc-arc--added", svgCx, svgCy, R_R,
-				rightSegs.partial.start, rightSegs.partial.end, COLORS.added, bandThick
+				rightSegs.partial.start, rightSegs.partial.end, COLORS.added, thickR
 			);
 			if (hasAdded) {
 				registerTextPath(addedTextId, svgCx, svgCy, R_R, rightSegs.partial.start, rightSegs.partial.end, ringNum);
-				registerSegmentClip(addedClipId, svgCx, svgCy, R_R, rightSegs.partial.start, rightSegs.partial.end, clipBand);
+				addClip(addedClipId, R_R, rightSegs.partial.start, rightSegs.partial.end, thickR);
 			}
 		}
 
@@ -436,39 +467,69 @@ export function renderScopeArcsChart(container, payload) {
 		if (hasRightRem) addWords(rightRemTextId, rightRemClipId, ring.remainedWords, FONTS.remained, COLORS.remained);
 		if (hasAdded) addWords(addedTextId, addedClipId, ring.addedWords, FONTS.added, COLORS.added);
 
-		if (leftSegs.remained) drawHitArc(g, svgCx, svgCy, R_L, leftSegs.remained.start, leftSegs.remained.end);
-		if (leftSegs.partial) drawHitArc(g, svgCx, svgCy, R_L, leftSegs.partial.start, leftSegs.partial.end);
-		if (rightSegs.remained) drawHitArc(g, svgCx, svgCy, R_R, rightSegs.remained.start, rightSegs.remained.end);
-		if (rightSegs.partial) drawHitArc(g, svgCx, svgCy, R_R, rightSegs.partial.start, rightSegs.partial.end);
+		// Constant on-screen gap between the partial and remained segments.
+		if (leftSegs.boundary != null) drawSeparator(g, svgCx, svgCy, R_L, leftSegs.boundary, thickL);
+		if (rightSegs.boundary != null) drawSeparator(g, svgCx, svgCy, R_R, rightSegs.boundary, thickR);
 
-		const labelR = labelRadiusForRing(ringNum);
-		const labelSpan = Math.min(
-			(160 * Math.PI) / 180,
-			(Math.PI * labelR) / Math.max(1, labelFontSize * ring.name.length * 0.56)
-		);
-		const labelArcD = arcPath(
-			svgCx, svgCy, labelR,
-			TOP - labelSpan / 2, TOP + labelSpan / 2, 1
-		);
-		if (labelArcD) {
-			const labelPathId = `sarc-label-path-${i}`;
-			defs.append("path").attr("id", labelPathId).attr("d", labelArcD);
-			labelG
+		if (leftSegs.remained) drawHitArc(g, svgCx, svgCy, R_L, leftSegs.remained.start, leftSegs.remained.end, hitL);
+		if (leftSegs.partial) drawHitArc(g, svgCx, svgCy, R_L, leftSegs.partial.start, leftSegs.partial.end, hitL);
+		if (rightSegs.remained) drawHitArc(g, svgCx, svgCy, R_R, rightSegs.remained.start, rightSegs.remained.end, hitR);
+		if (rightSegs.partial) drawHitArc(g, svgCx, svgCy, R_R, rightSegs.partial.start, rightSegs.partial.end, hitR);
+
+		if (ringNum === 1) {
+			
+			const lines = ring.name.toUpperCase().split(/[\s-]+/).filter(Boolean);
+			const text = labelG
 				.append("text")
-				.attr("class", "sarc-ring-label-text")
+				.attr("class", "sarc-ring-label-text sarc-ring-label-text--center")
+				.attr("x", svgCx)
+				.attr("y", svgCy)
 				.attr("font-size", labelFontSize)
 				.attr("font-family", '"Source Sans 3", sans-serif')
 				.attr("fill", COLORS.label)
 				.attr("letter-spacing", "0.06em")
-				.append("textPath")
-				.attr("href", `#${labelPathId}`)
-				.attr("startOffset", "50%")
 				.attr("text-anchor", "middle")
-				.text(ring.name.toUpperCase());
+				.attr("dominant-baseline", "central");
+			const startDy = -(lines.length - 1) * 0.6;
+			lines.forEach((line, li) => {
+				text
+					.append("tspan")
+					.attr("x", svgCx)
+					.attr("dy", `${li === 0 ? startDy : 1.2}em`)
+					.text(line);
+			});
+		} else {
+			const labelR = labelRadiusForRing(ringNum);
+			
+			const approxTextLen = labelFontSize * ring.name.length * 0.58;
+			const labelSpan = Math.min(
+				(300 * Math.PI) / 180,
+				(approxTextLen / Math.max(1, labelR)) * 1.06
+			);
+			const labelArcD = arcPath(
+				svgCx, svgCy, labelR,
+				TOP - labelSpan / 2, TOP + labelSpan / 2, 1
+			);
+			if (labelArcD) {
+				const labelPathId = `sarc-label-path-${i}`;
+				defs.append("path").attr("id", labelPathId).attr("d", labelArcD);
+				labelG
+					.append("text")
+					.attr("class", "sarc-ring-label-text")
+					.attr("font-size", labelFontSize)
+					.attr("font-family", '"Source Sans 3", sans-serif')
+					.attr("fill", COLORS.label)
+					.attr("letter-spacing", "0.06em")
+					.append("textPath")
+					.attr("href", `#${labelPathId}`)
+					.attr("startOffset", "50%")
+					.attr("text-anchor", "middle")
+					.text(ring.name.toUpperCase());
+			}
 		}
 	});
 
-	const dividerReach = maxR + bandThick / 2;
+	const dividerReach = Math.max(maxR, outerRadiusForRing(ringData.length));
 	zoomG
 		.append("line")
 		.attr("class", "sarc-center-divider")
@@ -569,12 +630,6 @@ export function renderScopeArcsChart(container, payload) {
 		return ring === focusedRing && ring <= visibleRings ? 1 : 0;
 	}
 
-	function bandWidthForRing(ring) {
-		const { focusedRing, overview } = scrollState;
-		if (overview) return ring === hoveredRing ? bandThick : bandThin;
-		return ring === focusedRing ? bandThick : bandThin;
-	}
-
 	function applyVisualState(animate = true, marqueeReset = false) {
 		const { visibleRings, focusedRing, overview } = scrollState;
 		const dur = animate ? focusFadeMs : 0;
@@ -582,6 +637,15 @@ export function renderScopeArcsChart(container, payload) {
 		const ease = d3.easeCubicInOut;
 		const scale = zoomScaleForState({ focusedRing, overview });
 		const ringVisible = (ring) => ring <= visibleRings;
+
+		
+		const activeRing = overview
+			? hoveredRing
+			: focusedRing && focusedRing <= visibleRings
+				? focusedRing
+				: null;
+		const swellWidth = (resting) =>
+			activeRing == null ? resting : Math.max(resting, wordsBandPx / Math.max(scale, 0.01));
 
 		ringLayer
 			.interrupt()
@@ -604,18 +668,27 @@ export function renderScopeArcsChart(container, payload) {
 			.selectAll(".sarc-arc")
 			.style("pointer-events", overview ? "stroke" : "none");
 
-		labelLayer.style("pointer-events", "none");
-
+		
 		ringLayer
 			.selectAll(".sarc-arc")
-			.interrupt()
+			.interrupt("band-w")
 			.transition("band-w")
 			.duration(dur)
 			.ease(ease)
 			.attr("stroke-width", function () {
 				const ring = Number(this.parentNode?.getAttribute?.("data-ring"));
-				return bandWidthForRing(ring);
+				const resting = Number(this.getAttribute("data-thick")) || 0;
+				return ring === activeRing ? swellWidth(resting) : resting;
 			});
+
+		
+		for (const m of clipMeta) {
+			const w = m.ring === activeRing ? swellWidth(m.restThick) : m.restThick;
+			const d = arcBandClipD(svgCx, svgCy, m.r, w / 2, m.start, m.end);
+			if (d) m.node.setAttribute("d", d);
+		}
+
+		labelLayer.style("pointer-events", "none");
 
 		ringLayer
 			.selectAll(".sarc-words")
@@ -633,7 +706,10 @@ export function renderScopeArcsChart(container, payload) {
 			.duration(dur)
 			.ease(ease)
 			.style("opacity", function () {
-				return focusOpacity(Number(this.getAttribute("data-ring")));
+				const ring = Number(this.getAttribute("data-ring"));
+				
+				if (ring === activeRing && ring !== 1) return 0;
+				return focusOpacity(ring);
 			})
 			.style("visibility", function () {
 				const ring = Number(this.getAttribute("data-ring"));

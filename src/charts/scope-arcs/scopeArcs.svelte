@@ -17,10 +17,14 @@
 	let stepObserver;
 	let visibilityObserver = null;
 	let marqueeObserver = null;
+	let scrollyObserver = null;
+	let legendObserver = null;
 	let rafId = 0;
 	let chartReady = $state(false);
 	let chartNear = false;
 	let chartVisible = false;
+	let scrollyIntersecting = $state(false);
+	let legendInRange = $state(false);
 	let activeStep = $state(-1);
 	let lastRenderedWidth = 0;
 	let prefersReducedMotionSub;
@@ -28,6 +32,12 @@
 	const overlaySteps = $derived(overlays ?? []);
 	const nRings = $derived(payload?.rings?.length ?? 5);
 	const isOverview = $derived(activeStep >= overlaySteps.length && overlaySteps.length > 0);
+
+	const legendVisible = $derived(
+		scrollyIntersecting &&
+			activeStep <= overlaySteps.length &&
+			(activeStep >= 0 || legendInRange)
+	);
 
 	function syncMarqueeActive() {
 		chartController?.setMarqueeActive(chartVisible);
@@ -100,6 +110,32 @@
 		);
 	}
 
+	function setupScrollyObserver() {
+		scrollyObserver?.disconnect();
+		if (!scrollyMount) return;
+		scrollyObserver = new IntersectionObserver(
+			([entry]) => {
+				scrollyIntersecting = entry?.isIntersecting ?? false;
+			},
+			{ root: null, threshold: 0 }
+		);
+		scrollyObserver.observe(scrollyMount);
+	}
+
+	function setupLegendObserver() {
+		legendObserver?.disconnect();
+		if (!scrollyMount || !overlaySteps.length) return;
+		const firstStep = scrollyMount.querySelector(".chart-overlay-step");
+		if (!firstStep) return;
+		legendObserver = new IntersectionObserver(
+			([entry]) => {
+				legendInRange = entry?.isIntersecting ?? false;
+			},
+			{ root: null, rootMargin: "100% 0px 50% 0px", threshold: 0 }
+		);
+		legendObserver.observe(firstStep);
+	}
+
 	function setupStepObserver() {
 		stepObserver?.disconnect();
 		if (!scrollyMount || !overlaySteps.length) return;
@@ -145,6 +181,8 @@
 		});
 		setupVisibilityObservers();
 		setupStepObserver();
+		setupScrollyObserver();
+		setupLegendObserver();
 		const resizeTarget = chartMount?.closest(".scope-arcs") ?? chartMount;
 		if (resizeTarget) {
 			resizeObserver = new ResizeObserver(() => {
@@ -160,6 +198,8 @@
 		stepObserver?.disconnect();
 		visibilityObserver?.disconnect();
 		marqueeObserver?.disconnect();
+		scrollyObserver?.disconnect();
+		legendObserver?.disconnect();
 		chartController?.destroy();
 		chartController = null;
 		prefersReducedMotionSub?.destroy?.();
@@ -177,6 +217,8 @@
 		if (!chartReady) return;
 		overlaySteps;
 		setupStepObserver();
+		setupScrollyObserver();
+		setupLegendObserver();
 	});
 </script>
 
@@ -189,22 +231,12 @@
 		<div class="chart-overlay-scrolly" bind:this={scrollyMount}>
 			<div class="chart-overlay-stage scope-arcs-stage">
 				<div class="scope-arcs-chart-wrap">
+					<div class="scope-arcs-headers" aria-hidden="true">
+						<span class="scope-arcs-header scope-arcs-header--left">1953 list</span>
+						<span class="scope-arcs-header scope-arcs-header--right">2023 list</span>
+					</div>
 					<div class="scope-arcs-chart-panel">
 						<div class="scope-arcs-chart" bind:this={chartMount}></div>
-					</div>
-					<div class="scope-arcs-legend" aria-hidden="true">
-						<span class="scope-arcs-legend-item">
-							<span class="scope-arcs-swatch scope-arcs-swatch--remained"></span>
-							remained (in both lists)
-						</span>
-						<span class="scope-arcs-legend-item">
-							<span class="scope-arcs-swatch scope-arcs-swatch--removed"></span>
-							removed from 1953 list
-						</span>
-						<span class="scope-arcs-legend-item">
-							<span class="scope-arcs-swatch scope-arcs-swatch--added"></span>
-							added to 2023 list
-						</span>
 					</div>
 				</div>
 			</div>
@@ -228,6 +260,27 @@
 				</div>
 			{/if}
 		</div>
+		<div
+			class="scope-arcs-legend-shell"
+			class:scope-arcs-legend-shell--visible={legendVisible}
+			aria-hidden={!legendVisible}
+		>
+			<div class="scope-arcs-legend">
+				<span class="scope-arcs-legend-item">
+					<span class="scope-arcs-swatch scope-arcs-swatch--remained"></span>
+					remained (in both lists)
+				</span>
+				<span class="scope-arcs-legend-item">
+					<span class="scope-arcs-swatch scope-arcs-swatch--removed"></span>
+					removed from 1953 list
+				</span>
+				<span class="scope-arcs-legend-item">
+					<span class="scope-arcs-swatch scope-arcs-swatch--added"></span>
+					added to 2023 list
+				</span>
+			</div>
+		</div>
+
 		{#if note}
 			<div class="chart-note">{@html note}</div>
 		{/if}
@@ -241,12 +294,15 @@
 		--scope-arcs-color-added: var(--color-ngsl, #db6ae8);
 		
 		--scope-arcs-max-width: 800px;
-		--scope-arcs-band-thick: 36;
-		--scope-arcs-band-thin: 12;
+		
+		--scope-arcs-min-band: 0;
+		
+		--scope-arcs-words-band: 30;
+		/* --scope-arcs-track-gap: room between tracks (also the label gutter); auto if unset */
 		--scope-arcs-focus-fade-ms: 220;
-		--scope-arcs-zoom-ms: 600;
-		--scope-arcs-zoom-max: 6;
-		--scope-arcs-segment-gap: 4;
+		--scope-arcs-zoom-ms: 400;
+		--scope-arcs-zoom-max: 3;
+		--scope-arcs-segment-gap: 2;
 		--scope-arcs-unfocused-opacity: 0.35;
 		--scope-arcs-side-gap: 4;
 		--scope-arcs-divider-color: var(--color-secondary);
@@ -254,20 +310,15 @@
 		--scope-arcs-divider-dash: 5 5;
 
 
-		--scope-arcs-text-outset-band: 0;
 		--scope-arcs-text-outset-ratio: -0.02;
 		--scope-arcs-text-outset: 0;
-		/* per-ring overrides: --scope-arcs-text-outset-band-N, -ratio-N, -N */
+		/* per-ring overrides: --scope-arcs-text-outset-ratio-N, --scope-arcs-text-outset-N */
+		--scope-arcs-text-outset-ratio-1: -0.04;
 		--scope-arcs-text-path-pad: 2;
 		--scope-arcs-marquee-speed: 10;
 		--scope-arcs-marquee-repeat: 3;
-		
-		--scope-arcs-label-outset: 6;
-		/* per-ring override: --scope-arcs-label-outset-1-5 */
-		--scope-arcs-label-outset-1: 2;
-		--scope-arcs-label-outset-3: 8;
-		--scope-arcs-label-outset-4: 14;
-		--scope-arcs-label-outset-5: 22;
+
+		--scope-arcs-label-inset: 6;
 
 		--scope-arcs-intro-offset: 0vh;
 		--scope-arcs-final-hold: calc(100vh - var(--scope-arcs-intro-offset));
@@ -290,7 +341,7 @@
 
 	.scope-arcs-stage {
 		--chart-overlay-stage-height: auto;
-		--chart-overlay-stage-top: 10vh;
+		--chart-overlay-stage-top: 5vh;
 		width: 100%;
 		justify-content: center;
 	}
@@ -320,6 +371,7 @@
 	}
 
 	.scope-arcs-chart-wrap {
+		position: relative;
 		width: 100%;
 		max-width: var(--scope-arcs-max-width);
 		margin-inline: auto;
@@ -329,6 +381,39 @@
 		transform: translateY(var(--scope-arcs-intro-offset));
 		overflow: visible;
 	}
+
+	.scope-arcs-headers {
+		display: contents;
+	}
+
+	.scope-arcs-header {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 2;
+		font-family: var(--font-mono);
+		font-weight: 600;
+		font-size: 13px;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--color-primary);
+		white-space: nowrap;
+		pointer-events: none;
+	}
+
+	.scope-arcs-header--left {
+		right: 100%;
+		margin-right: 0.75rem;
+		text-align: right;
+	}
+
+	.scope-arcs-header--right {
+		left: 100%;
+		margin-left: 0.75rem;
+		text-align: left;
+	}
+
+	
 
 	.scope-arcs-chart-panel {
 		width: 100%;
@@ -357,12 +442,28 @@
 		transition: opacity var(--scope-arcs-focus-fade-ms) cubic-bezier(0.33, 1, 0.68, 1);
 	}
 
-	.scope-arcs-chart :global(.sarc-arc) {
-		transition: stroke-width var(--scope-arcs-focus-fade-ms) cubic-bezier(0.33, 1, 0.68, 1);
-	}
-
 	.scope-arcs-chart :global(.sarc-words) {
 		transition: opacity var(--scope-arcs-focus-fade-ms) cubic-bezier(0.33, 1, 0.68, 1);
+	}
+
+	.scope-arcs-legend-shell {
+		position: sticky;
+		bottom: 2rem;
+		z-index: 1;
+		width: fit-content;
+		margin: 0 auto;
+		max-height: 0;
+		overflow: hidden;
+		pointer-events: none;
+		transition:
+			max-height 320ms cubic-bezier(0.33, 1, 0.68, 1),
+			margin-top 320ms cubic-bezier(0.33, 1, 0.68, 1);
+	}
+
+	.scope-arcs-legend-shell--visible {
+		max-height: 6rem;
+		margin-top: 2rem;
+		pointer-events: auto;
 	}
 
 	.scope-arcs-legend {
@@ -370,14 +471,24 @@
 		flex-wrap: wrap;
 		gap: 0.5rem 1.25rem;
 		justify-content: center;
-		margin-top: 0.75rem;
-		margin-bottom: 0.5rem;
+		width: fit-content;
 		font-family: var(--font-mono);
 		font-size: 13px;
 		color: var(--color-secondary);
 		text-transform: uppercase;
 		letter-spacing: 2%;
+		opacity: 0;
+		transform: translateY(1.25rem);
+		transition:
+			opacity 280ms cubic-bezier(0.33, 1, 0.68, 1),
+			transform 280ms cubic-bezier(0.33, 1, 0.68, 1);
 	}
+
+	.scope-arcs-legend-shell--visible .scope-arcs-legend {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
 
 	.scope-arcs-legend-item {
 		display: inline-flex;
@@ -408,5 +519,37 @@
 	.scope-arcs > .chart-note {
 		margin-top: 1.5rem;
 		text-align: left;
+	}
+
+
+	@media (prefers-reduced-motion: reduce) {
+		.scope-arcs-legend-shell {
+			transition: none;
+		}
+
+		.scope-arcs-legend {
+			transition: opacity 140ms ease;
+			transform: none;
+		}
+
+		.scope-arcs-legend-shell--visible .scope-arcs-legend {
+			transform: none;
+		}
+	}
+
+	@media (max-width: 1180px) {
+		.scope-arcs-headers {
+			display: flex;
+			justify-content: center;
+			gap: 2rem;
+			align-items: baseline;
+			width: 100%;
+		}
+
+		.scope-arcs-header {
+			position: static;
+			transform: none;
+			margin: 0;
+		}
 	}
 </style>

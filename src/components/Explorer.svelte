@@ -291,13 +291,11 @@
 		padding:0.5rem;
 		overflow-y: auto;
 		list-style: none;
-        direction: rtl;
         scrollbar-width: thin;
 		scrollbar-color: var(--color-border) transparent;
 	}
 
 	.exp-word {
-        direction: ltr;
 		font-family: var(--font-mono);
 		font-size: 15px;
 		line-height: 1.2;
