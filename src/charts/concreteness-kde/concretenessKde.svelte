@@ -163,13 +163,13 @@
     }
 
     .concr-kde-annotation {
-        max-width: 24ch;
+        max-width: 20ch;
         font-size: 1.125rem;
         line-height: 1.2;
         position: absolute;
         top: -13%;
         z-index: 1;
-        left: 50%;
+        left: 35%;
     }
 
 	.concr-kde-annotation :global(.annotation) {
@@ -190,21 +190,20 @@
 		.concr-kde{
 			margin-top: 0;
 		}
-		.concr-kde-chart{
-			width: 85%;
-		}
 
 		.concr-kde-annotation{
-			font-size: 0.9rem;
-			left: 40%;
+			max-width: 20ch;
+			font-size: 1rem;
 			top: -7%;
 		}
 	}
 
-	@media (max-width: 720px){
+	@media (max-width: 520px){
+
 		.concr-kde-chart{
-			width: 90%;
+			margin-top: 3rem;
 		}
+		
 	}
 
 </style>

@@ -330,6 +330,10 @@
 		--concr-bands-removed-bg-row: rgba(237, 144, 39, 0.12);
 		--concr-bands-added-bg-row: rgba(219, 106, 232, 0.12);
 
+		/* Overlay card pacing: let each step size to its card and use a fixed gap as the reserved scroll between cards, so spacing is consistent regardless of card height. */
+		--chart-overlay-step-min-h: auto;
+		--chart-overlay-step-gap: 65vh;
+
 		width: calc(100vw - var(--explorer-rail-width));
 		max-width: calc(100vw - var(--explorer-rail-width));
 		margin-inline: calc(50% - 50vw) calc(50% - 50vw + var(--explorer-rail-width));
@@ -413,6 +417,7 @@
 			--concr-bands-annot-font-size: 14px;
 			--concr-bands-annot-stack: 48px;
 			--concr-bands-annot-leader: 12px;
+			--chart-overlay-step-gap: 52vh;
 		}
 
 
@@ -449,7 +454,7 @@
 			--concr-bands-annot-leader: 14px;
 			--concr-bands-annot-text-gap: 8px;
 			--concr-bands-annot-text-inset: 2px;
-
+			--chart-overlay-step-gap: 72vh;
 		}
 
 

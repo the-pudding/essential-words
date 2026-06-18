@@ -313,6 +313,11 @@ svg {
 	justify-content: center;
 }
 
+/* Guaranteed reserved scroll between consecutive cards. Defaults to 0 so charts that rely on min-height-based spacing are unaffected; opt in per chart via --chart-overlay-step-gap. */
+.chart-overlay-step + .chart-overlay-step {
+	margin-top: var(--chart-overlay-step-gap, 0px);
+}
+
 .chart-overlay-step-card {
 	max-width: min(var(--chart-overlay-card-max-w, 400px), 88vw);
 	pointer-events: auto;

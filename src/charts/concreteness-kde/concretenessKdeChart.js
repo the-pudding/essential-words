@@ -84,6 +84,49 @@ function seriesLabelLines(label, narrow) {
 	return [upper];
 }
 
+/**
+ * @param {HTMLElement} container
+ * @param {typeof CONCRETENESS_KDE_CONFIG} c
+ * @param {boolean} narrow
+ */
+function measureSeriesLabelsWidth(container, c, narrow) {
+	const fontSize = c.seriesLabels.fontSizePx;
+	const probeRoot = d3
+		.create("svg")
+		.attr("width", 0)
+		.attr("height", 0)
+		.style("position", "absolute")
+		.style("visibility", "hidden")
+		.style("pointer-events", "none");
+
+	container.appendChild(probeRoot.node());
+	const probe = probeRoot
+		.append("text")
+		.attr("class", "concr-kde-series-label")
+		.attr("font-size", `${fontSize}px`);
+
+	let maxW = 0;
+	for (const sm of c.series) {
+		for (const line of seriesLabelLines(sm.label, narrow)) {
+			probe.text(line);
+			maxW = Math.max(maxW, probe.node()?.getComputedTextLength?.() ?? 0);
+		}
+	}
+
+	probeRoot.remove();
+	return maxW;
+}
+
+/**
+ * @param {HTMLElement} container
+ * @param {typeof CONCRETENESS_KDE_CONFIG} c
+ * @param {boolean} narrow
+ */
+function seriesLabelsRightMargin(container, c, narrow) {
+	const labelW = measureSeriesLabelsWidth(container, c, narrow);
+	return Math.ceil(c.seriesLabels.offsetX + labelW + c.seriesLabels.paddingRight);
+}
+
 export const CONCRETENESS_KDE_CONFIG = {
 	layout: {
 		/** width comes from the container at render time */
@@ -135,6 +178,7 @@ export const CONCRETENESS_KDE_CONFIG = {
 		offsetX: 8,
 		fontSizePx: 15,
 		minSeparationPx: 14,
+		paddingRight: 2,
 		color: "var(--color-primary)"
 	},
 	densityHint: {
@@ -165,7 +209,10 @@ export function renderConcretenessKde(container, payload, { width }) {
 	const screenW = typeof window !== "undefined" ? window.innerWidth : Infinity;
 	const isNarrow = screenW <= metrics.narrowBreakpoint;
 	const H = c.layout.height;
-	const margin = c.layout.margin;
+	const margin = {
+		...c.layout.margin,
+		right: seriesLabelsRightMargin(container, c, isNarrow)
+	};
 	const plotW = W - margin.left - margin.right;
 	const plotH = H - margin.top - margin.bottom;
 
