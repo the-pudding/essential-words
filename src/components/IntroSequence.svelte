@@ -828,7 +828,7 @@
 	@media (max-width: 768px) {
 		:global(#intro) {
 			margin-bottom: 3rem;
-			padding: 0 1rem;
+			padding: 0 0 0 1.5rem;
 		}
 
 		.intro-sequence--mobile {

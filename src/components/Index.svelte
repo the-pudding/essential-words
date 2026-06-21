@@ -137,7 +137,11 @@
 					{:else if block.chartId === "adverbsAdded"}
 						<PosAdverbs />
 					{:else if block.chartId === "semanticsScopeArcs"}
-						<ScopeArcs note={block.note} overlays={block.overlays ?? []} />
+						<ScopeArcs
+							noteSummary={block.noteSummary}
+							noteDetails={block.noteDetails}
+							overlays={block.overlays ?? []}
+						/>
 					{:else}
 						<div class="chart-placeholder" data-chart-id={block.chartId}>
 							<p class="chart-placeholder-label">Chart not wired yet: {block.chartId}</p>

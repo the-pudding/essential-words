@@ -5,7 +5,7 @@
 	import { subscribePrefersReducedMotion } from "$utils/prefersReducedMotion.js";
 	import useWindowDimensions, { getHeight } from "$runes/useWindowDimensions.svelte.js";
 
-	let { note = "", overlays = [] } = $props();
+	let { noteSummary = "", noteDetails = "", overlays = [] } = $props();
 
 	const getData = getContext("data");
 	const win = new useWindowDimensions(150);
@@ -311,8 +311,15 @@
 			</div>
 		</div>
 
-		{#if note}
-			<div class="chart-note">{@html note}</div>
+		{#if noteSummary || noteDetails}
+			<details class="chart-note scope-arcs-note-drawer">
+				{#if noteSummary}
+					<summary class="scope-arcs-note-summary">{@html noteSummary}</summary>
+				{/if}
+				{#if noteDetails}
+					<div class="scope-arcs-note-body">{@html noteDetails}</div>
+				{/if}
+			</details>
 		{/if}
 	{/if}
 </div>
@@ -528,8 +535,8 @@
 
 	.scope-arcs-swatch {
 		display: inline-block;
-		width: 16px;
-		height: 8px;
+		width: 12px;
+		height: 12px;
 		flex-shrink: 0;
 		opacity: 0.55;
 	}
@@ -549,6 +556,41 @@
 	.scope-arcs > .chart-note {
 		margin-top: 1.5rem;
 		text-align: left;
+	}
+
+	.scope-arcs-note-drawer {
+		border-bottom: 1px solid var(--color-secondary);
+	}
+
+	.scope-arcs-note-summary {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		padding: 0.75rem 0;
+		cursor: pointer;
+		list-style: none;
+		text-align: left;
+	}
+
+	.scope-arcs-note-summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.scope-arcs-note-summary::after {
+		content: "+";
+		flex-shrink: 0;
+		font-size: 1.25rem;
+		line-height: 1;
+		color: var(--color-secondary);
+	}
+
+	.scope-arcs-note-drawer[open] .scope-arcs-note-summary::after {
+		content: "−";
+	}
+
+	.scope-arcs-note-body {
+		padding-bottom: 0.75rem;
 	}
 
 
