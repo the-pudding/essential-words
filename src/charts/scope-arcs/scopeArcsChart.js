@@ -229,18 +229,20 @@ export function renderScopeArcsChart(container, payload) {
 		return readCssPx(root, "--scope-arcs-label-inset-ratio-overview", 0.05);
 	}
 
-	function labelRadiusForRing(ringNum, activeRing, swellWidthFn, { useFocusInsets = true } = {}) {
+	function labelRadiusForRing(ringNum, activeRing, swellWidthFn) {
 		const prevOuter = outerRadiusAt(ringNum - 1, activeRing, swellWidthFn);
 		const inner = innerRadiusAt(ringNum, activeRing, swellWidthFn);
 		const gapCenter = (prevOuter + inner) / 2;
 		const gapWidth = Math.max(0, inner - prevOuter);
-		const inset = useFocusInsets ? readLabelInset(ringNum) : 0;
-		const ratio = useFocusInsets ? readLabelInsetRatio(ringNum) : readLabelOverviewRatio();
+
+		const isFocused = ringNum === activeRing;
+		const inset = isFocused ? readLabelInset(ringNum) : 0;
+		const ratio = isFocused ? readLabelInsetRatio(ringNum) : readLabelOverviewRatio();
 		return gapCenter - inset - gapWidth * ratio;
 	}
 
-	function labelArcDForRing(ringNum, name, activeRing, swellWidthFn, options = {}) {
-		const labelR = labelRadiusForRing(ringNum, activeRing, swellWidthFn, options);
+	function labelArcDForRing(ringNum, name, activeRing, swellWidthFn) {
+		const labelR = labelRadiusForRing(ringNum, activeRing, swellWidthFn);
 		const approxTextLen = labelFontSize * name.length * 0.58;
 		const labelSpan = Math.min(
 			(300 * Math.PI) / 180,
@@ -810,9 +812,7 @@ export function renderScopeArcsChart(container, payload) {
 		}
 
 		for (const m of labelPathMeta) {
-			const d = labelArcDForRing(m.ring, m.name, activeRing, swellWidth, {
-				useFocusInsets: !overview
-			});
+			const d = labelArcDForRing(m.ring, m.name, activeRing, swellWidth);
 			if (d) m.node.setAttribute("d", d);
 		}
 

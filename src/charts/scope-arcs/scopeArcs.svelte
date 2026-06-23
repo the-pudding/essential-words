@@ -356,9 +356,9 @@
 		--scope-arcs-marquee-repeat: 3;
 
 		--scope-arcs-label-inset: 0;
-		/* px nudge inward; rings 2–5, focused scroll steps only (ignored in final overview) */
+		/* px nudge inward for a ring's label — only applied when THAT ring is focused */
 		--scope-arcs-label-inset-ratio: 0;
-		/* fraction of gutter width; focused steps only — per-ring: -ratio-2 … -ratio-5 */
+		/* gutter-fraction nudge — only applied when THAT ring is focused; per-ring: -ratio-2 … -ratio-5 */
 		--scope-arcs-label-inset-ratio-overview: 0.05;
 		/* inward ratio on final overview step (all rings 2–5) */
 		--scope-arcs-label-inset-ratio-2: -0.3;
