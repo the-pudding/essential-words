@@ -160,7 +160,7 @@
 			([entry]) => {
 				legendInRange = entry?.isIntersecting ?? false;
 			},
-			{ root: null, rootMargin: "20% 0px -80% 0px", threshold: 0 }
+			{ root: null, rootMargin: "20% 0px -85% 0px", threshold: 0 }
 		);
 		legendObserver.observe(firstStep);
 	}
@@ -514,7 +514,7 @@
 	}
 
 	.scope-arcs-legend-shell--visible {
-		max-height: 6rem;
+		max-height: 16rem;
 		margin-top: 2rem;
 		pointer-events: auto;
 	}
@@ -625,21 +625,6 @@
 		}
 	}
 
-	@media (max-width: 768px) {
-		.scope-arcs {
-			--scope-arcs-chart-margin-inline: 8px;
-			--scope-arcs-text-inset: 1;
-			--scope-arcs-text-outset-ratio-3: -0.03;
-			--scope-arcs-text-outset-ratio-4: -0.03;
-			--scope-arcs-text-outset-ratio-5: -0.03;
-
-			--scope-arcs-label-inset-ratio-2: -0.2;
-			--scope-arcs-label-inset-ratio-3: 0;
-			--scope-arcs-label-inset-ratio-4: 0.1;
-			--scope-arcs-label-inset-ratio-5: 0.45;
-		}
-	}
-
 	@media (max-width: 1180px) {
 		.scope-arcs-headers {
 			display: flex;
@@ -652,7 +637,34 @@
 		.scope-arcs-header {
 			position: static;
 			transform: none;
-			margin: 0;
+			margin: 0 0 1.5rem 0;
 		}
 	}
+
+	@media (max-width: 1024px) {
+		.scope-arcs {
+			--chart-overlay-steps-top-pad: 45vh;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.scope-arcs {
+			--scope-arcs-chart-margin-inline: 8px;
+			--scope-arcs-text-inset: 1;
+			--scope-arcs-text-outset-ratio-3: -0.03;
+			--scope-arcs-text-outset-ratio-4: -0.03;
+			--scope-arcs-text-outset-ratio-5: -0.03;
+
+			--scope-arcs-label-inset-ratio-2: -0.2;
+			--scope-arcs-label-inset-ratio-3: 0;
+			--scope-arcs-label-inset-ratio-4: 0.1;
+			--scope-arcs-label-inset-ratio-5: 0.45;
+
+
+			--chart-overlay-steps-top-pad: 65vh;
+			--chart-overlay-step-min-h: 220vh;
+		}
+	}
+
+	
 </style>

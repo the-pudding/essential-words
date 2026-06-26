@@ -291,7 +291,7 @@
 		--sem-left-label-hover-shift: 0;
 		--sem-right-change-offset: 46;
 		--sem-responsive-breakpoint: 1150;
-		--sem-short-name-breakpoint: 900;
+		--sem-short-name-breakpoint: 1150;
 		--sem-compact-breakpoint: 480;
 		--sem-mobile-margin: 16;
 		--sem-mobile-margin-right: 56;
@@ -325,9 +325,9 @@
 		--chart-overlay-stage-top: 10vh;
 		--chart-overlay-stage-height: 100vh;
 		--sem-stage-top: 32px;
-		--chart-overlay-steps-top-pad: 85vh;
-		--chart-overlay-steps-bottom-pad: 85vh;
-		--chart-overlay-step-min-h: 100vh;
+		--chart-overlay-steps-top-pad: 0vh;
+		--chart-overlay-steps-bottom-pad: 10vh;
+		--chart-overlay-step-min-h: 120vh;
 		--chart-overlay-step-spacer-h: 100vh;
 		width: 100%;
 		max-width: 980px;
@@ -365,23 +365,14 @@
 			--sem-slope-width: 100%;
 			--sem-left-label-offset: 10;
 			max-width: none;
-		}
-	}
-
-	@media (max-width: 900px) {
-		.semantics-viz {
 			--sem-mobile-label-min-short: 58;
 			--sem-mobile-label-max-pct: 0.15;
 			--sem-mobile-slope-min: 120;
-		}
-	}
-
-	@media (max-width: 920px) {
-		.semantics-viz {
 			--sem-mobile-margin: 16;
 			--sem-mobile-margin-right: 56;
 		}
 	}
+
 
 	@media (max-width: 700px) {
 		.semantics-viz {
