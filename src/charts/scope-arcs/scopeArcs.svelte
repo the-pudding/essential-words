@@ -99,7 +99,7 @@
 			chartController = null;
 			return;
 		}
-		const width = win.width || chartMount.clientWidth;
+		const width = chartMount.clientWidth || win.width;
 		if (!width || width < 2) return;
 		if (chartController && Math.abs(width - lastRenderedWidth) < MIN_REDRAW_DELTA) return;
 		chartController?.destroy();
@@ -341,7 +341,7 @@
 		--scope-arcs-zoom-max: 3;
 		--scope-arcs-segment-gap: 2;
 		--scope-arcs-unfocused-opacity: 0.35;
-		--scope-arcs-side-gap: 4;
+		--scope-arcs-side-gap: 2;
 		--scope-arcs-divider-color: var(--color-secondary);
 		--scope-arcs-divider-width: 1;
 		--scope-arcs-divider-dash: 5 5;
@@ -366,7 +366,13 @@
 		--scope-arcs-label-inset-ratio-4: -0.1;
 		--scope-arcs-label-inset-ratio-5: 0.1;
 
+
+		--scope-arcs-center-label-line-height: 1.2;
+		--scope-arcs-center-label-cap-ratio: 0.35;
+		--scope-arcs-center-label-y-ratio: 0;
+
 		--scope-arcs-intro-offset: 0vh;
+		--scope-arcs-chart-margin-inline: 0;
 		--scope-arcs-final-hold: calc(100vh - var(--scope-arcs-intro-offset));
 
 		--chart-overlay-steps-top-pad: 30vh;
@@ -421,6 +427,7 @@
 		width: 100%;
 		max-width: var(--scope-arcs-max-width);
 		margin-inline: auto;
+		padding-inline: var(--scope-arcs-chart-margin-inline);
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -620,9 +627,11 @@
 
 	@media (max-width: 768px) {
 		.scope-arcs {
-			--scope-arcs-text-inset: 2;
-			--scope-arcs-text-outset-ratio-1: -0.01;
-			--scope-arcs-text-outset-ratio-2: -0.01;
+			--scope-arcs-chart-margin-inline: 8px;
+			--scope-arcs-text-inset: 1;
+			--scope-arcs-text-outset-ratio-3: -0.03;
+			--scope-arcs-text-outset-ratio-4: -0.03;
+			--scope-arcs-text-outset-ratio-5: -0.03;
 
 			--scope-arcs-label-inset-ratio-2: -0.2;
 			--scope-arcs-label-inset-ratio-3: 0;

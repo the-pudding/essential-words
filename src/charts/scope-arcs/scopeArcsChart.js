@@ -105,7 +105,7 @@ export function renderScopeArcsChart(container, payload) {
 	if (!container || !payload?.rings?.length) return null;
 
 	const root = container.closest?.(".scope-arcs") ?? container;
-	const layoutWidth = root.clientWidth || container.clientWidth;
+	const layoutWidth = container.clientWidth || root.clientWidth;
 	if (!layoutWidth || layoutWidth < 2) return null;
 
 	container.innerHTML = "";
@@ -258,6 +258,14 @@ export function renderScopeArcsChart(container, payload) {
 			(approxTextLen / Math.max(1, labelR)) * 1.06
 		);
 		return arcPath(svgCx, svgCy, labelR, TOP - labelSpan / 2, TOP + labelSpan / 2, 1);
+	}
+
+
+	function centerLabelY(li, lineCount, fs) {
+		const lineH = fs * readCssPx(root, "--scope-arcs-center-label-line-height", 1.2);
+		const capRatio = readCssPx(root, "--scope-arcs-center-label-cap-ratio", 0.35);
+		const yRatio = readCssPx(root, "--scope-arcs-center-label-y-ratio", 0);
+		return svgCy + (li - (lineCount - 1) / 2) * lineH + fs * (capRatio + yRatio);
 	}
 
 	function zoomScaleForState({ focusedRing, overview }) {
@@ -420,6 +428,11 @@ export function renderScopeArcsChart(container, payload) {
 	/** @type {Array<{ ring: number, node: SVGPathElement, name: string }>} */
 	const labelPathMeta = [];
 
+	/**
+	 * @type {SVGTSpanElement[]}
+	 */
+	const centerLabelTspans = [];
+
 	const restingBandWidth = (resting) => resting;
 
 	const zoomG = svg
@@ -570,26 +583,24 @@ export function renderScopeArcsChart(container, payload) {
 		if (rightSegs.partial) drawHitArc(g, svgCx, svgCy, R_R, rightSegs.partial.start, rightSegs.partial.end, hitR);
 
 		if (ringNum === 1) {
-			
 			const lines = ring.name.toUpperCase().split(/[\s-]+/).filter(Boolean);
 			const text = labelG
 				.append("text")
 				.attr("class", "sarc-ring-label-text sarc-ring-label-text--center")
 				.attr("x", svgCx)
-				.attr("y", svgCy)
 				.attr("font-size", labelFontSize)
 				.attr("font-family", '"Source Sans 3", sans-serif')
 				.attr("fill", COLORS.label)
 				.attr("letter-spacing", "0.06em")
-				.attr("text-anchor", "middle")
-				.attr("dominant-baseline", "central");
-			const startDy = -(lines.length - 1) * 0.6;
+				.attr("text-anchor", "middle");
 			lines.forEach((line, li) => {
-				text
+				const node = text
 					.append("tspan")
 					.attr("x", svgCx)
-					.attr("dy", `${li === 0 ? startDy : 1.2}em`)
-					.text(line);
+					.attr("y", centerLabelY(li, lines.length, labelFontSize))
+					.text(line)
+					.node();
+				if (node) centerLabelTspans.push({ node, lineIdx: li, lineCount: lines.length });
 			});
 		} else {
 			const labelArcD = labelArcDForRing(ringNum, ring.name, null, restingBandWidth);
@@ -871,12 +882,23 @@ export function renderScopeArcsChart(container, payload) {
 					.attr("font-size", trackSize);
 			}
 			labelText.interrupt().transition("text-size").duration(zoomDur).ease(ease).attr("font-size", nameSize);
+			for (const { node, lineIdx, lineCount } of centerLabelTspans) {
+				d3.select(node)
+					.interrupt("text-size")
+					.transition("text-size")
+					.duration(zoomDur)
+					.ease(ease)
+					.attr("y", centerLabelY(lineIdx, lineCount, nameSize));
+			}
 		} else {
 			zoomRoot.interrupt().attr("transform", nextTransform);
 			for (const track of marqueeTracks) {
 				track.textEl.setAttribute("font-size", wordSize * track.opticalScale);
 			}
 			labelText.attr("font-size", nameSize);
+			for (const { node, lineIdx, lineCount } of centerLabelTspans) {
+				node.setAttribute("y", centerLabelY(lineIdx, lineCount, nameSize));
+			}
 		}
 
 		const focusChanged =
