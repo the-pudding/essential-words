@@ -20,7 +20,7 @@
 		{ name: "Our Resources", url: "https://pudding.cool/resources/" },
 		{ name: "Pitch a Story", url: "https://pudding.cool/pitch/" },
 		{ name: "Brand Partnerships", url: "https://polygraph.cool" },
-		{ name: "Privacy Policy", url: "https://pudding.cool/pitch/" }
+		{ name: "Privacy Policy", url: "https://pudding.cool/privacy/" }
 	];
 
 	const follow = [
@@ -29,7 +29,7 @@
 			url: "https://www.instagram.com/the.pudding"
 		},
 		{ name: "Email", url: "https://pudding.cool/subscribe" },
-		{ name: "Bluesky", url: "https://bsky.app/profile/puddingviz.bsky.social" },
+		{ name: "Bluesky", url: "https://bsky.app/profile/pudding.cool" },
 		{ name: "YouTube", url: "https://www.youtube.com/@thepudding" },
 		{ name: "Twitter/X", url: "https://twitter.com/puddingviz/" },
 		{ name: "Threads", url: "https://www.threads.com/@the.pudding" },
