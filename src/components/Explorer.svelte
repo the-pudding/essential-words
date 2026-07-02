@@ -1,13 +1,14 @@
 <script>
 	import { getContext } from "svelte";
+	import { browser } from "$app/environment";
 
 	let { visible = false } = $props();
 
 	const getData = getContext("data");
 
 	let isOpen = $state(false);
-
 	let listsMounted = $state(false);
+	let drawerEl = $state(null);
 
 	const explorerWordLists = $derived(getData?.()?.explorerWordLists ?? null);
 	const list1953 = $derived(explorerWordLists?.list1953 ?? []);
@@ -15,6 +16,30 @@
 
 	$effect(() => {
 		if (!visible) isOpen = false;
+	});
+
+	$effect(() => {
+		if (!browser || !visible || !isOpen) return;
+
+		function handlePointerDown(event) {
+			if (!drawerEl?.contains(event.target)) {
+				isOpen = false;
+			}
+		}
+
+		function handleKeyDown(event) {
+			if (event.key !== "Escape") return;
+			event.preventDefault();
+			isOpen = false;
+		}
+
+		document.addEventListener("pointerdown", handlePointerDown, true);
+		document.addEventListener("keydown", handleKeyDown);
+
+		return () => {
+			document.removeEventListener("pointerdown", handlePointerDown, true);
+			document.removeEventListener("keydown", handleKeyDown);
+		};
 	});
 
 	function toggleOpen() {
@@ -31,7 +56,7 @@
 	aria-label="Word list explorer"
 	inert={!visible}
 >
-	<div class="explorer-drawer">
+	<div class="explorer-drawer" bind:this={drawerEl}>
 		<button
 			type="button"
 			class="explorer-rail"
@@ -243,6 +268,18 @@
 		flex-direction: column;
 		min-height: 0;
 		overflow: hidden;
+		position: relative;
+	}
+
+	.explorer-column::before {
+		content: "";
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		height: 48px;
+		pointer-events: none;
+		background: linear-gradient(to top, rgba(118, 109, 100, 0.17) 0%, transparent 80%);
 	}
 
 	.explorer-column + .explorer-column {
@@ -301,7 +338,7 @@
 		line-height: 1.2;
         hyphens: auto;
         font-weight: 400;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
 	}
 
     .exp-word--removed{

@@ -1,7 +1,30 @@
 {
+  "ignore": [
+    {
+      "optional": "I might bump up the contrast here on mobile"
+    },
+    {
+      "optional": "super small idea here, but i don't think you need to reverse the highlighting after you exit the sticky part of the intro and proceed to the paragraphs \"some of the changes...\" it could stay in the fully highlighted state i think?"
+    },
+    {
+      "optional": "on mobile, the toolbar preview for \"word lists\" could be a small fixed button on the top right if you want to reclaim more pixels for the story"
+    },
+    {
+      "optional": "Putting a background color on the legend might help with legibility here!"
+    },
+    {
+      "optional": "It might be more clear that this is scrollable if you put a gradient on the bottom V"
+    },
+    {
+      "optional": "I might consider lowering the margin between words too. V"
+    },
+    {
+      "optional": "I wonder if there's a way to point to the toolbar to explore the lists at some point? or maybe it forcibly pops out at the end?"
+    }
+  ],
   "meta": {
     "title": "From Goat to Despite",
-    "description": "How the words we teach English language learners changed, and what that says about us"
+    "description": "How the Words We Teach English Language Learners Changed, and What That Says About Us"
   },
   "story": [
     {
@@ -26,7 +49,7 @@
     {
       "type": "title",
       "h1": "From Goat to Despite",
-      "dek": "How the words we teach English language learners changed, and what that says about us",
+      "dek": "How the Words We Teach English Language Learners Changed, and What That Says About Us",
       "byline": "By Jasmine Nackash"
     },
     {
