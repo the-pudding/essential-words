@@ -97,7 +97,7 @@
 	.word {
 		font-family: var(--font-sans);
 		font-style: italic;
-		font-size: 1rem;
+		font-size: calc(1rem * var(--highlight-sans-scale));
 		text-transform: uppercase;
 		letter-spacing: 3%;
 		color: var(--color-secondary);
@@ -105,8 +105,8 @@
 		opacity: 0.75;
 		padding: 0 0.35rem;
 		background-repeat: no-repeat;
-		background-size: 0% var(--intro-highlight-fill-height);
-		background-position: 0 0.1rem;
+		background-size: 0% var(--intro-highlight-sans);
+		background-position: 0 var(--intro-grid-highlight-pos-sans);
 		box-decoration-break: clone;
 		transition:
 			background-size var(--intro-highlight-fade-ms) ease,
@@ -116,6 +116,10 @@
 
 	.word--removed {
 		font-family: var(--font-serif);
+		font-size: var(--intro-grid-font-size-serif);
+		background-position: 0 var(--intro-grid-highlight-pos-serif);
+		position: relative;
+		top: -0.163em;
 	}
 
 	.word-write {
@@ -170,21 +174,21 @@
 
 	.intro-word-grid.is-focus-drop .word--removed {
 		background-image: linear-gradient(var(--color-gsl-highlight), var(--color-gsl-highlight));
-		background-size: 100% var(--intro-highlight-fill-height);
+		background-size: 100% var(--intro-highlight-serif);
 		opacity: 1;
 		color: var(--color-highlight-text);
 	}
 
 	.intro-word-grid.is-focus-add .word--added {
 		background-image: linear-gradient(var(--color-ngsl-highlight), var(--color-ngsl-highlight));
-		background-size: 100% var(--intro-highlight-fill-height);
+		background-size: 100% var(--intro-highlight-sans);
 		opacity: 1;
 		color: var(--color-highlight-text);
 	}
 
 	.intro-word-grid.is-focus-remain .word--remained {
 		background-image: linear-gradient(var(--color-remained-highlight), var(--color-remained-highlight));
-		background-size: 100% var(--intro-highlight-fill-height);
+		background-size: 100% var(--intro-highlight-sans);
 		opacity: 1;
 		color: var(--color-highlight-text);
 	}

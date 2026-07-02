@@ -24,6 +24,12 @@
 	--chart-header-font-size: 1.75rem;
 	--highlight-sans-scale: 1.05;
 
+
+	--highlight-serif: 1.15em;
+	--highlight-pos-serif: 100%;
+	--highlight-sans: 1.1em;
+	--highlight-pos-sans: 50%;
+
 	/* z-index */
 	--z-bottom: -1;
 	--z-base: 1;
@@ -185,8 +191,16 @@ svg {
 	color: var(--color-highlight-text);
 	box-decoration-break: clone;
 	background-repeat: no-repeat;
-	background-size: 100% 1.15em;
-	background-position: 0 65%; 
+}
+
+.ngsl, .remained{
+	background-size: 100% var(--highlight-sans);
+	background-position: 0 var(--highlight-pos-sans);
+}
+
+.gsl{
+	background-size: 100% var(--highlight-serif);
+	background-position: 0 var(--highlight-pos-serif);
 }
 
 .ngsl, .remained{

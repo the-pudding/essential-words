@@ -598,7 +598,13 @@
 		--intro-removed-reveal-ms: 520ms;
 		--intro-part4-fade-ms: 600ms;
 		--intro-part4-translate: 16px;
-		--intro-highlight-fill-height: 1.25em;
+		--intro-highlight-sans: 1.1em;
+		--intro-highlight-serif: 1.15em;
+		--intro-highlight-y-serif: 100%;
+		--intro-highlight-y-sans: 50%;
+		--intro-grid-font-size-serif: 0.95rem;
+		--intro-grid-highlight-pos-sans: 0.1rem;
+		--intro-grid-highlight-pos-serif: 0.2rem;
 		--intro-write-ms-min: 140ms;
 		--intro-write-ms-max: 500ms;
 		--intro-write-ms-per-ch: 180ms;
@@ -743,8 +749,7 @@
 		padding: 0;
 		background-image: linear-gradient(transparent, transparent);
 		background-repeat: no-repeat;
-		background-size: 0% var(--intro-highlight-fill-height);
-		background-position: 0 67%;
+		background-size: 0% var(--intro-highlight-sans);
 		box-decoration-break: clone;
 		color: var(--color-primary);
 		transition:
@@ -753,10 +758,22 @@
 			padding var(--intro-highlight-fade-ms) ease;
 	}
 
+	.intro-copy-layer--part3 :global(.gsl),
+	.intro-copy--part3-mobile :global(.gsl) {
+		background-position: 0 var(--intro-highlight-y-serif);
+	}
+
+	.intro-copy-layer--part3 :global(.ngsl),
+	.intro-copy-layer--part3 :global(.remained),
+	.intro-copy--part3-mobile :global(.ngsl),
+	.intro-copy--part3-mobile :global(.remained) {
+		background-position: 0 var(--intro-highlight-y-sans);
+	}
+
 	.intro-copy-layer--part3.is-highlight-drop :global(.gsl),
 	.intro-copy--part3-mobile.is-highlight-drop :global(.gsl) {
 		background-image: linear-gradient(var(--color-gsl-highlight), var(--color-gsl-highlight));
-		background-size: 100% var(--intro-highlight-fill-height);
+		background-size: 100% var(--intro-highlight-serif);
 		padding: 0 0.35rem;
 		color: var(--color-highlight-text);
 	}
@@ -764,7 +781,7 @@
 	.intro-copy-layer--part3.is-highlight-add :global(.ngsl),
 	.intro-copy--part3-mobile.is-highlight-add :global(.ngsl) {
 		background-image: linear-gradient(var(--color-ngsl-highlight), var(--color-ngsl-highlight));
-		background-size: 100% var(--intro-highlight-fill-height);
+		background-size: 100% var(--intro-highlight-sans);
 		padding: 0 0.35rem;
 		color: var(--color-highlight-text);
 	}
@@ -772,7 +789,7 @@
 	.intro-copy-layer--part3.is-highlight-remain :global(.remained),
 	.intro-copy--part3-mobile.is-highlight-remain :global(.remained) {
 		background-image: linear-gradient(var(--color-remained-highlight), var(--color-remained-highlight));
-		background-size: 100% var(--intro-highlight-fill-height);
+		background-size: 100% var(--intro-highlight-sans);
 		padding: 0 0.35rem;
 		color: var(--color-highlight-text);
 	}
