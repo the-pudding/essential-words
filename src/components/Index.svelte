@@ -24,12 +24,34 @@
 	const hasText = (value) => typeof value === "string" && value.trim().length > 0;
 
 	let explorerVisible = $state(false);
+	let chartOverlayActive = $state(false);
 	let rafId = 0;
 
 	const EXPLORER_TITLE_SHOW_PX = 150;
 	const EXPLORER_TITLE_HIDE_PX = 150;
 	const EXPLORER_FOOTER_HIDE_PX = 72;
 	const EXPLORER_FOOTER_SHOW_PX = 140;
+	const CHART_FAB_HIDE_TOP_PX = 64;
+
+	function isChartOverlayActive() {
+		const vh = getHeight();
+
+		for (const scrolly of document.querySelectorAll(".chart-overlay-scrolly")) {
+			const section = scrolly.closest(".story-section--chart");
+			if (!section) continue;
+
+			const sectionRect = section.getBoundingClientRect();
+
+			if (sectionRect.bottom <= 0 || sectionRect.top >= vh) continue;
+
+			const stage = scrolly.querySelector(".chart-overlay-stage");
+			if (!stage) continue;
+
+			if (stage.getBoundingClientRect().top <= CHART_FAB_HIDE_TOP_PX) return true;
+		}
+
+		return false;
+	}
 
 	function updateExplorerVisibility() {
 		const title = document.getElementById("title");
@@ -54,6 +76,7 @@
 		}
 
 		explorerVisible = visible;
+		chartOverlayActive = isChartOverlayActive();
 	}
 
 	function scheduleExplorerVisibilityUpdate() {
@@ -83,7 +106,7 @@
 	});
 </script>
 
-<Explorer visible={explorerVisible} />
+<Explorer visible={explorerVisible} overlayActive={chartOverlayActive} />
 
 <article class="story">
 	{#if storyBlocks.length}

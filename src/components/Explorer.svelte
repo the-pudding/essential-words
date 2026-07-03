@@ -2,7 +2,9 @@
 	import { getContext } from "svelte";
 	import { browser } from "$app/environment";
 
-	let { visible = false } = $props();
+	let { visible = false, overlayActive = false } = $props();
+
+	const fabVisible = $derived(visible && !overlayActive);
 
 	const getData = getContext("data");
 
@@ -16,6 +18,10 @@
 
 	$effect(() => {
 		if (!visible) isOpen = false;
+	});
+
+	$effect(() => {
+		if (overlayActive) isOpen = false;
 	});
 
 	$effect(() => {
@@ -71,12 +77,12 @@
 <button
 	type="button"
 	class="explorer-fab"
-	class:is-visible={visible && !isOpen}
+	class:is-visible={fabVisible && !isOpen}
 	onclick={openExplorer}
 	aria-controls="explorer-panel"
 	aria-expanded={isOpen}
 	aria-label="Open word lists"
-	inert={!visible || isOpen}
+	inert={!fabVisible || isOpen}
 >
 	<span class="explorer-btn" aria-hidden="true">
 		<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
