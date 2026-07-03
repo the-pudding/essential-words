@@ -355,7 +355,8 @@ function wrapLeftToRightOffset(offset, cycleLen) {
 function bindMarqueeTextPath(c, textSel, offsetSeed) {
 	const tpNode = textSel.select("textPath").node();
 	if (!tpNode) return null;
-	const cycleLen = tpNode.getComputedTextLength() / c._repeatCount;
+	const cycleLen = tpNode._cachedCycleLen ??
+		(tpNode._cachedCycleLen = tpNode.getComputedTextLength() / c._repeatCount);
 	const offset = wrapLeftToRightOffset(offsetSeed, cycleLen);
 	tpNode.setAttribute("startOffset", offset);
 	return { tpNode, cycleLen, offset };
@@ -870,6 +871,37 @@ export function renderSemanticsRibbons(containerEl, payload) {
 				c._expPathId = expPathId;
 			}
 		}
+
+		if (c._thin) {
+			cg.insert("path", ".band-focus-outline")
+				.attr("class", "thin-band-focus-fill")
+				.attr("d", expandedRibbonPath(c, ribbonLeft, ribbonRight, mx, thinThreshold))
+				.attr("fill", c.dirFillFocused)
+				.attr("fill-opacity", focusRibbonFillOpacity)
+				.attr("stroke", "none")
+				.style("pointer-events", "none")
+				.style("display", "none");
+
+			if (showRibbonMarquee && c._expClipId) {
+				const thinOverlayText = cg.insert("text", ".band-focus-outline")
+					.attr("class", "thin-band-focus-text")
+					.attr("clip-path", `url(#${c._expClipId})`)
+					.attr("font-family", c._wordFontFamily)
+					.attr("font-size", `${defaultFontSize}px`)
+					.attr("font-weight", c._wordFontWeight)
+					.attr("font-style", c._wordFontStyle)
+					.attr("letter-spacing", "0.04em")
+					.attr("fill", c.dirTextColor)
+					.attr("fill-opacity", 1)
+					.style("pointer-events", "none")
+					.style("display", "none");
+
+				thinOverlayText.append("textPath")
+					.attr("href", `#${c._expPathId}`)
+					.attr("startOffset", "0")
+					.text(c._wordStr);
+			}
+		}
 	});
 
 	let interactionLocked = false;
@@ -939,48 +971,18 @@ export function renderSemanticsRibbons(containerEl, payload) {
 				destroy() {}
 			};
 
-	function drawThinFocusOverlay(group, c) {
-		group.selectAll(".thin-band-focus-fill, .thin-band-focus-text").remove();
-
-		group
-			.insert("path", ".band-focus-outline")
-			.attr("class", "thin-band-focus-fill")
-			.attr("d", expandedRibbonPath(c, ribbonLeft, ribbonRight, mx, thinThreshold))
-			.attr("fill", c.dirFillFocused)
-			.attr("fill-opacity", focusRibbonFillOpacity)
-			.attr("stroke", "none")
-			.style("pointer-events", "none");
-
-		const text = showRibbonMarquee
-			? group
-					.insert("text", ".band-focus-outline")
-					.attr("class", "thin-band-focus-text")
-					.attr("clip-path", `url(#${c._expClipId})`)
-					.attr("font-family", c._wordFontFamily)
-					.attr("font-size", `${defaultFontSize}px`)
-					.attr("font-weight", c._wordFontWeight)
-					.attr("font-style", c._wordFontStyle)
-					.attr("letter-spacing", "0.04em")
-					.attr("fill", c.dirTextColor)
-					.attr("fill-opacity", 1)
-					.style("pointer-events", "none")
-			: null;
-
-		if (text) {
-			text.append("textPath").attr("href", `#${c._expPathId}`).attr("startOffset", "0").text(c._wordStr);
-		}
-
-		return text;
+	function drawThinFocusOverlay(group) {
+		group.selectAll(".thin-band-focus-fill, .thin-band-focus-text").style("display", null);
 	}
 
 	function clearThinFocusOverlay(group) {
-		group.selectAll(".thin-band-focus-fill, .thin-band-focus-text").remove();
+		group.selectAll(".thin-band-focus-fill, .thin-band-focus-text").style("display", "none");
 	}
 
 	function setThinBandFocus(group, c, focused) {
 		if (focused) {
 			if (c._antsPath) d3.select(c._antsPath).style("display", "none");
-			drawThinFocusOverlay(group, c);
+			drawThinFocusOverlay(group);
 			setBandFocusStyle(group, true, 0);
 		} else {
 			setBandFocusStyle(group, false, 0);
