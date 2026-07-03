@@ -133,7 +133,7 @@
     {
       "type": "chart",
       "chartId": "concretenessBands",
-      "title": "The Concrete End Got Hollowed Out. Something Murkier Filled In.",
+      "title": "The Concrete End Hollowed Out. Something Murkier Filled In.",
       "note": "Data source: Brysbaert Concreteness ratings for 40 thousand generally known English word lemmas. The dataset provided 99.8% coverage of the words in both lists. 6 words not in the dataset are not included in this chart: <i>as, dialog, english, gaiety, madden, old-fashioned.</i>",
       "overlays": [
         {
@@ -171,7 +171,7 @@
     },
     {
       "type": "prose",
-      "html": "<p>Most of the adverbs specify degree, frequency, certainty, and extent. Some hedge <span class=ngsl>(somewhat, partly, relatively, possibly, approximately).</span> Others assert <span class=ngsl>(absolutely, definitely, entirely, exactly, precisely).</span> They're all doing the same kind of work: Take a statement and tell you how much of it is true, how often, and how certain. It’s as if the world now requires you to be more precise about everything.</p>\r\n\r\n\r\n<h2 class=section-header>Further</h2>\r\n<p><span class=remained>Bread</span> survived both lists. <span class=gsl>Flour, wheat, harvest</span> and <span class=gsl>bake</span> didn’t. The word for what sustains us remained essential, while the words for how we’d make it weren’t. That might be the most honest summary of what happened.</p>\r\n\r\n\r\n<p>The world that made the 2023 list is more regulated, more connected, and in many ways more capable than the one behind the 1953 list. It’s a world further than our kitchen or home, reaching across economies, institutions, and democracies. <br>Today's vocabulary reflects a life that is less self-contained and more systemic. It’s less about what’s within arm’s reach, and more about the larger world we navigate through. That sort of long-distance connection requires a particular kind of language: expansive, abstract, and precise. And language, it turns out, can’t help itself. It keeps track.</p>"
+      "html": "<p>Most of the adverbs specify degree, frequency, certainty, and extent. Some hedge <span class=ngsl>(somewhat, partly, relatively, possibly, approximately).</span> Others assert <span class=ngsl>(absolutely, definitely, entirely, exactly, precisely).</span> They're all doing the same kind of work: Take a statement and tell you how much of it is true, how often, and how certain. It’s as if the world now requires you to be more precise about everything.</p>\r\n\r\n\r\n<h2 class=section-header>Further</h2>\r\n<p><span class=remained>Bread</span> survived both lists. <span class=gsl>Flour, wheat, harvest</span> and <span class=gsl>bake</span> didn’t. The word for what sustains us remained essential, while the words for how we’d make it weren’t. That might be the most honest summary of what happened.</p>\r\n\r\n\r\n<p>The world that made the 2023 list is more regulated, more connected, and in many ways more capable than the one behind the 1953 list. It’s a world further than our kitchen or home, reaching across economies, institutions, and democracies.</p>\r\n\r\n\r\n<p>Today's vocabulary reflects a life that is less self-contained and more systemic. It’s less about what’s within arm’s reach, and more about the larger world we navigate through. That sort of long-distance connection requires a particular kind of language: expansive, abstract, and precise. And language, it turns out, can’t help itself. It keeps track.</p>"
     }
   ],
   "notes": [
@@ -198,7 +198,7 @@
         },
         {
           "question": "How did I measure concreteness?",
-          "html": "<p>Concreteness ratings come from Brysbaert et al. (2014). I used these as-is. Six words weren’t in the database and were left out of the concreteness charts: <i>as, dialog, english, gaiety, madden,</i> and <i>old-fashioned.</i></p>"
+          "html": "<p>Concreteness ratings come from <a href=https://link.springer.com/article/10.3758/s13428-013-0403-5 target=_blank>Brysbaert et al. (2014).</a> I used these as-is. Six words weren’t in the database and were left out of the concreteness charts: <i>as, dialog, english, gaiety, madden,</i> and <i>old-fashioned.</i></p>"
         },
         {
           "question": "How did I tag parts of speech?",
@@ -206,7 +206,7 @@
         },
         {
           "question": "What are the limitations?",
-          "html": "<p>Both lists rank words by frequency, then apply learner-focused curation. Michael West’s 1953 list especially reflects period pedagogy. He favored general-purpose vocabulary over emotional or highly specific words, not just whatever appeared most often (Therova, 2020, summarizing West, 1953, pp. ix–x). Some of what looks like “1950s life” may also be how mid-century ESL teaching filtered the language. I still treat the lists as a portrait of everyday English because both cover a large share of running text and speech that goes well beyond the classroom.</p>"
+          "html": "<p>Both lists rank words by frequency, then apply learner-focused curation. Michael West’s 1953 list especially reflects period pedagogy. He favored general-purpose vocabulary over emotional or highly specific words, not just whatever appeared most often (<a href=https://vli-journal.org/wp/wp-content/uploads/2021/08/VLI_9_1_3_therova.pdf target=_blank>Therova, 2020</a>, summarizing West, 1953, pp. ix–x). Some of what looks like “1950s life” may also be how mid-century ESL teaching filtered the language. I still treat the lists as a portrait of everyday English because both cover a large share of running text and speech that goes well beyond the classroom.</p>"
         },
         {
           "question": "Footnotes",
