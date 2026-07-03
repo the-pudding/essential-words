@@ -200,13 +200,15 @@ function bandShellPath(c, slopeLeft, slopeRight, ribbonLeft, ribbonRight, mx, ri
 	);
 }
 
-function centerLinePath(c, pathLeft, pathRight, mx, fontSize, pathTailX = null) {
+function centerLinePath(c, pathLeft, pathRight, mx, fontSize, pathTailX = null, pathHeadX = null) {
 	const shift = fontSize * 0.35;
 	const gMid = (c.gslY0 + c.gslY1) / 2 + shift;
 	const nMid = (c.ngslY0 + c.ngslY1) / 2 + shift;
+	const head =
+		pathHeadX != null && pathHeadX < pathLeft ? `M${pathHeadX},${gMid} L` : "M";
 	const tail =
 		pathTailX != null && pathTailX > pathRight ? ` L${pathTailX},${nMid}` : "";
-	return `M${pathLeft},${gMid} C${mx},${gMid} ${mx},${nMid} ${pathRight},${nMid}${tail}`;
+	return `${head}${pathLeft},${gMid} C${mx},${gMid} ${mx},${nMid} ${pathRight},${nMid}${tail}`;
 }
 
 function antsLinePath(c, gslX1, ngslX0, mx, fontSize, antsYOffset) {
@@ -230,15 +232,17 @@ function expandedRibbonPath(c, gslX1, ngslX0, mx, thinThreshold) {
 	);
 }
 
-function expandedCenterPath(c, pathLeft, pathRight, mx, defaultFontSize, thinThreshold, pathTailX = null) {
+function expandedCenterPath(c, pathLeft, pathRight, mx, defaultFontSize, thinThreshold, pathTailX = null, pathHeadX = null) {
 	const shift = defaultFontSize * 0.35;
 	const gBot = c.gslY1;
 	const gMid = gBot - thinThreshold / 2 + shift;
 	const nBot = c.ngslY1;
 	const nMid = nBot - thinThreshold / 2 + shift;
+	const head =
+		pathHeadX != null && pathHeadX < pathLeft ? `M${pathHeadX},${gMid} L` : "M";
 	const tail =
 		pathTailX != null && pathTailX > pathRight ? ` L${pathTailX},${nMid}` : "";
-	return `M${pathLeft},${gMid} C${mx},${gMid} ${mx},${nMid} ${pathRight},${nMid}${tail}`;
+	return `${head}${pathLeft},${gMid} C${mx},${gMid} ${mx},${nMid} ${pathRight},${nMid}${tail}`;
 }
 
 function appendBandFocusOutline(parent, c, pathD) {
@@ -479,6 +483,7 @@ export function renderSemanticsRibbons(containerEl, payload) {
 	const mx = (ribbonLeft + ribbonRight) / 2;
 	const marqueeTailRunway = cssNumber(chartStyles, "--sem-marquee-tail-runway", 20) * uiScale;
 	const marqueePathTailX = ngslX0 + marqueeTailRunway;
+	const marqueePathHeadX = gslX1 - marqueeTailRunway;
 	const leftLabelOffset = cssNumber(chartStyles, "--sem-left-label-offset", 16) * uiScale;
 	const rightChangeOffset = cssNumber(chartStyles, "--sem-right-change-offset", 46) * uiScale;
 	const leftLabelHoverShift = cssNumber(chartStyles, "--sem-left-label-hover-shift", 30) * uiScale;
@@ -674,7 +679,7 @@ export function renderSemanticsRibbons(containerEl, payload) {
 			defs
 				.append("path")
 				.attr("id", pathId)
-				.attr("d", centerLinePath(c, ribbonLeft, ribbonRight, mx, fs, marqueePathTailX));
+				.attr("d", centerLinePath(c, ribbonLeft, ribbonRight, mx, fs, marqueePathTailX, marqueePathHeadX));
 		}
 
 		cg
@@ -866,7 +871,7 @@ export function renderSemanticsRibbons(containerEl, payload) {
 				defs
 					.append("path")
 					.attr("id", expPathId)
-					.attr("d", expandedCenterPath(c, ribbonLeft, ribbonRight, mx, defaultFontSize, thinThreshold, marqueePathTailX));
+					.attr("d", expandedCenterPath(c, ribbonLeft, ribbonRight, mx, defaultFontSize, thinThreshold, marqueePathTailX, marqueePathHeadX));
 				c._expClipId = expClipId;
 				c._expPathId = expPathId;
 			}
