@@ -367,7 +367,7 @@
 
 	.concr-bands-chart :global(svg) {
 		display: block;
-		overflow: hidden;
+		overflow: visible;
 	}
 
     .concr-bands-chart :global(.endpoint-text) {

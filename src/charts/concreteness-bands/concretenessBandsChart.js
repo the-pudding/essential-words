@@ -148,6 +148,16 @@ function computeDirectionLabelTopPad({ dirY, fontSize, lineCount, lineHeight }) 
 	return Math.max(0, Math.ceil(2 - topEdge));
 }
 
+
+function computeAnnotationBottomPad(m, maxStacked = 2) {
+	const lineH = m.annotFontSize * 1.2;
+	const textBlock = m.annotFontSize + lineH;
+	const annotDepth =
+		m.annotLeader + Math.max(0, maxStacked - 1) * m.annotStack + m.annotTextGap + textBlock + m.annotDotR;
+	const endpointDepth = m.endpointOffsetBottom + m.endpointSizePx * 1.4;
+	return Math.ceil(Math.max(m.margin.bottom, annotDepth, endpointDepth) + 6);
+}
+
 export function readConcretenessBandsMetrics(containerEl) {
 	const root = containerEl?.closest?.(".concr-bands") ?? containerEl;
 	const px = (name, fb) => readCssPx(root, name, fb);
@@ -263,6 +273,7 @@ export function renderConcretenessBands(container, payload, { width }) {
 		lineHeight: m.dirLabelLineHeight
 	});
 	margin.top += topPad;
+	margin.bottom = computeAnnotationBottomPad(m);
 
 	const { bins, numBins, binW, maxPct } = payload;
 	const plotW = W - margin.left - margin.right;
@@ -296,7 +307,8 @@ export function renderConcretenessBands(container, payload, { width }) {
 		.attr("viewBox", [0, 0, W, chartH])
 		.style("width", "100%")
 		.style("height", "auto")
-		.style("display", "block");
+		.style("display", "block")
+		.style("overflow", "visible");
 
 	svg.append("rect").attr("width", W).attr("height", chartH).attr("fill", cfg.colors.background);
 
@@ -736,12 +748,35 @@ export function renderConcretenessBands(container, payload, { width }) {
 		}
 	}
 
+	let interactionLocked = false;
+	let focusRanges = [];
+
+	function isBandFocused(band) {
+		if (!focusRanges.length) return true;
+		return focusRanges.some((range) => band.lo >= range.lo && band.hi <= range.hi);
+	}
+
+	function hasForcedFocus() {
+		return interactionLocked && focusRanges.length > 0;
+	}
+
+	function shouldAnimateBand(band, prefersReducedMotion) {
+		if (hasForcedFocus()) return isBandFocused(band);
+		if (hoveredBand) return band === hoveredBand;
+		if (prefersReducedMotion) return band.hovered;
+		return true;
+	}
+
 	const marqueeLoop = createMarqueeLoop({
 		halfRate: isPhone,
-		isEngaged: () => allBands.some((band) => band.hovered),
+		isEngaged: () => {
+			if (hasForcedFocus()) return allBands.some((band) => isBandFocused(band));
+			if (hoveredBand) return true;
+			return allBands.some((band) => band.hovered);
+		},
 		tick(dt, prefersReducedMotion) {
 			for (const band of allBands) {
-				if (prefersReducedMotion && !band.hovered) continue;
+				if (!shouldAnimateBand(band, prefersReducedMotion)) continue;
 				band.offset += SPEED * dt;
 				const cw = band.cycleW;
 				while (band.offset >= cw) band.offset -= cw;
@@ -753,8 +788,6 @@ export function renderConcretenessBands(container, payload, { width }) {
 	let hoveredBand = null;
 
 	let pendingHoverRestore = null;
-let interactionLocked = false;
-let focusRanges = [];
 	const HOVER_TRANSITION_MS = 200;
 	const hoverEase = d3.easeCubicOut;
 	const TR_FADE_OUT = "concr-hover-out";
@@ -926,12 +959,6 @@ const hoverLayer = svg.append("g").attr("class", "hover-layer");
 		clearHoverLayer();
 		bandsG.selectAll(".band-group").attr("opacity", 1);
 	}
-
-function isBandFocused(band) {
-	if (!focusRanges.length) return true;
-	return focusRanges.some((range) => band.lo >= range.lo && band.hi <= range.hi);
-}
-
 
 function focusUsesAboveAnnotations() {
 	if (!focusRanges.length) return false;
