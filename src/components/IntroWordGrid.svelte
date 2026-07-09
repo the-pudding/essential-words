@@ -102,7 +102,7 @@
 		letter-spacing: 3%;
 		color: var(--color-secondary);
 		white-space: nowrap;
-		opacity: 0.75;
+		/* opacity: 0.85; */
 		padding: 0 0.35rem;
 		background-repeat: no-repeat;
 		background-size: 0% var(--intro-highlight-sans);
