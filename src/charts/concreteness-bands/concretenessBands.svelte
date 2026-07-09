@@ -370,17 +370,23 @@
 		overflow: visible;
 	}
 
+	.concr-bands-chart :global(svg text),
+	.concr-bands-chart :global(svg tspan) {
+		font-synthesis: none;
+	}
+
     .concr-bands-chart :global(.endpoint-text) {
         font-family: var(--font-mono);
         text-transform: uppercase;
         color: var(--color-primary);
         font-weight: 500;
-        letter-spacing: 2%;
+        letter-spacing: 0.02em;
     }
 
     .concr-bands-chart :global(.label) {
         font-family: var(--font-mono);
         text-transform: uppercase;
+        font-weight: 500;
     }
 
 	.concr-bands-chart :global(.all-bands .band-group) {

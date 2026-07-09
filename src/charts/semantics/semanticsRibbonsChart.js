@@ -313,7 +313,7 @@ function appendPercentCapLabel(group, { x, y, w, h, midY, pct, textColor, thinTh
 		.attr("text-anchor", "middle")
 		.attr("dy", layout.dy)
 		.attr("font-size", `${PCT_CAP_LABEL_FONT_SIZE}px`)
-		.attr("font-weight", 600)
+		.attr("font-weight", 500)
 		.attr("fill", textColor)
 		.attr("opacity", layout.hidden ? 0 : 1);
 

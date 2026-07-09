@@ -342,16 +342,22 @@
 		overflow: visible;
 	}
 
+	.semantics-viz-chart :global(svg text),
+	.semantics-viz-chart :global(svg tspan) {
+		font-synthesis: none;
+	}
+
 	.semantics-viz-chart :global(.list-head){
 		text-transform: uppercase;
-		font-weight: 600;
+		font-weight: 500;
 		font-family: var(--font-mono);
-		letter-spacing: 2%;
+		letter-spacing: 0.02em;
 	}
 
 	.semantics-viz-chart :global(.pct-cap-label) {
 		font-family: var(--font-mono);
 		font-size: 13px;
+		font-weight: 500;
 		letter-spacing: -0.1em;
 	}
 
