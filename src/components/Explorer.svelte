@@ -663,6 +663,12 @@
 			width: calc(var(--explorer-close-tab-width) + var(--explorer-panel-width));
 		}
 
+		.explorer-drawer-contents {
+			align-items: flex-start;
+			height: 100%;
+			min-height: 0;
+		}
+
 		.explorer-close-tab {
 			display: none;
 		}
