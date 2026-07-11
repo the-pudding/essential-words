@@ -133,7 +133,6 @@
 	let writeRevealTimer = 0;
 	let scrollListenerActive = false;
 	let introObserver;
-
 	let timing = $state({
 		part1Scroll: 200,
 		part2Pre: 33,
@@ -518,12 +517,18 @@
 				/>
 
 				<div class="intro-copy intro-copy--sticky">
-					<div class="intro-copy-layer" class:is-visible={phase === 1}>
+					<div
+						class="intro-copy-layer"
+						class:is-visible={phase === 1}
+					>
 						{#each part1Paragraphs as p}
 							<p>{@html p}</p>
 						{/each}
 					</div>
-					<div class="intro-copy-layer" class:is-visible={phase === 2}>
+					<div
+						class="intro-copy-layer"
+						class:is-visible={phase === 2}
+					>
 						{#each part2Paragraphs as p}
 							<p>{@html p}</p>
 						{/each}
@@ -545,7 +550,10 @@
 		</section>
 	{/if}
 
-	<section class="intro-copy intro-copy--part4" class:is-visible={part4Visible}>
+	<section
+		class="intro-copy intro-copy--part4"
+		class:is-visible={part4Visible}
+	>
 		{#each part4Paragraphs as p}
 			<p>{@html p}</p>
 		{/each}
@@ -666,6 +674,25 @@
 		opacity: 0.85;
 	}
 
+	.intro-copy-layer {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		padding-top: var(--intro-part1-sticky-top);
+		opacity: 0;
+		pointer-events: none;
+		z-index: 1;
+		transition: opacity var(--intro-copy-fade-ms) ease;
+	}
+
+	.intro-copy-layer.is-visible {
+		opacity: 1;
+		pointer-events: auto;
+		z-index: 2;
+	}
+
 	.intro-copy {
 		position: relative;
 		z-index: 2;
@@ -688,21 +715,6 @@
 	.intro-copy--sticky {
 		position: relative;
 		height: 100%;
-	}
-
-	.intro-copy-layer {
-		position: absolute;
-		inset: 0;
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		padding-top: var(--intro-part1-sticky-top);
-		opacity: 0;
-		transition: opacity var(--intro-copy-fade-ms) ease;
-	}
-
-	.intro-copy-layer.is-visible {
-		opacity: 1;
 	}
 
 	.intro-copy--part3-mobile {

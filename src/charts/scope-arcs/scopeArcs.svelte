@@ -255,9 +255,6 @@
 <div
 	class="scope-arcs"
 	class:scope-arcs--overview={isOverview}
-	role={headingId ? "region" : undefined}
-	aria-labelledby={headingId}
-	aria-describedby={subheadId}
 >
 	{#if payloadError}
 		<p class="scope-arcs-error" role="alert">{payloadError}</p>

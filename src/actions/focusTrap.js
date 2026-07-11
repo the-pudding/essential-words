@@ -50,15 +50,22 @@ export default function focusTrap(node, params) {
 	};
 
 	const query = elements.join(", ");
-	const focusableElements = [...node.querySelectorAll(query)];
 
-	firstFocusable = focusableElements.shift();
-	lastFocusable = focusableElements.pop();
+	const refreshFocusables = () => {
+		const focusableElements = [...node.querySelectorAll(query)];
+		firstFocusable = focusableElements.shift();
+		lastFocusable = focusableElements.pop();
+	};
 
+	refreshFocusables();
 	setup(params);
 
 	return {
 		update(params) {
+			if (!params?.disable) {
+				remove();
+				refreshFocusables();
+			}
 			setup(params);
 		},
 

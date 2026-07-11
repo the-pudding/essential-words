@@ -97,12 +97,7 @@
 	});
 </script>
 
-<div
-	class="concr-kde"
-	role={headingId ? "region" : undefined}
-	aria-labelledby={headingId}
-	aria-describedby={subheadId}
->
+<div class="concr-kde">
 	{#if payloadError}
 		<p class="concr-kde-error" role="alert" style={errorStyle}>
 			Could not build concreteness chart: {payloadError}

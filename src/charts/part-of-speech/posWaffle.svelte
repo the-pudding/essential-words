@@ -303,9 +303,6 @@
 	bind:this={rootMount}
 	style:--pos-cell-size={`${cellSize}px`}
 	style:--pos-cell-gap={`${cellGap}px`}
-	role={headingId ? "region" : undefined}
-	aria-labelledby={headingId}
-	aria-describedby={subheadId}
 >
 	{#if lists[0]?.posCells && lists[1]?.posCells}
 		{#if gridMounted}

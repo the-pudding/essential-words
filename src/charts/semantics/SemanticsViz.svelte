@@ -86,6 +86,11 @@
 		chartController.setFocus(overlaySteps[activeStep].focusCategories ?? []);
 	}
 
+	function commitStep(next) {
+		if (next === activeStep) return;
+		activeStep = next;
+		applyStepFocus();
+	}
 
 	function updateStageTop() {
 		if (!chartMount || !scrollyMount) return;
@@ -196,10 +201,7 @@
 				}
 				if (best) {
 					const idx = Number(best.target.getAttribute("data-step"));
-					if (Number.isInteger(idx) && idx !== activeStep) {
-						activeStep = idx;
-						applyStepFocus();
-					}
+					if (Number.isInteger(idx)) commitStep(idx);
 					return;
 				}
 
@@ -207,10 +209,7 @@
 				const lastBottom = nodes.at(-1)?.getBoundingClientRect().bottom ?? 0;
 				const midY = window.innerHeight * 0.5;
 				const next = firstTop > midY || lastBottom < midY ? -1 : activeStep;
-				if (next !== activeStep) {
-					activeStep = next;
-					applyStepFocus();
-				}
+				commitStep(next);
 			},
 			{ root: null, rootMargin: "-45% 0px -45% 0px", threshold: [0, 0.2, 0.5, 0.8, 1] }
 		);
@@ -252,12 +251,7 @@
 	});
 </script>
 
-<div
-	class="semantics-viz"
-	role={headingId ? "region" : undefined}
-	aria-labelledby={headingId}
-	aria-describedby={subheadId}
->
+<div class="semantics-viz">
 	{#if payloadError}
 		<p class="semantics-viz-error" role="alert">{payloadError}</p>
 	{:else if payload}
@@ -275,7 +269,10 @@
 					<div class="chart-overlay-step-spacer" aria-hidden="true"></div>
 					{#each overlaySteps as step, i}
 						<article class="semantics-step chart-overlay-step" data-step={i}>
-							<div class="semantics-step-card chart-overlay-step-card" class:chart-overlay-step-card--active={i === activeStep}>
+							<div
+								class="semantics-step-card chart-overlay-step-card"
+								class:chart-overlay-step-card--active={i === activeStep}
+							>
 								{@html step.html ?? ""}
 							</div>
 						</article>

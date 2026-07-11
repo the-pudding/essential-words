@@ -108,6 +108,11 @@
 		chartController.setFocus(overlaySteps[activeStep].focusRanges ?? []);
 	}
 
+	function commitStep(next) {
+		if (next === activeStep) return;
+		activeStep = next;
+		applyStepFocus();
+	}
 	function syncStageLayout() {
 		if (!chartMount || !scrollyMount) return;
 		const svgEl = chartMount.querySelector("svg");
@@ -189,10 +194,7 @@
 				}
 				if (best) {
 					const idx = Number(best.target.getAttribute("data-step"));
-					if (Number.isInteger(idx) && idx !== activeStep) {
-						activeStep = idx;
-						applyStepFocus();
-					}
+					if (Number.isInteger(idx)) commitStep(idx);
 					return;
 				}
 
@@ -200,10 +202,7 @@
 				const lastBottom = nodes.at(-1)?.getBoundingClientRect().bottom ?? 0;
 				const midY = window.innerHeight * 0.5;
 				const next = firstTop > midY || lastBottom < midY ? -1 : activeStep;
-				if (next !== activeStep) {
-					activeStep = next;
-					applyStepFocus();
-				}
+				commitStep(next);
 			},
 			{ root: null, rootMargin: "-45% 0px -45% 0px", threshold: [0, 0.2, 0.5, 0.8, 1] }
 		);
@@ -260,9 +259,6 @@
 	class="concr-bands"
 	class:is-overlay-active={overlayModeActive}
 	bind:this={rootMount}
-	role={headingId ? "region" : undefined}
-	aria-labelledby={headingId}
-	aria-describedby={subheadId}
 >
 	{#if payloadError}
 		<p class="concr-bands-error" role="alert">{payloadError}</p>
@@ -285,7 +281,10 @@
 					<div class="chart-overlay-step-spacer" aria-hidden="true"></div>
 					{#each overlaySteps as step, i}
 						<article class="chart-overlay-step" data-step={i}>
-							<div class="chart-overlay-step-card" class:chart-overlay-step-card--active={i === activeStep}>
+							<div
+								class="chart-overlay-step-card"
+								class:chart-overlay-step-card--active={i === activeStep}
+							>
 								{@html step.html ?? ""}
 							</div>
 						</article>

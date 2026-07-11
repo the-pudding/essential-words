@@ -21,11 +21,7 @@
 	});
 </script>
 
-<div
-	class="pos-adverbs"
-	role={headingId ? "region" : undefined}
-	aria-labelledby={headingId}
->
+<div class="pos-adverbs">
 	{#if adverbWords.length}
 		<div
 			class="pos-adverbs-grid"

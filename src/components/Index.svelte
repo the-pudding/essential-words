@@ -114,8 +114,6 @@
 	});
 </script>
 
-<Explorer visible={explorerVisible} overlayActive={chartOverlayActive} />
-
 <article class="story">
 	{#if storyBlocks.length}
 		{#if introBlocks.length}
@@ -138,6 +136,7 @@
 						<p class="byline">{@html block.byline}</p>
 					{/if}
 				</section>
+				<Explorer visible={explorerVisible} overlayActive={chartOverlayActive} />
 			{:else if block.type === "prose"}
 				<section class="story-section story-section--prose">
 					<div class="content-container story-prose">{@html block.html}</div>
@@ -214,6 +213,7 @@
 
 	<Notes blocks={notesBlocks} />
 </article>
+
 
 <svelte:boundary onerror={(e) => console.error(e)}>
 	<Footer recirc={true} />

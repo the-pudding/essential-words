@@ -1,35 +1,41 @@
 <script>
-	import { getContext } from "svelte";
+	import { getContext, tick } from "svelte";
 	import { browser } from "$app/environment";
+	import focusTrap from "$actions/focusTrap.js";
 
 	let { visible = false, overlayActive = false } = $props();
 
-	const fabVisible = $derived(visible && !overlayActive);
+	let focusRevealed = $state(false);
+	const shown = $derived(visible || focusRevealed);
+	const fabVisible = $derived(shown && !overlayActive);
 
 	const getData = getContext("data");
 
 	let isOpen = $state(false);
 	let listsMounted = $state(false);
-	let drawerEl = $state(null);
+	let asideEl = $state(null);
+	let fabEl = $state(null);
+	/** @type {HTMLElement | null} */
+	let lastTriggerEl = null;
 
 	const explorerWordLists = $derived(getData?.()?.explorerWordLists ?? null);
 	const list1953 = $derived(explorerWordLists?.list1953 ?? []);
 	const list2023 = $derived(explorerWordLists?.list2023 ?? []);
 
 	$effect(() => {
-		if (!visible) isOpen = false;
+		if (!visible && isOpen) closeExplorer({ restoreFocus: false });
 	});
 
 	$effect(() => {
-		if (overlayActive) isOpen = false;
+		if (overlayActive && isOpen) closeExplorer({ restoreFocus: false });
 	});
 
 	$effect(() => {
 		if (!browser || !visible || !isOpen) return;
 
 		function isOutsideDrawer(event) {
-			if (!drawerEl) return true;
-			return !event.composedPath().includes(drawerEl);
+			if (!asideEl) return true;
+			return !event.composedPath().includes(asideEl);
 		}
 
 		function handlePointerDown(event) {
@@ -59,18 +65,63 @@
 		};
 	});
 
-	function openExplorer() {
+	$effect(() => {
+		if (!browser || !isOpen || !asideEl) return;
+		listsMounted;
+		tick().then(() => {
+			focusInitialDrawerTarget();
+		});
+	});
+
+	function isVisibleFocusable(el) {
+		if (!el || el.disabled) return false;
+		if (el.closest("[inert]")) return false;
+		const style = getComputedStyle(el);
+		return style.display !== "none" && style.visibility !== "hidden";
+	}
+
+	function focusInitialDrawerTarget() {
+		if (!asideEl) return;
+		const candidates = [
+			...asideEl.querySelectorAll(".explorer-close-tab, .exp-word-list, .explorer-rail--desktop")
+		];
+		const target = candidates.find(isVisibleFocusable);
+		target?.focus({ preventScroll: true });
+	}
+
+	/** @param {HTMLElement | null | undefined} trigger */
+	function openExplorer(trigger) {
+		lastTriggerEl = trigger ?? fabEl;
 		isOpen = true;
 		listsMounted = true;
 	}
 
-	function closeExplorer() {
+	function closeExplorer({ restoreFocus = true } = {}) {
+		const trigger = lastTriggerEl;
 		isOpen = false;
+		if (!restoreFocus || !browser || !trigger) return;
+		requestAnimationFrame(() => {
+			if (typeof trigger.focus === "function") trigger.focus({ preventScroll: true });
+		});
 	}
 
-	function toggleOpen() {
+	/** @param {MouseEvent} event */
+	function toggleOpen(event) {
 		if (isOpen) closeExplorer();
-		else openExplorer();
+		else openExplorer(event.currentTarget);
+	}
+
+	function handleExplorerFocus() {
+		focusRevealed = true;
+	}
+
+	function handleExplorerBlur() {
+		if (visible) return;
+		requestAnimationFrame(() => {
+			if (!asideEl?.contains(document.activeElement) && document.activeElement !== fabEl) {
+				focusRevealed = false;
+			}
+		});
 	}
 
 	function wordAriaLabel(text, status, list) {
@@ -84,42 +135,25 @@
 	}
 </script>
 
-<button
-	type="button"
-	class="explorer-fab"
-	class:is-visible={fabVisible && !isOpen}
-	onclick={openExplorer}
-	aria-controls="explorer-panel"
-	aria-expanded={isOpen}
-	aria-label="Open word lists"
-	inert={!fabVisible || isOpen}
->
-	<span class="explorer-btn" aria-hidden="true">
-		<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-			<line x1="10" y1="4" x2="10" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-			<line x1="4" y1="10" x2="16" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-		</svg>
-	</span>
-	<span class="explorer-fab-label">word lists</span>
-</button>
-
-{#if visible && isOpen}
-	<button
-		type="button"
-		class="explorer-backdrop"
-		aria-label="Close word lists"
-		onclick={closeExplorer}
-	></button>
-{/if}
-
 <aside
 	class="explorer"
 	class:is-open={isOpen}
-	class:is-visible={visible}
+	class:is-visible={shown}
 	aria-label="Word list explorer"
-	inert={!visible}
+	bind:this={asideEl}
+	use:focusTrap={{ disable: !shown || !isOpen }}
+	onfocusin={handleExplorerFocus}
+	onfocusout={handleExplorerBlur}
 >
-	<div class="explorer-drawer" bind:this={drawerEl}>
+	{#if isOpen}
+		<button
+			type="button"
+			class="explorer-backdrop"
+			aria-label="Close word lists"
+			onclick={() => closeExplorer()}
+		></button>
+	{/if}
+	<div class="explorer-drawer">
 		<button
 			type="button"
 			class="explorer-rail explorer-rail--desktop"
@@ -138,10 +172,11 @@
 			<span class="explorer-tab-label">word lists</span>
 		</button>
 
+		<div class="explorer-drawer-contents" inert={!isOpen}>
 		<button
 			type="button"
 			class="explorer-close-tab"
-			onclick={closeExplorer}
+			onclick={() => closeExplorer()}
 			aria-controls="explorer-panel"
 			aria-expanded={isOpen}
 			aria-label="Close word lists"
@@ -159,7 +194,7 @@
 			id="explorer-panel"
 			role="region"
 			aria-label="Word list comparison"
-			inert={!isOpen}
+			aria-hidden={!isOpen}
 		>
 			<div class="explorer-columns">
 				{#if listsMounted}
@@ -175,7 +210,7 @@
 								<p class="exp-col-desc removed">removed words</p>
 							</div>
 						</div>
-						<ul class="exp-word-list" aria-label="1953 General Service List">
+						<ul class="exp-word-list" aria-label="1953 General Service List" tabindex="0">
 							{#each list1953 as word (word.text + word.status)}
 								<li
 									class="exp-word"
@@ -202,7 +237,7 @@
 								<p class="exp-col-desc added">added words</p>
 							</div>
 						</div>
-						<ul class="exp-word-list" aria-label="2023 New General Service List">
+						<ul class="exp-word-list" aria-label="2023 New General Service List" tabindex="0">
 							{#each list2023 as word (word.text + word.status)}
 								<li
 									class="exp-word"
@@ -218,8 +253,31 @@
 				{/if}
 			</div>
 		</div>
+		</div>
 	</div>
 </aside>
+
+<button
+	type="button"
+	class="explorer-fab"
+	class:is-visible={fabVisible && !isOpen}
+	bind:this={fabEl}
+	onclick={() => openExplorer(fabEl)}
+	onfocus={handleExplorerFocus}
+	onblur={handleExplorerBlur}
+	aria-controls="explorer-panel"
+	aria-expanded={isOpen}
+	aria-label="Open word lists"
+	tabindex={!isOpen ? 0 : -1}
+>
+	<span class="explorer-btn" aria-hidden="true">
+		<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<line x1="10" y1="4" x2="10" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+			<line x1="4" y1="10" x2="16" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+		</svg>
+	</span>
+	<span class="explorer-fab-label">word lists</span>
+</button>
 
 <style>
 	.explorer {
@@ -238,21 +296,17 @@
 		box-shadow: -6px 0 16px 0 rgba(173, 161, 148, 0.17);
 		transform: translateX(100%);
 		pointer-events: none;
-		visibility: hidden;
 		transition:
 			transform var(--explorer-transition-duration) var(--explorer-transition-ease),
-			width var(--explorer-transition-duration) var(--explorer-transition-ease),
-			visibility 0s linear var(--explorer-transition-duration);
+			width var(--explorer-transition-duration) var(--explorer-transition-ease);
 	}
 
 	.explorer.is-visible {
 		transform: translateX(0);
 		pointer-events: auto;
-		visibility: visible;
 		transition:
 			transform var(--explorer-transition-duration) var(--explorer-transition-ease),
-			width var(--explorer-transition-duration) var(--explorer-transition-ease),
-			visibility 0s linear 0s;
+			width var(--explorer-transition-duration) var(--explorer-transition-ease);
 	}
 
 	.explorer.is-open {
@@ -266,6 +320,16 @@
 		width: calc(var(--explorer-rail-width) + var(--explorer-panel-width));
 		height: 100%;
 		pointer-events: auto;
+		position: relative;
+		z-index: 50;
+	}
+
+	.explorer-drawer-contents {
+		display: flex;
+		flex-direction: row;
+		align-items: stretch;
+		flex: 1;
+		min-width: 0;
 	}
 
 	.explorer-rail {
@@ -284,6 +348,38 @@
         border-radius: 0;
 		color: inherit;
 		cursor: pointer;
+	}
+
+	.explorer-rail:focus {
+		outline: none;
+	}
+
+	.explorer-rail:focus-visible {
+		outline: 2px solid var(--color-focus);
+		outline-offset: -2px;
+		background-color: color-mix(in srgb, var(--color-border) 35%, var(--color-bg));
+	}
+
+	.explorer-rail:focus-visible .explorer-tab-label {
+		color: var(--color-primary);
+	}
+
+	.explorer-fab:focus {
+		outline: none;
+	}
+
+	.explorer-fab:focus-visible {
+		outline: 2px solid var(--color-focus);
+		outline-offset: 2px;
+	}
+
+	.explorer-close-tab:focus {
+		outline: none;
+	}
+
+	.explorer-close-tab:focus-visible {
+		outline: 2px solid var(--color-focus);
+		outline-offset: 2px;
 	}
 
     .explorer-btn{
@@ -329,6 +425,7 @@
 		border: none;
 		background: transparent;
 		cursor: default;
+		pointer-events: auto;
 	}
 
 	.explorer-fab {
@@ -555,7 +652,6 @@
 		.explorer.is-visible:not(.is-open) {
 			transform: translateX(100%);
 			pointer-events: none;
-			visibility: hidden;
 		}
 
 		.explorer.is-open {
