@@ -334,10 +334,15 @@
 
 <style>
 	.scope-arcs {
-		--scope-arcs-color-remained: var(--color-secondary, #8f8a77);
-		--scope-arcs-color-removed: var(--color-gsl, #ed9027);
-		--scope-arcs-color-added: var(--color-ngsl, #db6ae8);
-		
+		--scope-arcs-band-remained: #D9D2B8;
+		--scope-arcs-band-removed: #FFAA4A;
+		--scope-arcs-band-added: #F493FF;
+		--scope-arcs-text-remained: #5C594C;
+		--scope-arcs-text-removed: #714008;
+		--scope-arcs-text-added: #76207F;
+		--scope-arcs-label: #8f8a77;
+		--scope-arcs-bg: var(--color-bg, #fffff1);
+
 		--scope-arcs-max-width: 800px;
 		
 		--scope-arcs-min-band: 0;
@@ -345,6 +350,7 @@
 		--scope-arcs-words-band: 30;
 		/* --scope-arcs-track-gap: room between tracks (also the label gutter); auto if unset */
 		--scope-arcs-zoom-ms: 800;
+		--scope-arcs-hover-ms: 200;
 		--scope-arcs-zoom-max: 3;
 		--scope-arcs-segment-gap: 2;
 		--scope-arcs-unfocused-opacity: 0.35;
@@ -359,7 +365,7 @@
 		--scope-arcs-text-inset: 0;
 		/* per-ring overrides: --scope-arcs-text-outset-ratio-N, --scope-arcs-text-outset-N */
 		--scope-arcs-text-outset-ratio-1: -0.04;
-		--scope-arcs-marquee-speed: 10;
+		--scope-arcs-marquee-speed: 15;
 		--scope-arcs-marquee-repeat: 3;
 
 		--scope-arcs-label-inset: 0;
@@ -553,19 +559,18 @@
 		width: 12px;
 		height: 12px;
 		flex-shrink: 0;
-		opacity: 0.55;
 	}
 
 	.scope-arcs-swatch--remained {
-		background: var(--scope-arcs-color-remained);
+		background: var(--scope-arcs-band-remained);
 	}
 
 	.scope-arcs-swatch--removed {
-		background: var(--scope-arcs-color-removed);
+		background: var(--scope-arcs-band-removed);
 	}
 
 	.scope-arcs-swatch--added {
-		background: var(--scope-arcs-color-added);
+		background: var(--scope-arcs-band-added);
 	}
 
 	.scope-arcs > .chart-note {

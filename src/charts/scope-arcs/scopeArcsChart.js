@@ -2,11 +2,14 @@ import * as d3 from "d3";
 import { createMarqueeLoop } from "$utils/marqueeLoop.js";
 
 const COLORS = {
-	remained: "var(--color-secondary, #8F8A77)",
-	removed: "var(--color-gsl, #ED9027)",
-	added: "var(--color-ngsl, #DB6AE8)",
-	label: "var(--color-primary, #5B5B5B)",
-	bg: "var(--color-bg, #FFFFF1)"
+	bandRemained: "var(--scope-arcs-band-remained)",
+	bandRemoved: "var(--scope-arcs-band-removed)",
+	bandAdded: "var(--scope-arcs-band-added)",
+	textRemained: "var(--scope-arcs-text-remained)",
+	textRemoved: "var(--scope-arcs-text-removed)",
+	textAdded: "var(--scope-arcs-text-added)",
+	label: "var(--scope-arcs-label)",
+	bg: "var(--scope-arcs-bg, var(--color-bg, #FFFFF1))"
 };
 
 // const FONTS = {
@@ -20,8 +23,6 @@ const FONTS = {
 	added: { family: '"Source Sans 3", sans-serif', style: "italic", weight: 400 },
 	remained: { family: '"Source Sans 3", sans-serif', style: "italic", weight: 400 }
 };
-
-const ARC_OPACITY = 0.4;
 
 function readCssPx(el, varName, fallback) {
 	if (!el) return fallback;
@@ -110,6 +111,7 @@ export function renderScopeArcsChart(container, payload) {
 
 	container.innerHTML = "";
 	const zoomMs = readCssPx(root, "--scope-arcs-zoom-ms", 400);
+	const hoverMs = readCssPx(root, "--scope-arcs-hover-ms", 200);
 	const zoomMax = readCssPx(root, "--scope-arcs-zoom-max", 3);
 	const segmentGapPx = readCssPx(root, "--scope-arcs-segment-gap", 4);
 
@@ -395,8 +397,8 @@ export function renderScopeArcsChart(container, payload) {
 			.attr("stroke-width", strokeW)
 			.attr("data-thick", strokeW)
 			.attr("stroke-linecap", "butt")
-			.attr("opacity", ARC_OPACITY);
-		
+			.attr("opacity", 1);
+
 		return d;
 	}
 
@@ -481,7 +483,7 @@ export function renderScopeArcsChart(container, payload) {
 		if (leftSegs.remained) {
 			hasLeftRem = !!drawBandArc(
 				g, "sarc-arc--remained", svgCx, svgCy, R_L,
-				leftSegs.remained.start, leftSegs.remained.end, COLORS.remained, thickL
+				leftSegs.remained.start, leftSegs.remained.end, COLORS.bandRemained, thickL
 			);
 			if (hasLeftRem) {
 				registerTextPath(leftRemTextId, svgCx, svgCy, R_L, leftSegs.remained.start, leftSegs.remained.end, ringNum);
@@ -492,7 +494,7 @@ export function renderScopeArcsChart(container, payload) {
 		if (leftSegs.partial) {
 			hasRemoved = !!drawBandArc(
 				g, "sarc-arc--removed", svgCx, svgCy, R_L,
-				leftSegs.partial.start, leftSegs.partial.end, COLORS.removed, thickL
+				leftSegs.partial.start, leftSegs.partial.end, COLORS.bandRemoved, thickL
 			);
 			if (hasRemoved) {
 				registerTextPath(removedTextId, svgCx, svgCy, R_L, leftSegs.partial.start, leftSegs.partial.end, ringNum);
@@ -503,7 +505,7 @@ export function renderScopeArcsChart(container, payload) {
 		if (rightSegs.remained) {
 			hasRightRem = !!drawBandArc(
 				g, "sarc-arc--remained", svgCx, svgCy, R_R,
-				rightSegs.remained.start, rightSegs.remained.end, COLORS.remained, thickR
+				rightSegs.remained.start, rightSegs.remained.end, COLORS.bandRemained, thickR
 			);
 			if (hasRightRem) {
 				registerTextPath(rightRemTextId, svgCx, svgCy, R_R, rightSegs.remained.start, rightSegs.remained.end, ringNum);
@@ -514,7 +516,7 @@ export function renderScopeArcsChart(container, payload) {
 		if (rightSegs.partial) {
 			hasAdded = !!drawBandArc(
 				g, "sarc-arc--added", svgCx, svgCy, R_R,
-				rightSegs.partial.start, rightSegs.partial.end, COLORS.added, thickR
+				rightSegs.partial.start, rightSegs.partial.end, COLORS.bandAdded, thickR
 			);
 			if (hasAdded) {
 				registerTextPath(addedTextId, svgCx, svgCy, R_R, rightSegs.partial.start, rightSegs.partial.end, ringNum);
@@ -572,10 +574,10 @@ export function renderScopeArcsChart(container, payload) {
 			}
 		};
 
-		if (hasLeftRem) addWords(leftRemTextId, leftRemClipId, ring.remainedWords, FONTS.remained, COLORS.remained);
-		if (hasRemoved) addWords(removedTextId, removedClipId, ring.removedWords, FONTS.removed, COLORS.removed);
-		if (hasRightRem) addWords(rightRemTextId, rightRemClipId, ring.remainedWords, FONTS.remained, COLORS.remained);
-		if (hasAdded) addWords(addedTextId, addedClipId, ring.addedWords, FONTS.added, COLORS.added);
+		if (hasLeftRem) addWords(leftRemTextId, leftRemClipId, ring.remainedWords, FONTS.remained, COLORS.textRemained);
+		if (hasRemoved) addWords(removedTextId, removedClipId, ring.removedWords, FONTS.removed, COLORS.textRemoved);
+		if (hasRightRem) addWords(rightRemTextId, rightRemClipId, ring.remainedWords, FONTS.remained, COLORS.textRemained);
+		if (hasAdded) addWords(addedTextId, addedClipId, ring.addedWords, FONTS.added, COLORS.textAdded);
 
 		// Constant on-screen gap between the partial and remained segments.
 		if (leftSegs.boundary != null) drawSeparator(g, svgCx, svgCy, R_L, leftSegs.boundary, thickL);
@@ -767,9 +769,9 @@ export function renderScopeArcsChart(container, payload) {
 		return ring === focusedRing && ring <= visibleRings ? 1 : 0;
 	}
 
-	function applyVisualState(animate = true, marqueeReset = false, zoomingOut = false) {
+	function applyVisualState(animate = true, marqueeReset = false, zoomingOut = false, durationMs = null) {
 		const { visibleRings, focusedRing, overview } = scrollState;
-		const transitionMs = animate ? zoomMs : 0;
+		const transitionMs = animate ? (durationMs ?? zoomMs) : 0;
 		const zoomEase = zoomingOut ? d3.easePolyOut.exponent(4) : d3.easeCubicIn;
 		const fadeEase = d3.easeCubicOut;
 		const fadeDelay = zoomingOut ? transitionMs * 0.25 : 0;
@@ -929,7 +931,7 @@ export function renderScopeArcsChart(container, payload) {
 		const next = ring == null ? null : Number(ring);
 		if (hoveredRing === next) return;
 		hoveredRing = next;
-		applyVisualState(true, true);
+		applyVisualState(true, true, false, hoverMs);
 	}
 
 	const svgNode = svg.node();
