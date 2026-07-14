@@ -495,9 +495,12 @@
 	.pos-waffle {
 		--pos-cell-size: 5px;
 		--pos-cell-gap: 1px;
-		--pos-color-remained: #d7d1bc;
-		--pos-color-removed: #fbc576;
-		--pos-color-added: #f6b6e7;
+		--pos-color-remained: #D9D2B8; /* #d7d1bc */
+		--pos-color-removed: #FFAA4A; /* #fbc576 */
+		--pos-color-added: #F493FF; /* #f6b6e7 */
+		--pos-color-removed-text: #714008;
+		--pos-color-added-text: #76207F;
+		--pos-color-remained-text: #5C594C;
 		width: 100%;
 		max-width: var(--max-prose-width);
 		margin: 0 auto;
@@ -719,9 +722,6 @@
 		position: fixed;
 		z-index: 20;
 		pointer-events: none;
-		background: var(--color-bg);
-		color: var(--color-primary);
-		border: 1px solid #dbd4bc;
 		border-radius: 2px;
 		padding: 0.35rem 0.6rem;
 		font-family: var(--font-sans);
@@ -741,18 +741,24 @@
 	}
 
 	.pos-tooltip--removed {
-		color: var(--color-gsl);
+		color: var(--pos-color-removed-text);
+		background: var(--pos-color-removed);
         font-family: var(--font-serif);
+		border: 1px solid var(--pos-color-removed-text);
 	}
 
 	.pos-tooltip--added {
-		color: var(--color-ngsl);
+		color: var(--pos-color-added-text);
+		background: var(--pos-color-added);
 		font-size: calc(1.25rem * var(--highlight-sans-scale));
+		border: 1px solid var(--pos-color-added-text);
 	}
 
 	.pos-tooltip--remained {
-		color: var(--color-primary);
+		color: var(--pos-color-remained-text);
+		background: var(--pos-color-remained);
 		font-size: calc(1.25rem * var(--highlight-sans-scale));
+		border: 1px solid var(--pos-color-remained-text);
 	}
 
 	.pos-waffle-empty {
