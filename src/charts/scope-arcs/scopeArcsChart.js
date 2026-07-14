@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 import { createMarqueeLoop } from "$utils/marqueeLoop.js";
+import { getPrefersReducedMotion } from "$utils/prefersReducedMotion.js";
 
 const COLORS = {
 	bandRemained: "var(--scope-arcs-band-remained)",
@@ -655,6 +656,7 @@ export function renderScopeArcsChart(container, payload) {
 	let hoveredRing = null;
 	let marqueePaused = false;
 	let marqueeResumeTimer = 0;
+	let prefersReducedMotion = getPrefersReducedMotion();
 
 	function setMarqueePaused(paused) {
 		marqueePaused = paused;
@@ -772,10 +774,13 @@ export function renderScopeArcsChart(container, payload) {
 	function applyVisualState(animate = true, marqueeReset = false, zoomingOut = false, durationMs = null) {
 		const { visibleRings, focusedRing, overview } = scrollState;
 		const transitionMs = animate ? (durationMs ?? zoomMs) : 0;
+		const fadeOnly = prefersReducedMotion;
 		const zoomEase = zoomingOut ? d3.easePolyOut.exponent(4) : d3.easeCubicIn;
 		const fadeEase = d3.easeCubicOut;
-		const fadeDelay = zoomingOut ? transitionMs * 0.25 : 0;
-		const fadeDuration = zoomingOut ? transitionMs - fadeDelay : transitionMs;
+	
+		const fadeDelay = !fadeOnly && zoomingOut ? transitionMs * 0.25 : 0;
+		const fadeDuration = !fadeOnly && zoomingOut ? transitionMs - fadeDelay : transitionMs;
+		
 		const scale = zoomScaleForState({ focusedRing, overview });
 		const ringVisible = (ring) => ring <= visibleRings;
 
@@ -810,18 +815,17 @@ export function renderScopeArcsChart(container, payload) {
 			.selectAll(".sarc-arc")
 			.style("pointer-events", overview ? "stroke" : "none");
 
-		
-		ringLayer
-			.selectAll(".sarc-arc")
-			.interrupt("band-w")
-			.transition("band-w")
-			.duration(transitionMs)
-			.ease(zoomEase)
-			.attr("stroke-width", function () {
-				const ring = Number(this.parentNode?.getAttribute?.("data-ring"));
-				const resting = Number(this.getAttribute("data-thick")) || 0;
-				return ring === activeRing ? swellWidth(resting) : resting;
-			});
+		const arcStroke = ringLayer.selectAll(".sarc-arc").interrupt("band-w");
+		const nextStrokeWidth = function () {
+			const ring = Number(this.parentNode?.getAttribute?.("data-ring"));
+			const resting = Number(this.getAttribute("data-thick")) || 0;
+			return ring === activeRing ? swellWidth(resting) : resting;
+		};
+		if (fadeOnly || !animate || transitionMs <= 0) {
+			arcStroke.attr("stroke-width", nextStrokeWidth);
+		} else {
+			arcStroke.transition("band-w").duration(transitionMs).ease(zoomEase).attr("stroke-width", nextStrokeWidth);
+		}
 
 		
 		for (const m of clipMeta) {
@@ -881,7 +885,8 @@ export function renderScopeArcsChart(container, payload) {
 
 		const labelText = labelLayer.selectAll(".sarc-ring-label-text");
 
-		if (animate && transitionMs > 0) {
+		
+		if (animate && transitionMs > 0 && !fadeOnly) {
 			zoomRoot.interrupt().transition("zoom").duration(transitionMs).ease(zoomEase).attr("transform", nextTransform);
 			for (const track of marqueeTracks) {
 				const trackSize = wordSize * track.opticalScale;
@@ -918,7 +923,7 @@ export function renderScopeArcsChart(container, payload) {
 		prevFocusedRing = overview ? null : focusedRing;
 		const resetOffsets = !marqueeInitialized || focusChanged || hoverChanged;
 		const marqueeTransitionMs =
-			animate && !overview && (focusChanged || hoverChanged || !marqueeInitialized)
+			animate && !overview && !fadeOnly && (focusChanged || hoverChanged || !marqueeInitialized)
 				? transitionMs
 				: 0;
 		scheduleMarqueeResume(marqueeTransitionMs, wordSize, resetOffsets);
@@ -968,6 +973,7 @@ export function renderScopeArcsChart(container, payload) {
 	}
 
 	initMarqueeBaseMeasurements();
+	marqueeLoop.setPrefersReducedMotion(prefersReducedMotion);
 	applyScrollState(scrollState, false);
 
 	return {
@@ -975,7 +981,13 @@ export function renderScopeArcsChart(container, payload) {
 			applyScrollState(state, true);
 		},
 		setMarqueeActive: marqueeLoop.setMarqueeActive,
-		setPrefersReducedMotion: marqueeLoop.setPrefersReducedMotion,
+		setPrefersReducedMotion(reduced) {
+			const next = Boolean(reduced);
+			if (next === prefersReducedMotion) return;
+			prefersReducedMotion = next;
+			marqueeLoop.setPrefersReducedMotion(prefersReducedMotion);
+			applyVisualState(true, false, false);
+		},
 		destroy() {
 			if (marqueeResumeTimer) {
 				clearTimeout(marqueeResumeTimer);

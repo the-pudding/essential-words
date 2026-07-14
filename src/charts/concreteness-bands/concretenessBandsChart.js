@@ -152,7 +152,7 @@ function computeDirectionLabelTopPad({ dirY, fontSize, lineCount, lineHeight }) 
 function computeAnnotationBottomPad(m) {
 
 	const endpointDepth = m.endpointOffsetBottom + m.endpointSizePx * 1.4;
-	return Math.ceil(Math.max(m.margin.bottom, endpointDepth) + 6);
+	return Math.ceil(Math.max(m.margin.bottom, endpointDepth) + 16);
 }
 
 export function readConcretenessBandsMetrics(containerEl) {
