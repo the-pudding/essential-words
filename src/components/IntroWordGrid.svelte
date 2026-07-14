@@ -149,15 +149,6 @@
 		transition: none;
 	}
 
-	.intro-word-grid.is-reduced-motion .word--removed-extra {
-		transform: none;
-		transition:
-			background-size var(--intro-highlight-fade-ms) ease,
-			color var(--intro-highlight-fade-ms) ease,
-			opacity 0s,
-			transform 0s;
-	}
-
 	.word--removed-extra {
 		opacity: 0;
 		transform: translateY(8px);
@@ -192,6 +183,64 @@
 		background-size: 100% var(--intro-highlight-sans);
 		opacity: 1;
 		color: var(--color-highlight-text);
+	}
+
+	/* Reduced motion: fade highlight color in/out */
+	@property --intro-hl-alpha {
+		syntax: "<number>";
+		inherits: true;
+		initial-value: 0;
+	}
+
+	.intro-word-grid.is-reduced-motion .word {
+		--intro-hl-alpha: 0;
+		transition:
+			--intro-hl-alpha var(--intro-highlight-fade-ms) ease,
+			color var(--intro-highlight-fade-ms) ease,
+			opacity var(--intro-highlight-fade-ms) ease;
+	}
+
+	.intro-word-grid.is-reduced-motion .word--removed,
+	.intro-word-grid.is-reduced-motion .word--added,
+	.intro-word-grid.is-reduced-motion .word--remained {
+		background-image: linear-gradient(
+			color-mix(in srgb, var(--intro-hl-color, transparent) calc(var(--intro-hl-alpha) * 100%), transparent),
+			color-mix(in srgb, var(--intro-hl-color, transparent) calc(var(--intro-hl-alpha) * 100%), transparent)
+		);
+	}
+
+	.intro-word-grid.is-reduced-motion .word--removed {
+		--intro-hl-color: var(--color-gsl-highlight);
+		background-size: 100% var(--intro-highlight-serif);
+	}
+
+	.intro-word-grid.is-reduced-motion .word--added {
+		--intro-hl-color: var(--color-ngsl-highlight);
+		background-size: 100% var(--intro-highlight-sans);
+	}
+
+	.intro-word-grid.is-reduced-motion .word--remained {
+		--intro-hl-color: var(--color-remained-highlight);
+		background-size: 100% var(--intro-highlight-sans);
+	}
+
+	.intro-word-grid.is-reduced-motion.is-focus-drop .word--removed,
+	.intro-word-grid.is-reduced-motion.is-focus-add .word--added,
+	.intro-word-grid.is-reduced-motion.is-focus-remain .word--remained {
+		--intro-hl-alpha: 1;
+		background-image: linear-gradient(
+			color-mix(in srgb, var(--intro-hl-color) calc(var(--intro-hl-alpha) * 100%), transparent),
+			color-mix(in srgb, var(--intro-hl-color) calc(var(--intro-hl-alpha) * 100%), transparent)
+		);
+	}
+
+	.intro-word-grid.is-reduced-motion .word--removed-extra {
+		transform: none;
+		transition:
+			--intro-hl-alpha var(--intro-highlight-fade-ms) ease,
+			color var(--intro-highlight-fade-ms) ease,
+			opacity 0s,
+			transform 0s;
 	}
 
 	@media (max-width: 768px) {

@@ -1,7 +1,8 @@
 <script>
-	import { getContext, tick } from "svelte";
+	import { getContext, tick, onMount } from "svelte";
 	import { browser } from "$app/environment";
 	import focusTrap from "$actions/focusTrap.js";
+	import { subscribePrefersReducedMotion, getPrefersReducedMotion } from "$utils/prefersReducedMotion.js";
 
 	let { visible = false, overlayActive = false } = $props();
 
@@ -17,6 +18,8 @@
 	let fabEl = $state(null);
 	/** @type {HTMLElement | null} */
 	let lastTriggerEl = null;
+	let prefersReducedMotion = $state(browser ? getPrefersReducedMotion() : false);
+	let prefersReducedMotionSub;
 
 	const explorerWordLists = $derived(getData?.()?.explorerWordLists ?? null);
 	const list1953 = $derived(explorerWordLists?.list1953 ?? []);
@@ -133,12 +136,20 @@
 					: "in both lists";
 		return `${text}, ${statusText}, ${list} list`;
 	}
+
+	onMount(() => {
+		prefersReducedMotionSub = subscribePrefersReducedMotion((reduced) => {
+			prefersReducedMotion = reduced;
+		});
+		return () => prefersReducedMotionSub?.destroy();
+	});
 </script>
 
 <aside
 	class="explorer"
 	class:is-open={isOpen}
 	class:is-visible={shown}
+	class:is-reduced-motion={prefersReducedMotion}
 	aria-label="Word list explorer"
 	bind:this={asideEl}
 	use:focusTrap={{ disable: !shown || !isOpen }}
@@ -261,6 +272,7 @@
 	type="button"
 	class="explorer-fab"
 	class:is-visible={fabVisible && !isOpen}
+	class:is-reduced-motion={prefersReducedMotion}
 	bind:this={fabEl}
 	onclick={() => openExplorer(fabEl)}
 	onfocus={handleExplorerFocus}
@@ -311,6 +323,32 @@
 
 	.explorer.is-open {
 		width: calc(var(--explorer-rail-width) + var(--explorer-panel-width));
+	}
+
+	/* Reduced motion: fade toolbar instead of slide */
+	.explorer.is-reduced-motion {
+		transform: none;
+		opacity: 0;
+		transition: opacity var(--explorer-transition-duration) var(--explorer-transition-ease);
+	}
+
+	.explorer.is-reduced-motion.is-visible {
+		transform: none;
+		opacity: 1;
+		transition: opacity var(--explorer-transition-duration) var(--explorer-transition-ease);
+	}
+
+	.explorer.is-reduced-motion.is-open {
+		transition: opacity var(--explorer-transition-duration) var(--explorer-transition-ease);
+	}
+
+	.explorer.is-reduced-motion .explorer-panel {
+		opacity: 0;
+		transition: opacity var(--explorer-transition-duration) var(--explorer-transition-ease);
+	}
+
+	.explorer.is-reduced-motion.is-open .explorer-panel {
+		opacity: 1;
 	}
 
 	.explorer-drawer {
@@ -454,6 +492,17 @@
 	.explorer-fab.is-visible {
 		transform: translateY(0);
 		pointer-events: auto;
+	}
+
+	.explorer-fab.is-reduced-motion {
+		transform: none;
+		opacity: 0;
+		transition: opacity var(--explorer-transition-duration) var(--explorer-transition-ease);
+	}
+
+	.explorer-fab.is-reduced-motion.is-visible {
+		transform: none;
+		opacity: 1;
 	}
 
 	.explorer-fab-label {
@@ -652,6 +701,17 @@
 		.explorer.is-visible:not(.is-open) {
 			transform: translateX(100%);
 			pointer-events: none;
+		}
+
+		.explorer.is-reduced-motion.is-visible:not(.is-open) {
+			transform: none;
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		.explorer.is-reduced-motion.is-open {
+			transform: none;
+			opacity: 1;
 		}
 
 		.explorer.is-open {

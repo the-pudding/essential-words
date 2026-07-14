@@ -413,7 +413,12 @@
 	});
 </script>
 
-<div class="intro-sequence" class:intro-sequence--mobile={isMobileLayout} bind:this={rootMount}>
+<div
+	class="intro-sequence"
+	class:intro-sequence--mobile={isMobileLayout}
+	class:is-reduced-motion={prefersReducedMotion}
+	bind:this={rootMount}
+>
 	{#if layoutSynced && isMobileLayout}
 		{#if flowGridLong}
 			<IntroWordGrid
@@ -810,6 +815,70 @@
 		padding: 0 var(--intro-highlight-bleed);
 		margin: 0 calc(-1 * var(--intro-highlight-bleed));
 		color: var(--color-highlight-text);
+	}
+
+	/* Reduced motion: fade highlight color in/out  */
+	@property --intro-hl-alpha {
+		syntax: "<number>";
+		inherits: true;
+		initial-value: 0;
+	}
+
+	.intro-sequence.is-reduced-motion .intro-copy-layer--part3 :global(.gsl),
+	.intro-sequence.is-reduced-motion .intro-copy-layer--part3 :global(.ngsl),
+	.intro-sequence.is-reduced-motion .intro-copy-layer--part3 :global(.remained),
+	.intro-sequence.is-reduced-motion .intro-copy--part3-mobile :global(.gsl),
+	.intro-sequence.is-reduced-motion .intro-copy--part3-mobile :global(.ngsl),
+	.intro-sequence.is-reduced-motion .intro-copy--part3-mobile :global(.remained) {
+		--intro-hl-alpha: 0;
+		background-size: 100% var(--intro-highlight-sans);
+		transition:
+			--intro-hl-alpha var(--intro-highlight-fade-ms) ease,
+			color var(--intro-highlight-fade-ms) ease,
+			padding var(--intro-highlight-fade-ms) ease,
+			margin var(--intro-highlight-fade-ms) ease;
+	}
+
+	.intro-sequence.is-reduced-motion .intro-copy-layer--part3 :global(.gsl),
+	.intro-sequence.is-reduced-motion .intro-copy--part3-mobile :global(.gsl) {
+		--intro-hl-color: var(--color-gsl-highlight);
+		background-size: 100% var(--intro-highlight-serif);
+		background-image: linear-gradient(
+			color-mix(in srgb, var(--intro-hl-color) calc(var(--intro-hl-alpha) * 100%), transparent),
+			color-mix(in srgb, var(--intro-hl-color) calc(var(--intro-hl-alpha) * 100%), transparent)
+		);
+	}
+
+	.intro-sequence.is-reduced-motion .intro-copy-layer--part3 :global(.ngsl),
+	.intro-sequence.is-reduced-motion .intro-copy--part3-mobile :global(.ngsl) {
+		--intro-hl-color: var(--color-ngsl-highlight);
+		background-image: linear-gradient(
+			color-mix(in srgb, var(--intro-hl-color) calc(var(--intro-hl-alpha) * 100%), transparent),
+			color-mix(in srgb, var(--intro-hl-color) calc(var(--intro-hl-alpha) * 100%), transparent)
+		);
+	}
+
+	.intro-sequence.is-reduced-motion .intro-copy-layer--part3 :global(.remained),
+	.intro-sequence.is-reduced-motion .intro-copy--part3-mobile :global(.remained) {
+		--intro-hl-color: var(--color-remained-highlight);
+		background-image: linear-gradient(
+			color-mix(in srgb, var(--intro-hl-color) calc(var(--intro-hl-alpha) * 100%), transparent),
+			color-mix(in srgb, var(--intro-hl-color) calc(var(--intro-hl-alpha) * 100%), transparent)
+		);
+	}
+
+	.intro-sequence.is-reduced-motion .intro-copy-layer--part3.is-highlight-drop :global(.gsl),
+	.intro-sequence.is-reduced-motion .intro-copy--part3-mobile.is-highlight-drop :global(.gsl),
+	.intro-sequence.is-reduced-motion .intro-copy-layer--part3.is-highlight-add :global(.ngsl),
+	.intro-sequence.is-reduced-motion .intro-copy--part3-mobile.is-highlight-add :global(.ngsl),
+	.intro-sequence.is-reduced-motion .intro-copy-layer--part3.is-highlight-remain :global(.remained),
+	.intro-sequence.is-reduced-motion .intro-copy--part3-mobile.is-highlight-remain :global(.remained) {
+		--intro-hl-alpha: 1;
+		/* Keep band geometry; override the non-RM solid wipe image. */
+		background-image: linear-gradient(
+			color-mix(in srgb, var(--intro-hl-color) calc(var(--intro-hl-alpha) * 100%), transparent),
+			color-mix(in srgb, var(--intro-hl-color) calc(var(--intro-hl-alpha) * 100%), transparent)
+		);
 	}
 
 	.intro-legend-container {
