@@ -326,7 +326,7 @@
 		--sem-ribbon-down-focus: var(--sem-ribbon-down);
 		--sem-ribbon-tan-focus: var(--sem-ribbon-tan);
 
-		--sem-ribbon-label: #8f8a77; 
+		--sem-ribbon-label: var(--color-secondary); /* #8f8a77 */
 		--sem-ribbon-header: #706b66;
 
 		--sem-pct-cap-up-fill: #FACCF9;
