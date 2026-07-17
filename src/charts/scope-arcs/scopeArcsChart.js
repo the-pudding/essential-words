@@ -189,6 +189,14 @@ export function renderScopeArcsChart(container, payload) {
 		.style("margin", "0 auto")
 		.style("overflow", "hidden");
 
+	const DESC_ID = "scope-arcs-desc";
+	svg
+		.append("desc")
+		.attr("id", DESC_ID)
+		.text(
+			"Groups the 21 semantic categories into five physical-scope domains, from 'the self' at the center, to 'local', 'institutional', 'social', and 'abstract' at the outer edge. Left is the 1953 list, right is 2023. Between the two, the vocabulary moved outward: fewer words for the body and the immediate world, more for institutions, systems, and ideas."
+		);
+
 	const TOP = (3 * Math.PI) / 2;
 	const BOTTOM = Math.PI / 2;
 
@@ -650,6 +658,7 @@ export function renderScopeArcsChart(container, payload) {
 		.attr("pointer-events", "none");
 
 	container.appendChild(svg.node());
+	container.setAttribute("aria-describedby", DESC_ID);
 
 	const ringLayer = zoomG.selectAll(".sarc-ring");
 	const labelLayer = zoomG.selectAll(".sarc-ring-label");
@@ -1101,6 +1110,7 @@ export function renderScopeArcsChart(container, payload) {
 			finePointerMq?.removeEventListener("change", onFinePointerMqChange);
 			document.removeEventListener("pointerdown", onOutsidePointerDown, true);
 			marqueeLoop.destroy();
+			container.removeAttribute("aria-describedby");
 			container.innerHTML = "";
 		}
 	};

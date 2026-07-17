@@ -340,7 +340,7 @@
 		--scope-arcs-text-remained: #5C594C;
 		--scope-arcs-text-removed: #714008;
 		--scope-arcs-text-added: #76207F;
-		--scope-arcs-label: #8f8a77;
+		--scope-arcs-label: var(--color-small-text); /* #8f8a77 */
 		--scope-arcs-bg: var(--color-bg, #fffff1);
 
 		--scope-arcs-max-width: 800px;
