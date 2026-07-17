@@ -54,23 +54,20 @@
 	}
 
 	.pos-adverbs-word {
-		display: block;
+		display: inline-block;
+		padding: 0 0.25rem;
+		width: fit-content;
 		font-family: var(--font-sans);
 		font-style: italic;
         text-transform: uppercase;
         letter-spacing: 3%;
 		font-size: 2rem;
 		line-height: 1.1;
-		color: var(--color-ngsl);
+		color: #76207F;
+		background-color: #F493FF;
 		white-space: nowrap;
 	}
 
-	.pos-adverbs-empty {
-		margin: 0;
-		text-align: center;
-		font-size: 0.95rem;
-		color: var(--color-secondary);
-	}
 
 	@media (max-width: 785px) {
 		.pos-adverbs{
@@ -110,6 +107,7 @@
 		}
 		.pos-adverbs-word{
 			font-size: 0.9rem;
+			font-weight: 500;
 		}
 	}
 </style>
