@@ -528,7 +528,7 @@
 		width: fit-content;
 		font-family: var(--font-mono);
 		font-size: 13px;
-		color: var(--color-secondary);
+		color: var(--color-small-text);
 		text-transform: uppercase;
 		letter-spacing: 2%;
 		background: var(--color-bg);
