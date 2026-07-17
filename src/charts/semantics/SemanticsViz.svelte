@@ -326,10 +326,10 @@
 		--sem-ribbon-down-focus: var(--sem-ribbon-down);
 		--sem-ribbon-tan-focus: var(--sem-ribbon-tan);
 
-		--sem-ribbon-label: var(--color-secondary); /* #8f8a77 */
+		--sem-ribbon-label: var(--color-small-text); /* #8f8a77 */
 		--sem-ribbon-header: #706b66;
 
-		--sem-pct-cap-up-fill: #FACCF9;
+		--sem-pct-cap-up-fill: #FACCF9;	
 		--sem-pct-cap-down-fill: #FFD59E;
 		--sem-pct-cap-tan-fill: #E6E0CC;
 		--sem-pct-cap-up-text: #76207F; /* #962FA2 */

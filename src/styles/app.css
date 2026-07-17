@@ -65,6 +65,7 @@
 	--color-secondary: #787463; /* #8F8A77 */
 	--color-accent: #5b6c14; /* #BACB73 */
 	--color-link: var(--color-primary);
+	--color-small-text: #575757;
 	--color-link-hover: var(--color-black);
 	--color-focus: var(--color-gray-500);
 	--color-mark: var(--color-yellow);
