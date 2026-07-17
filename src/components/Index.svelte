@@ -135,7 +135,8 @@
 		{#each mainBlocks as block, i}
 			{#if block.type === "title"}
 				<section class="story-section story-section--title" id="title">
-					<h1 class="story-title" aria-label="From Goat to Despite">
+					<h1 class="story-title">
+						<span class="sr-only">From Goat to Despite</span>
 						<span class="story-title__art story-title__art--desktop" aria-hidden="true">{@html StoryTitle}</span>
 						<span class="story-title__art story-title__art--mobile" aria-hidden="true">{@html StoryTitleMobile}</span>
 					</h1>
