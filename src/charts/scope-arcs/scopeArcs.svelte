@@ -655,16 +655,6 @@
 		.scope-arcs {
 			--scope-arcs-chart-margin-inline: 8px;
 			--scope-arcs-text-inset: 1;
-			--scope-arcs-text-outset-ratio-3: -0.03;
-			--scope-arcs-text-outset-ratio-4: -0.03;
-			--scope-arcs-text-outset-ratio-5: -0.03;
-
-			--scope-arcs-label-inset-ratio-2: -0.2;
-			--scope-arcs-label-inset-ratio-3: 0;
-			--scope-arcs-label-inset-ratio-4: 0.1;
-			--scope-arcs-label-inset-ratio-5: 0.45;
-
-
 			--chart-overlay-steps-top-pad: 65vh;
 			--chart-overlay-step-min-h: 220vh;
 		}
