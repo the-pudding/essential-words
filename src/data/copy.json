@@ -10,7 +10,7 @@
       "optional": "on mobile, the toolbar preview for \"word lists\" could be a small fixed button on the top right if you want to reclaim more pixels for the story V"
     },
     {
-      "optional": "Putting a background color on the legend might help with legibility here!"
+      "optional": "Putting a background color on the legend might help with legibility here! V"
     },
     {
       "optional": "It might be more clear that this is scrollable if you put a gradient on the bottom V"
@@ -19,7 +19,7 @@
       "optional": "I might consider lowering the margin between words too. V"
     },
     {
-      "optional": "I wonder if there's a way to point to the toolbar to explore the lists at some point? or maybe it forcibly pops out at the end?"
+      "optional": "I wonder if there's a way to point to the toolbar to explore the lists at some point? or maybe it forcibly pops out at the end? V"
     }
   ],
   "meta": {
@@ -59,8 +59,7 @@
     {
       "type": "chart",
       "chartId": "semanticsSlopegraph",
-      "title": "The New List Devotes More Space to Abstract Concepts, and Less to the Physical World.",
-      "titleOld": "Less About Objects and Feelings. More About Abstract Ideas and Mental Processes.",
+      "title": "The New List Devotes More Space to Abstract Concepts, and Less to the Physical World",
       "subhead": "Each band is one of 21 semantic categories, sized and sorted by its share of each list.",
       "note": "Data source: all words run through the UCREL Semantic Analysis System (USAS).",
       "overlays": [
@@ -133,7 +132,7 @@
     {
       "type": "chart",
       "chartId": "concretenessBands",
-      "title": "The Concrete End Hollowed Out. Something Murkier Filled In.",
+      "title": "The Concrete End Hollowed Out. Something Murkier Filled In",
       "note": "Data source: Brysbaert Concreteness ratings for 40 thousand generally known English word lemmas. The dataset provided 99.8% coverage of the words in both lists. 6 words not in the dataset are not included in this chart: <i>as, dialog, english, gaiety, madden, old-fashioned.</i>",
       "overlays": [
         {
@@ -157,8 +156,8 @@
     {
       "type": "chart",
       "chartId": "posDiagram",
-      "title": "Nouns Still Dominate Both Lists, Verbs Remained Steady, and Adjectives Grew Modestly. Adverbs, However, Nearly Doubled.",
-      "subhead": "Each square is one word, grouped by part-of-speech in each list. Hover the cells to see the words.",
+      "title": "Nouns Still Dominate Both Lists, Verbs Remained Steady, and Adjectives Grew Modestly. Adverbs, However, Nearly Doubled",
+      "subhead": "Each square is one word, grouped by part-of-speech in each list. <span class=hide-mobile>Hover the cells to see the words.</span>",
       "note": "The 2023 list contains more words overall (2,809 vs. 2,284). All changes mentioned in the text reflect each category's share of its list, not raw counts. Data source: NLTK (Natural Language Toolkit), with manual correction of mislabeled words."
     },
     {
@@ -171,7 +170,7 @@
     },
     {
       "type": "prose",
-      "html": "<p>Most of the adverbs specify degree, frequency, certainty, and extent. Some hedge <span class=ngsl>(somewhat, partly, relatively, possibly, approximately).</span> Others assert <span class=ngsl>(absolutely, definitely, entirely, exactly, precisely).</span> They're all doing the same kind of work: Take a statement and tell you how much of it is true, how often, and how certain. It’s as if the world now requires you to be more precise about everything.</p>\r\n\r\n\r\n<h2 class=section-header>Further</h2>\r\n<p><span class=remained>Bread</span> survived both lists. <span class=gsl>Flour, wheat, harvest</span> and <span class=gsl>bake</span> didn’t. The word for what sustains us remained essential, while the words for how we’d make it weren’t. That might be the most honest summary of what happened.</p>\r\n\r\n\r\n<p>The world that made the 2023 list is more regulated, more connected, and in many ways more capable than the one behind the 1953 list. It’s a world further than our kitchen or home, reaching across economies, institutions, and democracies.</p>\r\n\r\n\r\n<p>Today's vocabulary reflects a life that is less self-contained and more systemic. It’s less about what’s within arm’s reach, and more about the larger world we navigate through. That sort of long-distance connection requires a particular kind of language: expansive, abstract, and precise. And language, it turns out, can’t help itself. It keeps track.</p>"
+      "html": "<p>Most of the adverbs specify degree, frequency, certainty, and extent. Some hedge <span class=ngsl>(somewhat, partly, relatively, possibly, approximately).</span> Others assert <span class=ngsl>(absolutely, definitely, entirely, exactly, precisely).</span> They're all doing the same kind of work: Take a statement and tell you how much of it is true, how often, and how certain. It’s as if the world now requires you to be more precise about everything.</p>\r\n\r\n\r\n<h2 class=section-header>Further</h2>\r\n<p><span class=remained>Bread</span> survived both lists. <span class=gsl>Flour, wheat, harvest</span> and <span class=gsl>bake</span> didn’t. The word for what sustains us remained essential, while the words for how we’d make it weren’t. That might be the most honest summary of what happened.</p>\r\n\r\n\r\n<p>The world that made the 2023 list is more regulated, more connected, and in many ways more capable than the one behind the 1953 list. It’s a world further than our kitchen or home, reaching across economies, institutions, and democracies.</p>\r\n\r\n\r\n<p>Today's vocabulary reflects a life that isn’t self-contained, but rather more systemic. It’s not so much about what’s within arm’s reach, but more about the larger world we navigate through. That sort of long-distance connection requires a particular kind of language: expansive, abstract, and precise. And language, it turns out, can’t help itself. It keeps track.</p>"
     }
   ],
   "notes": [

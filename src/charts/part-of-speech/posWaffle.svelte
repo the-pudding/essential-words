@@ -830,7 +830,13 @@
 		.pos-layout-row--top {
 			align-items: flex-end;
 		}
+
+		:global(#posDiagram .hide-mobile){
+			display: none;
+		}
+		
 	}
+		
 
 	@media (max-width: 530px){
 
