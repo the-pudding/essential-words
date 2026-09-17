@@ -16,7 +16,7 @@
 	const meta = copy.meta ?? {};
 	const title = meta.title ?? copy.title ?? "";
 	const description = meta.description ?? copy.description ?? "";
-	const url = meta.url ?? copy.url ?? "https://pudding.cool";
+	const url = meta.url ?? copy.url ?? "https://pudding.cool/2026/07/essential-words";
 	const keywords = meta.keywords ?? copy.keywords ?? "";
 
 	setContext("copy", copy);

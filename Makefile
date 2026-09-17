@@ -19,10 +19,10 @@ production:
 	npm run build
 	make pudding
 
-# aws-sync:
-# 	aws s3 sync build s3://pudding.cool/year/month/name --delete --cache-control 'max-age=31536000'
+aws-sync:
+	aws s3 sync build s3://pudding.cool/2026/07/essential-words --delete --cache-control 'max-age=31536000'
 
-# aws-cache:
-# 	aws cloudfront create-invalidation --distribution-id E13X38CRR4E04D --paths '/year/month/name*'	
+aws-cache:
+	aws cloudfront create-invalidation --distribution-id E13X38CRR4E04D --paths '/2026/07/essential-words*'
 
-# pudding: aws-sync aws-cache
+pudding: aws-sync aws-cache

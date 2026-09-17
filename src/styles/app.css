@@ -384,18 +384,12 @@ svg {
 .chart-overlay-step-card {
 	max-width: min(var(--chart-overlay-card-max-w, 400px), 88vw);
 	pointer-events: auto;
-	opacity: 0.45;
-	transition: opacity 180ms ease;
 	background-color: var(--color-bg);
 	border: 1px solid var(--color-secondary);
 	border-radius: var(--radius-md);
 	padding: 1rem;
 	font-size: 1.125rem;
 	line-height: 1.5;
-}
-
-.chart-overlay-step-card--active {
-	opacity: 1;
 }
 
 .chart-overlay-step-spacer {

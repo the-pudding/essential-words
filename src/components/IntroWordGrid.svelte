@@ -126,6 +126,20 @@
 		font-size: var(--intro-grid-font-size);
 	}
 
+	/* Non-color cue alongside the highlight color: colorblind-safe distinction between
+	   removed/added words. "remained" gets no prefix, matching diff notation. Scoped to the
+	   focus-drop/focus-add states, so it only appears while the "Between the two lists..."
+	   paragraph is active and highlighting these same words. */
+	.intro-word-grid.is-focus-drop .word--removed::before {
+		content: "− ";
+		font-weight: 700;
+	}
+
+	.intro-word-grid.is-focus-add .word--added::before {
+		content: "+ ";
+		font-weight: 700;
+	}
+
 	.word--removed .word-write {
 		transform: translateY(var(--intro-grid-serif-nudge, 0px));
 	}

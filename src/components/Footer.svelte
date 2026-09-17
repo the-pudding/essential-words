@@ -164,7 +164,7 @@
 <style>
 	footer {
 		/* margin-top: 100px; */
-		background-color: var(--color-footer-bg);
+		background-color: #fff;
 	}
 
 	.c {
@@ -187,6 +187,7 @@
 		font-size: var(--20px, 20px);
 		text-align: center;
 		max-width: 900px;
+		color: #000;
 	}
 
 	.images {
@@ -248,6 +249,8 @@
 		font-weight: bold;
 		text-transform: uppercase;
 		font-size: var(--font-size-xsmall, 14px);
+		margin-bottom: 0;
+		color: #000;
 	}
 
 	.links .inner {
@@ -293,6 +296,7 @@
 	li {
 		list-style-type: none;
 		font-size: var(--14px);
+		margin-bottom: 0;
 	}
 
 	.text-wrapper {
@@ -301,6 +305,9 @@
 
 	.text-wrapper p {
 		font-size: var(--14px);
+		margin-bottom: 0;
+		color: #000;
+		line-height: 1.1;
 	}
 
 	.img-wrapper {
@@ -407,6 +414,7 @@
 
 		li {
 			font-size: var(--16px, 16px);
+			margin-bottom: 0;
 		}
 
 		.arrow {

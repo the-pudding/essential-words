@@ -418,7 +418,14 @@
 	class:intro-sequence--mobile={isMobileLayout}
 	class:is-reduced-motion={prefersReducedMotion}
 	bind:this={rootMount}
+	role="group"
+	aria-describedby="intro-bg-description"
 >
+	<p id="intro-bg-description" class="sr-only">
+		Decorative animated text fills the background throughout this introduction, drawn from the
+		two vocabulary lists compared in this piece: the 1953 General Service List and the 2023 New
+		General Service List.
+	</p>
 	{#if layoutSynced && isMobileLayout}
 		{#if flowGridLong}
 			<IntroWordGrid
@@ -518,7 +525,7 @@
 					focusDrop={dropOn}
 					focusAdd={addOn}
 					focusRemain={remainOn}
-					transform={"translateY(" + part1BgShift + "vh)"}
+					transform={prefersReducedMotion ? "" : "translateY(" + part1BgShift + "vh)"}
 				/>
 
 				<div class="intro-copy intro-copy--sticky">
@@ -753,6 +760,21 @@
 
 	.intro-copy--part4 p {
 		text-align: left;
+	}
+
+	/* Non-color cue for this paragraph's "dropped"/"added" words: colorblind-safe alongside
+	   the highlight color. "remained" gets no prefix, matching diff notation. Scoped to part3
+	   only — this is the sentence that introduces the dropped/added/remained concept. */
+	.intro-copy-layer--part3 :global(.gsl)::before,
+	.intro-copy--part3-mobile :global(.gsl)::before {
+		content: "− ";
+		font-weight: 700;
+	}
+
+	.intro-copy-layer--part3 :global(.ngsl)::before,
+	.intro-copy--part3-mobile :global(.ngsl)::before {
+		content: "+ ";
+		font-weight: 700;
 	}
 
 	.intro-copy-layer--part3 :global(.gsl),

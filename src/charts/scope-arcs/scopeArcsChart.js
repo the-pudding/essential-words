@@ -70,9 +70,9 @@ function arcPath(cx, cy, r, startAngle, endAngle, sweepFlag) {
 	return `M ${x1} ${y1} A ${r} ${r} 0 ${largeArc} ${sweepFlag} ${x2} ${y2}`;
 }
 
-function buildWordStr(words) {
+function buildWordStr(words, prefix = "") {
 	if (!words?.length) return "· · ·";
-	return words.map((w) => w.w.toUpperCase()).join(", ") + ", ";
+	return words.map((w) => `${prefix}${w.w.toUpperCase()}`).join(", ") + ", ";
 }
 
 function wrapPathOffset(offset, cycleLen) {
@@ -546,9 +546,9 @@ export function renderScopeArcsChart(container, payload) {
 			.attr("class", "sarc-words")
 			.attr("data-ring", ringNum)
 			.style("pointer-events", "none");
-		const addWords = (pathId, clipId, words, font, color, arcKey) => {
+		const addWords = (pathId, clipId, words, font, color, arcKey, prefix = "") => {
 			if (!words?.length || !pathId || !clipId) return;
-			const cycleText = buildWordStr(words);
+			const cycleText = buildWordStr(words, prefix);
 			const repeated = cycleText.repeat(marqueeRepeat);
 			const opticalScale = opticalScaleForFont(font);
 			const trackFontSize = wordFontSizeFor(font, wordFontSize);
@@ -586,10 +586,12 @@ export function renderScopeArcsChart(container, payload) {
 			}
 		};
 
+		// Non-color cue alongside the ribbon fill color: colorblind-safe distinction between
+		// added/removed words. "remained" gets no prefix, matching diff notation.
 		if (hasLeftRem) addWords(leftRemTextId, leftRemClipId, ring.remainedWords, FONTS.remained, COLORS.textRemained, "left-remained");
-		if (hasRemoved) addWords(removedTextId, removedClipId, ring.removedWords, FONTS.removed, COLORS.textRemoved, "left-removed");
+		if (hasRemoved) addWords(removedTextId, removedClipId, ring.removedWords, FONTS.removed, COLORS.textRemoved, "left-removed", "− ");
 		if (hasRightRem) addWords(rightRemTextId, rightRemClipId, ring.remainedWords, FONTS.remained, COLORS.textRemained, "right-remained");
-		if (hasAdded) addWords(addedTextId, addedClipId, ring.addedWords, FONTS.added, COLORS.textAdded, "right-added");
+		if (hasAdded) addWords(addedTextId, addedClipId, ring.addedWords, FONTS.added, COLORS.textAdded, "right-added", "+ ");
 
 		// Constant on-screen gap between the partial and remained segments.
 		if (leftSegs.boundary != null) drawSeparator(g, svgCx, svgCy, R_L, leftSegs.boundary, thickL);

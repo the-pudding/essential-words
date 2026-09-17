@@ -310,11 +310,11 @@
 				</span>
 				<span class="scope-arcs-legend-item">
 					<span class="scope-arcs-swatch scope-arcs-swatch--removed"></span>
-					removed from 1953 list
+					− removed from 1953 list
 				</span>
 				<span class="scope-arcs-legend-item">
 					<span class="scope-arcs-swatch scope-arcs-swatch--added"></span>
-					added to 2023 list
+					+ added to 2023 list
 				</span>
 			</div>
 		</div>
