@@ -764,17 +764,54 @@
 
 	/* Non-color cue for this paragraph's "dropped"/"added" words: colorblind-safe alongside
 	   the highlight color. "remained" gets no prefix, matching diff notation. Scoped to part3
-	   only — this is the sentence that introduces the dropped/added/remained concept. */
+	   only — this is the sentence that introduces the dropped/added/remained concept.
+	   The mark stays at zero width until that word's highlight starts, then eases open
+	   with the highlight so the sentence shifts instead of jumping. */
+	.intro-copy-layer--part3 :global(.gsl)::before,
+	.intro-copy--part3-mobile :global(.gsl)::before,
+	.intro-copy-layer--part3 :global(.ngsl)::before,
+	.intro-copy--part3-mobile :global(.ngsl)::before {
+		display: inline-block;
+		max-width: 0;
+		overflow: visible;
+		clip-path: inset(0 100% 0 0);
+		font-weight: 700;
+		white-space: nowrap;
+		vertical-align: baseline;
+		opacity: 0;
+		pointer-events: none;
+		transition:
+			max-width var(--intro-highlight-fade-ms) ease,
+			clip-path var(--intro-highlight-fade-ms) ease,
+			opacity var(--intro-highlight-fade-ms) ease;
+	}
+
 	.intro-copy-layer--part3 :global(.gsl)::before,
 	.intro-copy--part3-mobile :global(.gsl)::before {
+		font-weight: 500;
 		content: "− ";
-		font-weight: 700;
 	}
 
 	.intro-copy-layer--part3 :global(.ngsl)::before,
 	.intro-copy--part3-mobile :global(.ngsl)::before {
+		font-weight: 500;
 		content: "+ ";
-		font-weight: 700;
+	}
+
+	.intro-copy-layer--part3.is-highlight-drop :global(.gsl)::before,
+	.intro-copy--part3-mobile.is-highlight-drop :global(.gsl)::before,
+	.intro-copy-layer--part3.is-highlight-add :global(.ngsl)::before,
+	.intro-copy--part3-mobile.is-highlight-add :global(.ngsl)::before {
+		max-width: 1.4em;
+		clip-path: inset(-20% -15% -20% -15%);
+		opacity: 1;
+	}
+
+	.intro-sequence.is-reduced-motion .intro-copy-layer--part3 :global(.gsl)::before,
+	.intro-sequence.is-reduced-motion .intro-copy--part3-mobile :global(.gsl)::before,
+	.intro-sequence.is-reduced-motion .intro-copy-layer--part3 :global(.ngsl)::before,
+	.intro-sequence.is-reduced-motion .intro-copy--part3-mobile :global(.ngsl)::before {
+		transition: opacity var(--intro-highlight-fade-ms) ease;
 	}
 
 	.intro-copy-layer--part3 :global(.gsl),
@@ -976,6 +1013,7 @@
 			font-size: 1.125rem;
 			line-height: 1.35;
 			margin-top: 0;
+			
 		}
 
 		.intro-sequence--mobile .intro-copy p:last-child {
