@@ -800,6 +800,8 @@
 	.intro-copy-layer--part3 :global(.gsl),
 	.intro-copy--part3-mobile :global(.gsl) {
 		background-position: 0 var(--intro-highlight-y-serif);
+		text-wrap: nowrap;
+
 	}
 
 	.intro-copy-layer--part3 :global(.ngsl),
@@ -807,6 +809,8 @@
 	.intro-copy--part3-mobile :global(.ngsl),
 	.intro-copy--part3-mobile :global(.remained) {
 		background-position: 0 var(--intro-highlight-y-sans);
+		text-wrap: nowrap;
+
 	}
 
 	.intro-copy-layer--part3.is-highlight-drop :global(.gsl),
