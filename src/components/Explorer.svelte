@@ -4,11 +4,7 @@
 	import focusTrap from "$actions/focusTrap.js";
 	import { subscribePrefersReducedMotion, getPrefersReducedMotion } from "$utils/prefersReducedMotion.js";
 
-	let { visible = false, overlayActive = false } = $props();
-
-	let focusRevealed = $state(false);
-	const shown = $derived(visible || focusRevealed);
-	const fabVisible = $derived(shown && !overlayActive);
+	let { visible = false } = $props();
 
 	const getData = getContext("data");
 
@@ -26,11 +22,12 @@
 	const list2023 = $derived(explorerWordLists?.list2023 ?? []);
 
 	$effect(() => {
-		if (!visible && isOpen) closeExplorer({ restoreFocus: false });
-	});
-
-	$effect(() => {
-		if (overlayActive && isOpen) closeExplorer({ restoreFocus: false });
+		if (!browser || visible) return;
+		if (isOpen) closeExplorer({ restoreFocus: false });
+		const active = document.activeElement;
+		if (active instanceof HTMLElement && (asideEl?.contains(active) || active === fabEl)) {
+			active.blur();
+		}
 	});
 
 	$effect(() => {
@@ -108,19 +105,6 @@
 		else openExplorer(event.currentTarget);
 	}
 
-	function handleExplorerFocus() {
-		focusRevealed = true;
-	}
-
-	function handleExplorerBlur() {
-		if (visible) return;
-		requestAnimationFrame(() => {
-			if (!asideEl?.contains(document.activeElement) && document.activeElement !== fabEl) {
-				focusRevealed = false;
-			}
-		});
-	}
-
 	function wordAriaLabel(text, status, list) {
 		const statusText =
 			status === "removed"
@@ -151,13 +135,12 @@
 <aside
 	class="explorer"
 	class:is-open={isOpen}
-	class:is-visible={shown}
+	class:is-visible={visible}
 	class:is-reduced-motion={prefersReducedMotion}
 	aria-label="Word list explorer"
+	inert={!visible}
 	bind:this={asideEl}
-	use:focusTrap={{ disable: !shown || !isOpen }}
-	onfocusin={handleExplorerFocus}
-	onfocusout={handleExplorerBlur}
+	use:focusTrap={{ disable: !visible || !isOpen }}
 >
 	<div class="explorer-drawer">
 		<button
@@ -167,6 +150,7 @@
 			aria-expanded={isOpen}
 			aria-controls="explorer-panel"
 			aria-label={isOpen ? "Close word lists" : "Open word lists"}
+			tabindex={visible ? 0 : -1}
 		>
 			<span class="explorer-btn" aria-hidden="true">
 				<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -285,16 +269,15 @@
 <button
 	type="button"
 	class="explorer-fab"
-	class:is-visible={fabVisible && !isOpen}
+	class:is-visible={visible && !isOpen}
 	class:is-reduced-motion={prefersReducedMotion}
+	inert={!visible}
 	bind:this={fabEl}
 	onclick={() => openExplorer(fabEl)}
-	onfocus={handleExplorerFocus}
-	onblur={handleExplorerBlur}
 	aria-controls="explorer-panel"
 	aria-expanded={isOpen}
 	aria-label="Open word lists"
-	tabindex={!isOpen ? 0 : -1}
+	tabindex={visible && !isOpen ? 0 : -1}
 >
 	<span class="explorer-btn" aria-hidden="true">
 		<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

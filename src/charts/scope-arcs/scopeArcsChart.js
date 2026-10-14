@@ -125,7 +125,7 @@ export function renderScopeArcsChart(container, payload) {
 	const textOutsetPx = readCssPx(root, "--scope-arcs-text-outset", 0);
 	const textOutsetRatio = readCssPx(root, "--scope-arcs-text-outset-ratio", 0);
 	const labelInset = readCssPx(root, "--scope-arcs-label-inset", 0);
-	const labelInsetRatio = readCssPx(root, "--scope-arcs-label-inset-ratio", 0);
+	const labelBaselineShift = 0.35;
 	const marqueeSpeed = readCssPx(root, "--scope-arcs-marquee-speed", 18);
 	const marqueeRepeat = Math.max(2, Math.round(readCssPx(root, "--scope-arcs-marquee-repeat", 3)));
 	const sansOpticalScale = readCssPx(root, "--highlight-sans-scale", 1.05);
@@ -232,42 +232,17 @@ export function renderScopeArcsChart(container, payload) {
 		return r + bandWidthForRing(ringNum, activeRing, swellWidthFn) / 2;
 	}
 
-	function readLabelInset(ringNum) {
-		const px = readCssPx(root, `--scope-arcs-label-inset-${ringNum}`, NaN);
-		if (Number.isFinite(px)) return px;
-		return readCssPx(root, "--scope-arcs-label-inset", 0);
-	}
-
-	function readLabelInsetRatio(ringNum) {
-		const ratio = readCssPx(root, `--scope-arcs-label-inset-ratio-${ringNum}`, NaN);
-		if (Number.isFinite(ratio)) return ratio;
-		return readCssPx(root, "--scope-arcs-label-inset-ratio", 0);
-	}
-
-	function readLabelOverviewRatio() {
-		return readCssPx(root, "--scope-arcs-label-inset-ratio-overview", 0.05);
-	}
-
-	function labelRadiusForRing(ringNum, activeRing, swellWidthFn, overview = false) {
+	function labelRadiusForRing(ringNum, activeRing, swellWidthFn, overview, fontSize) {
 		const radiusRing = overview ? null : activeRing;
 		const prevOuter = outerRadiusAt(ringNum - 1, radiusRing, swellWidthFn);
 		const inner = innerRadiusAt(ringNum, radiusRing, swellWidthFn);
 		const gapCenter = (prevOuter + inner) / 2;
-		const gapWidth = Math.max(0, inner - prevOuter);
-
-		if (overview) {
-			return gapCenter - gapWidth * readLabelOverviewRatio();
-		}
-
-		const isFocused = ringNum === activeRing;
-		const inset = isFocused ? readLabelInset(ringNum) : 0;
-		const ratio = isFocused ? readLabelInsetRatio(ringNum) : readLabelOverviewRatio();
-		return gapCenter - inset - gapWidth * ratio;
+		return gapCenter - fontSize * labelBaselineShift;
 	}
 
-	function labelArcDForRing(ringNum, name, activeRing, swellWidthFn, overview = false) {
-		const labelR = labelRadiusForRing(ringNum, activeRing, swellWidthFn, overview);
-		const approxTextLen = labelFontSize * name.length * 0.58;
+	function labelArcDForRing(ringNum, name, activeRing, swellWidthFn, overview, fontSize) {
+		const labelR = labelRadiusForRing(ringNum, activeRing, swellWidthFn, overview, fontSize);
+		const approxTextLen = fontSize * name.length * 0.58;
 		const labelSpan = Math.min(
 			(300 * Math.PI) / 180,
 			(approxTextLen / Math.max(1, labelR)) * 1.06
@@ -623,7 +598,7 @@ export function renderScopeArcsChart(container, payload) {
 				if (node) centerLabelTspans.push({ node, lineIdx: li, lineCount: lines.length });
 			});
 		} else {
-			const labelArcD = labelArcDForRing(ringNum, ring.name, null, restingBandWidth);
+			const labelArcD = labelArcDForRing(ringNum, ring.name, null, restingBandWidth, false, labelFontSize);
 			if (labelArcD) {
 				const labelPathId = `sarc-label-path-${i}`;
 				const node = defs.append("path").attr("id", labelPathId).attr("d", labelArcD).node();
@@ -821,6 +796,7 @@ export function renderScopeArcsChart(container, payload) {
 		const fadeDuration = !fadeOnly && zoomingOut ? transitionMs - fadeDelay : transitionMs;
 		
 		const scale = zoomScaleForState({ focusedRing, overview });
+		const nameSize = labelFontSize / Math.max(scale, 0.01);
 		const ringVisible = (ring) => ring <= visibleRings;
 
 		
@@ -888,7 +864,7 @@ export function renderScopeArcsChart(container, payload) {
 		}
 
 		for (const m of labelPathMeta) {
-			const d = labelArcDForRing(m.ring, m.name, activeRing, swellWidth, overview);
+			const d = labelArcDForRing(m.ring, m.name, activeRing, swellWidth, overview, nameSize);
 			if (d) m.node.setAttribute("d", d);
 		}
 
@@ -921,7 +897,6 @@ export function renderScopeArcsChart(container, payload) {
 
 		const nextTransform = zoomTransform(scale);
 		const wordSize = wordFontSize / scale;
-		const nameSize = labelFontSize / scale;
 
 		const labelText = labelLayer.selectAll(".sarc-ring-label-text");
 

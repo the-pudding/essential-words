@@ -224,7 +224,18 @@ svg {
 	text-align: center;
 	margin: 0 auto;
 	max-width: var(--max-med-width);
+	position: relative;
 }
+
+.explorer-title-edge {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 1px;
+	height: 1px;
+	pointer-events: none;
+}
+
 
 .story-title{
 	margin: 0;
@@ -407,6 +418,14 @@ svg {
 
 .story > .story-section--prose:not(:has(~ .story-section--prose)) .story-prose > p:last-child {
 	margin-bottom: 0;
+}
+
+.explorer-footer-edge {
+	display: block;
+	width: 1px;
+	height: 1px;
+	margin-bottom: -1px;
+	pointer-events: none;
 }
 
 @media (max-width: 920px) {

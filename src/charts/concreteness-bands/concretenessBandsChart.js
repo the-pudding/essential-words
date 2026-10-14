@@ -248,6 +248,11 @@ export function renderConcretenessBands(container, payload, { width }) {
 	const viewportW =
 		typeof window !== "undefined" ? document.documentElement.clientWidth : layoutW;
 	const W = Math.min(layoutW, Math.max(1, viewportW - railW));
+	const bounds = container.getBoundingClientRect?.();
+	const bleedRight =
+		bounds && bounds.width > 0
+			? Math.max(0, viewportW - bounds.right) * (W / bounds.width)
+			: railW;
 
 	const isCompact = viewportW <= m.compactBreakpoint;
 	const isPhone = viewportW <= m.phoneBreakpoint;
@@ -336,7 +341,7 @@ export function renderConcretenessBands(container, payload, { width }) {
 		.append("rect")
 		.attr("x", centerX + halfGap)
 		.attr("y", 0)
-		.attr("width", W - (centerX + halfGap))
+		.attr("width", W - (centerX + halfGap) + bleedRight)
 		.attr("height", chartH);
 
 	// x axis ───────────────
@@ -919,40 +924,39 @@ const hoverLayer = svg.append("g").attr("class", "hover-layer");
 				const labelText = g
 					.append("text")
 					.attr("class", "concr-bands-annotation-text")
-					.attr("x", textX)
 					.attr("text-anchor", textAnchor)
 					.attr("font-family", cfg.typography.monoFont)
 					.attr("font-size", `${ANNOT.fontSize}px`)
 					.attr("font-weight", 500)
-					.attr("line-height", 5)
 					.attr("fill", cfg.colors.primary);
 
 				const textGap = above ? ANNOT.textGapAbove : ANNOT.textGapBelow;
+				const lineAdvance = ANNOT.fontSize * 1.2;
+				const lines = [`${formatPct(band.pct)}% OF`, `${label} WORDS`];
 
 				if (above) {
-					labelText
-						.attr("y", dotY - textGap)
-						.attr("dominant-baseline", "alphabetic")
-						.append("tspan")
-						.attr("x", textX)
-						.attr("dy", "-1.2em")
-						.text(`${formatPct(band.pct)}% OF`)
-						.append("tspan")
-						.attr("x", textX)
-						.attr("dy", "1.2em")
-						.text(`${label} WORDS`);
+					const baseline2 = dotY - textGap;
+					const baseline1 = baseline2 - lineAdvance;
+					lines.forEach((line, i) => {
+						labelText
+							.append("tspan")
+							.attr("x", textX)
+							.attr("y", i === 0 ? baseline1 : baseline2)
+							.text(line);
+					});
 				} else {
-					labelText
-						.attr("y", dotY + textGap)
-						.attr("dominant-baseline", "hanging")
-						.append("tspan")
-						.attr("x", textX)
-						.attr("dy", 0)
-						.text(`${formatPct(band.pct)}% OF`)
-						.append("tspan")
-						.attr("x", textX)
-						.attr("dy", "1.2em")
-						.text(`${label} WORDS`);
+					lines.forEach((line, i) => {
+						labelText
+							.append("tspan")
+							.attr("x", textX)
+							.attr("y", i * lineAdvance)
+							.text(line);
+					});
+					const box = labelText.node()?.getBBox?.();
+					const anchorTop = dotY + textGap;
+					const shift =
+						box && box.height > 0 ? anchorTop - box.y : anchorTop + ANNOT.fontSize * 0.8;
+					labelText.attr("transform", `translate(0, ${shift})`);
 				}
 			});
 		}

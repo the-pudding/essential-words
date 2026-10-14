@@ -1,7 +1,7 @@
 <script>
 	import { getContext, onMount } from "svelte";
 	import { browser } from "$app/environment";
-	import { getHeight } from "$runes/useWindowDimensions.svelte.js";
+	import { subscribeExplorerSteps } from "$utils/explorerSteps.js";
 	import Footer from "$components/Footer.svelte";
 	import IntroSequence from "$components/IntroSequence.svelte";
 	import SemanticsViz from "../charts/semantics/SemanticsViz.svelte";
@@ -31,95 +31,83 @@
 		return chartId ? `${chartId}-subhead` : undefined;
 	}
 
-	let explorerVisible = $state(false);
-	let chartOverlayActive = $state(false);
-	let rafId = 0;
+	const TITLE_LINE = 0.38;
+	const FOOTER_LINE_PX = 72;
 
-	const EXPLORER_TITLE_SHOW_PX = 800;
-	const EXPLORER_TITLE_HIDE_PX = 150;
-	const EXPLORER_FOOTER_HIDE_PX = 72;
-	const EXPLORER_FOOTER_SHOW_PX = 140;
-	const CHART_FAB_HIDE_TOP_PX = 64;
+	let titlePassed = $state(false);
+	let footerCovering = $state(false);
+	let stepsActive = $state(false);
+	const explorerVisible = $derived(titlePassed && !footerCovering && !stepsActive);
 
-	function isStickyStageEngaged(stage) {
-		const stageTop = stage.getBoundingClientRect().top;
-		const stickyTop = Number.parseFloat(getComputedStyle(stage).top);
-
-		if (Number.isFinite(stickyTop)) {
-			return stageTop <= stickyTop + 1;
-		}
-		return stageTop <= CHART_FAB_HIDE_TOP_PX;
+	function viewportHeight() {
+		return window.visualViewport?.height || document.documentElement.clientHeight || 0;
 	}
 
-	function isChartOverlayActive() {
-		const vh = getHeight();
-
-		for (const scrolly of document.querySelectorAll(".chart-overlay-scrolly")) {
-			const section = scrolly.closest(".story-section--chart");
-			if (!section) continue;
-
-			const sectionRect = section.getBoundingClientRect();
-
-			if (sectionRect.bottom <= 0 || sectionRect.top >= vh) continue;
-
-			const stage = scrolly.querySelector(".chart-overlay-stage");
-			if (!stage) continue;
-
-			if (isStickyStageEngaged(stage)) return true;
-		}
-
-		return false;
-	}
-
-	function updateExplorerVisibility() {
-		const title = document.getElementById("title");
-		const footer = document.querySelector("footer");
-		const vh = getHeight();
-
-		let visible = explorerVisible;
-
-		if (title) {
-			const titleBottom = title.getBoundingClientRect().bottom;
-			if (titleBottom <= EXPLORER_TITLE_SHOW_PX) visible = true;
-			else if (titleBottom > EXPLORER_TITLE_HIDE_PX) visible = false;
-		}
-
-		if (footer) {
-			const footerTop = footer.getBoundingClientRect().top;
-			if (footerTop < vh - EXPLORER_FOOTER_HIDE_PX) visible = false;
-			else if (footerTop >= vh - EXPLORER_FOOTER_SHOW_PX && title) {
-				const titleBottom = title.getBoundingClientRect().bottom;
-				if (titleBottom <= EXPLORER_TITLE_SHOW_PX) visible = true;
-			}
-		}
-
-		explorerVisible = visible;
-		chartOverlayActive = isChartOverlayActive();
-	}
-
-	function scheduleExplorerVisibilityUpdate() {
-		if (rafId) cancelAnimationFrame(rafId);
-		rafId = requestAnimationFrame(() => {
-			rafId = 0;
-			updateExplorerVisibility();
-		});
+	function clampedInset(height, line) {
+		return Math.min(line, Math.max(0, Math.floor(height) - 1));
 	}
 
 	onMount(() => {
 		if (!browser) return;
-		updateExplorerVisibility();
-		window.addEventListener("scroll", scheduleExplorerVisibilityUpdate, { passive: true });
-		window.addEventListener("resize", scheduleExplorerVisibilityUpdate);
+
+		const titleMarker = document.querySelector("[data-explorer-title-edge]");
+		const footerMarker = document.querySelector("[data-explorer-footer-edge]");
+		let titleObserver = null;
+		let footerObserver = null;
+		let footerInset = -1;
+
+		function observeEdge(marker, rootMargin, onEntry) {
+			if (!marker) return null;
+			const observer = new IntersectionObserver(
+				(entries) => {
+					const entry = entries[entries.length - 1];
+					if (entry) onEntry(entry);
+				},
+				{ root: null, rootMargin, threshold: 0 }
+			);
+			observer.observe(marker);
+			return observer;
+		}
+
+		function applyTitle(entry) {
+			const line = entry.rootBounds?.top ?? viewportHeight() * TITLE_LINE;
+			const bottom = entry.boundingClientRect.bottom;
+			titlePassed = !entry.isIntersecting && bottom <= line;
+		}
+
+		function applyFooter(entry) {
+			const height = viewportHeight();
+			const line = height - clampedInset(height, FOOTER_LINE_PX);
+			const top = entry.boundingClientRect.top;
+			footerCovering = entry.isIntersecting || top < line;
+		}
+
+		function syncFooterObserver() {
+			const nextFooterInset = clampedInset(viewportHeight(), FOOTER_LINE_PX);
+
+			if (nextFooterInset !== footerInset) {
+				footerInset = nextFooterInset;
+				footerObserver?.disconnect();
+				footerObserver = observeEdge(footerMarker, `0px 0px -${footerInset}px 0px`, applyFooter);
+			}
+		}
+
+		const unsubscribeSteps = subscribeExplorerSteps((active) => {
+			stepsActive = active;
+		});
+
+		titleObserver = observeEdge(titleMarker, `-${TITLE_LINE * 100}% 0px 0px 0px`, applyTitle);
+		syncFooterObserver();
+		window.addEventListener("resize", syncFooterObserver);
 		const vv = window.visualViewport;
-		vv?.addEventListener("resize", scheduleExplorerVisibilityUpdate);
-		vv?.addEventListener("scroll", scheduleExplorerVisibilityUpdate);
+		vv?.addEventListener("resize", syncFooterObserver);
 
 		return () => {
-			if (rafId) cancelAnimationFrame(rafId);
-			window.removeEventListener("scroll", scheduleExplorerVisibilityUpdate);
-			window.removeEventListener("resize", scheduleExplorerVisibilityUpdate);
-			vv?.removeEventListener("resize", scheduleExplorerVisibilityUpdate);
-			vv?.removeEventListener("scroll", scheduleExplorerVisibilityUpdate);
+			unsubscribeSteps();
+			titleObserver?.disconnect();
+			footerObserver?.disconnect();
+			window.removeEventListener("resize", syncFooterObserver);
+			vv?.removeEventListener("resize", syncFooterObserver);
 		};
 	});
 </script>
@@ -146,8 +134,9 @@
 					{#if block.byline}
 						<p class="byline">{@html block.byline}</p>
 					{/if}
+					<span class="explorer-title-edge" data-explorer-title-edge aria-hidden="true"></span>
 				</section>
-				<Explorer visible={explorerVisible} overlayActive={chartOverlayActive} />
+				<Explorer visible={explorerVisible} />
 			{:else if block.type === "prose"}
 				<section class="story-section story-section--prose">
 					<div class="content-container story-prose">{@html block.html}</div>
@@ -225,7 +214,9 @@
 	<Notes blocks={notesBlocks} />
 </article>
 
+<span class="explorer-footer-edge" data-explorer-footer-edge aria-hidden="true"></span>
 
 <svelte:boundary onerror={(e) => console.error(e)}>
 	<Footer recirc={true} />
 </svelte:boundary>
+

@@ -3,6 +3,7 @@
 	import { renderScopeArcsChart } from "./scopeArcsChart.js";
 	import { observeChartVisibility, CHART_ONSCREEN_MARGIN } from "$utils/chartVisibility.js";
 	import { subscribePrefersReducedMotion } from "$utils/prefersReducedMotion.js";
+	import { clearExplorerStep, reportExplorerStep } from "$utils/explorerSteps.js";
 	import useWindowDimensions, { getHeight } from "$runes/useWindowDimensions.svelte.js";
 
 	let { noteSummary = "", noteDetails = "", overlays = [], headingId = undefined, subheadId = undefined } = $props();
@@ -21,13 +22,11 @@
 	let stepObserver;
 	let visibilityObserver = null;
 	let marqueeObserver = null;
-	let scrollyObserver = null;
 	let legendObserver = null;
 	let rafId = 0;
 	let chartReady = $state(false);
 	let chartNear = false;
 	let chartVisible = false;
-	let scrollyIntersecting = $state(false);
 	let legendInRange = $state(false);
 	let activeStep = $state(-1);
 	let lastRenderedWidth = 0;
@@ -39,11 +38,7 @@
 	const nRings = $derived(payload?.rings?.length ?? 5);
 	const isOverview = $derived(activeStep >= overlaySteps.length && overlaySteps.length > 0);
 
-	const legendVisible = $derived(
-		scrollyIntersecting &&
-			activeStep <= overlaySteps.length &&
-			(activeStep >= 0 || legendInRange)
-	);
+	const legendVisible = $derived(activeStep >= 0 || legendInRange);
 
 	function syncMarqueeActive() {
 		chartController?.setMarqueeActive(chartVisible);
@@ -78,6 +73,7 @@
 		pendingStep = null;
 		activeStep = next;
 		applyStepFocus();
+		reportExplorerStep("scope-arcs", next, overlaySteps.length);
 	}
 
 
@@ -139,18 +135,6 @@
 		);
 	}
 
-	function setupScrollyObserver() {
-		scrollyObserver?.disconnect();
-		if (!scrollyMount) return;
-		scrollyObserver = new IntersectionObserver(
-			([entry]) => {
-				scrollyIntersecting = entry?.isIntersecting ?? false;
-			},
-			{ root: null, threshold: 0 }
-		);
-		scrollyObserver.observe(scrollyMount);
-	}
-
 	function setupLegendObserver() {
 		legendObserver?.disconnect();
 		if (!scrollyMount || !overlaySteps.length) return;
@@ -204,7 +188,6 @@
 		});
 		setupVisibilityObservers();
 		setupStepObserver();
-		setupScrollyObserver();
 		setupLegendObserver();
 		const resizeTarget = chartMount?.closest(".scope-arcs") ?? chartMount;
 		if (resizeTarget) {
@@ -216,13 +199,13 @@
 	});
 
 	onDestroy(() => {
+		clearExplorerStep("scope-arcs");
 		if (rafId) cancelAnimationFrame(rafId);
 		if (stepSettleTimer) clearTimeout(stepSettleTimer);
 		resizeObserver?.disconnect();
 		stepObserver?.disconnect();
 		visibilityObserver?.disconnect();
 		marqueeObserver?.disconnect();
-		scrollyObserver?.disconnect();
 		legendObserver?.disconnect();
 		chartController?.destroy();
 		chartController = null;
@@ -247,7 +230,6 @@
 		if (!chartReady) return;
 		overlaySteps;
 		setupStepObserver();
-		setupScrollyObserver();
 		setupLegendObserver();
 	});
 </script>
@@ -369,15 +351,6 @@
 		--scope-arcs-marquee-repeat: 3;
 
 		--scope-arcs-label-inset: 0;
-		/* px nudge inward for a ring's label — only applied when THAT ring is focused */
-		--scope-arcs-label-inset-ratio: 0;
-		/* gutter-fraction nudge — only applied when THAT ring is focused; per-ring: -ratio-2 … -ratio-5 */
-		--scope-arcs-label-inset-ratio-overview: 0.05;
-		/* inward ratio on final overview step (all rings 2–5) */
-		--scope-arcs-label-inset-ratio-2: -0.3;
-		--scope-arcs-label-inset-ratio-3: -0.2;
-		--scope-arcs-label-inset-ratio-4: -0.1;
-		--scope-arcs-label-inset-ratio-5: 0.1;
 
 
 		--scope-arcs-center-label-line-height: 1.2;

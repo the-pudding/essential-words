@@ -6,6 +6,7 @@
 	} from "./concretenessBandsChart.js";
 	import { CHART_ONSCREEN_MARGIN, observeChartVisibility } from "$utils/chartVisibility.js";
 	import { subscribePrefersReducedMotion } from "$utils/prefersReducedMotion.js";
+	import { clearExplorerStep, reportExplorerStep } from "$utils/explorerSteps.js";
 
 	let { note = "", overlays = [], headingId = undefined, subheadId = undefined } = $props();
 
@@ -112,6 +113,7 @@
 		if (next === activeStep) return;
 		activeStep = next;
 		applyStepFocus();
+		reportExplorerStep("concreteness-bands", next, overlaySteps.length);
 	}
 	function syncStageLayout() {
 		if (!chartMount || !scrollyMount) return;
@@ -227,6 +229,7 @@
 	});
 
 	onDestroy(() => {
+		clearExplorerStep("concreteness-bands");
 		prefersReducedMotionSub?.destroy();
 		if (typeof document !== "undefined") {
 			document.removeEventListener("visibilitychange", handleDocumentVisibility);
@@ -461,7 +464,6 @@
 			--concr-bands-annot-font-size: 14px;
 			--concr-bands-annot-stack: 56px;
 			--concr-bands-annot-leader: 12px;
-			/* Steps 2–3 annotate below bands; hanging baseline reads tighter than step 1 above. */
 			--concr-bands-annot-text-gap-below: 8px;
 			--chart-overlay-steps-top-pad: 45vh;
 			--chart-overlay-steps-bottom-pad: 40vh;
@@ -484,9 +486,9 @@
 	@media (max-width: 520px) {
 		.concr-bands {
 			--concr-bands-band-h: 28px;
-			--concr-bands-band-gap: 28px;
+			--concr-bands-band-gap: 24px;
 			--concr-bands-marquee-font-size: 18px;
-			--concr-bands-margin-top: 96px;
+			--concr-bands-margin-top: 80px;
 			/* --concr-bands-axis-tick-offset: 48px; */
 			--concr-bands-margin-bottom: 48px;
 			--concr-bands-margin-left: 12px;
@@ -510,7 +512,7 @@
 
 		.concr-bands-stage {
 			--chart-overlay-stage-height: auto;
-			--chart-overlay-stage-top: 10vh;
+			--chart-overlay-stage-top: 4vh;
 		}
 	}
 

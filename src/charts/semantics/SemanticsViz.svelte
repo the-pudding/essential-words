@@ -4,6 +4,7 @@
 	import { renderSemanticsRibbons } from "./semanticsRibbonsChart.js";
 	import { CHART_ONSCREEN_MARGIN, observeChartVisibility } from "$utils/chartVisibility.js";
 	import { subscribePrefersReducedMotion } from "$utils/prefersReducedMotion.js";
+	import { clearExplorerStep, reportExplorerStep } from "$utils/explorerSteps.js";
 
 	const RESIZE_REPAINT_THRESHOLD = 4;
 
@@ -90,6 +91,7 @@
 		if (next === activeStep) return;
 		activeStep = next;
 		applyStepFocus();
+		reportExplorerStep("semantics", next, overlaySteps.length);
 	}
 
 	function updateStageTop() {
@@ -236,6 +238,7 @@
 	});
 
 	onDestroy(() => {
+		clearExplorerStep("semantics");
 		prefersReducedMotionSub?.destroy();
 		if (typeof document !== "undefined") {
 			document.removeEventListener("visibilitychange", handleDocumentVisibility);
