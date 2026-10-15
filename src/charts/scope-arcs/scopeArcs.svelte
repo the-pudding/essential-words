@@ -331,7 +331,8 @@
 		
 		--scope-arcs-words-band: 30;
 		/* --scope-arcs-track-gap: room between tracks (also the label gutter); auto if unset */
-		--scope-arcs-zoom-ms: 800;
+		--scope-arcs-zoom-ms: 400;
+		--scope-arcs-words-fade-ms: 600;
 		--scope-arcs-hover-ms: 200;
 		--scope-arcs-zoom-max: 3;
 		--scope-arcs-segment-gap: 2;
@@ -342,13 +343,8 @@
 		--scope-arcs-divider-dash: 5 5;
 
 
-		--scope-arcs-text-outset-ratio: -0.02;
-		--scope-arcs-text-outset: 0;
-		--scope-arcs-text-inset: 0;
-		/* per-ring overrides: --scope-arcs-text-outset-ratio-N, --scope-arcs-text-outset-N */
-		--scope-arcs-text-outset-ratio-1: -0.04;
 		--scope-arcs-marquee-speed: 15;
-		--scope-arcs-marquee-repeat: 3;
+		--scope-arcs-marquee-repeat: 2;
 
 		--scope-arcs-label-inset: 0;
 
@@ -627,7 +623,6 @@
 	@media (max-width: 768px) {
 		.scope-arcs {
 			--scope-arcs-chart-margin-inline: 8px;
-			--scope-arcs-text-inset: 1;
 			--chart-overlay-steps-top-pad: 65vh;
 			--chart-overlay-step-min-h: 220vh;
 		}

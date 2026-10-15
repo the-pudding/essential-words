@@ -112,6 +112,7 @@ export function renderScopeArcsChart(container, payload) {
 
 	container.innerHTML = "";
 	const zoomMs = readCssPx(root, "--scope-arcs-zoom-ms", 400);
+	const wordsFadeMs = readCssPx(root, "--scope-arcs-words-fade-ms", 400);
 	const hoverMs = readCssPx(root, "--scope-arcs-hover-ms", 200);
 	const zoomMax = readCssPx(root, "--scope-arcs-zoom-max", 3);
 	const segmentGapPx = readCssPx(root, "--scope-arcs-segment-gap", 4);
@@ -122,12 +123,10 @@ export function renderScopeArcsChart(container, payload) {
 	const dividerWidth = readCssPx(root, "--scope-arcs-divider-width", 1);
 	const dividerDash = getComputedStyle(root).getPropertyValue("--scope-arcs-divider-dash").trim() || "5 5";
 
-	const textOutsetPx = readCssPx(root, "--scope-arcs-text-outset", 0);
-	const textOutsetRatio = readCssPx(root, "--scope-arcs-text-outset-ratio", 0);
 	const labelInset = readCssPx(root, "--scope-arcs-label-inset", 0);
 	const labelBaselineShift = 0.35;
 	const marqueeSpeed = readCssPx(root, "--scope-arcs-marquee-speed", 18);
-	const marqueeRepeat = Math.max(2, Math.round(readCssPx(root, "--scope-arcs-marquee-repeat", 3)));
+	const marqueeRepeatMin = Math.max(2, Math.round(readCssPx(root, "--scope-arcs-marquee-repeat", 2)));
 	const sansOpticalScale = readCssPx(root, "--highlight-sans-scale", 1.05);
 
 	function opticalScaleForFont(font) {
@@ -331,29 +330,54 @@ export function renderScopeArcsChart(container, payload) {
 			.attr("pointer-events", "none");
 	}
 
-	function readTextOutset(ringNum) {
-		const px = readCssPx(root, `--scope-arcs-text-outset-${ringNum}`, NaN);
-		const ratio = readCssPx(root, `--scope-arcs-text-outset-ratio-${ringNum}`, NaN);
-		return {
-			px: Number.isFinite(px) ? px : textOutsetPx,
-			ratio: Number.isFinite(ratio) ? ratio : textOutsetRatio
-		};
+	// Distance from the alphabetic baseline up to the center of the uppercase ink, as a fraction of em. SVG text on these arcs sits on the alphabetic baseline and the glyphs extend outward, so the path is pulled in by this distance. getBBox() reports the em box, which is not the cap center, so the tight bounds come from canvas text metrics. Cached per font once that font is loaded.
+	const capCenterEmCache = new Map();
+	const CAP_CENTER_EM_FALLBACK = 0.35;
+	const capMeasureCanvas = document.createElement("canvas");
+	const capMeasureCtx = capMeasureCanvas.getContext("2d");
+
+	function capCenterEm(font) {
+		const key = `${font.style}|${font.weight}|${font.family}`;
+		const cached = capCenterEmCache.get(key);
+		if (cached != null) return cached;
+		const size = 100;
+		const primary = String(font.family).split(",")[0].trim();
+		const spec = `${font.style} ${font.weight} ${size}px ${primary}`;
+		const loaded = document.fonts?.check?.(spec) ?? true;
+		let em = CAP_CENTER_EM_FALLBACK;
+		if (capMeasureCtx) {
+			capMeasureCtx.font = spec;
+			const metrics = capMeasureCtx.measureText("HENRX");
+			const ascent = metrics.actualBoundingBoxAscent || 0;
+			const descent = metrics.actualBoundingBoxDescent || 0;
+			if (ascent > 0) em = (ascent - descent) / 2 / size;
+		}
+		if (loaded) capCenterEmCache.set(key, em);
+		return em;
 	}
 
-	function ribbonTextOffset(r, ringNum) {
-		const { px, ratio } = readTextOutset(ringNum);
-		const inset = readCssPx(root, "--scope-arcs-text-inset", 0);
-		return px + r * ratio - inset;
+	// Glyphs extend outward from the baseline, so the baseline path sits inside the band center by the cap-center distance at the current user-unit font size.
+	function textPathRadius(bandR, font, fontSize) {
+		const shift = fontSize * capCenterEm(font);
+		return Math.max(1, bandR - shift);
 	}
 
-	function ribbonTextRadius(r, ringNum, { overviewHover = false } = {}) {
-		const offset = ribbonTextOffset(r, ringNum);
-		if (!overviewHover) return r + offset;
-		
-		const focusScale = zoomScaleForState({ focusedRing: ringNum, overview: false });
-		return r + offset * focusScale;
+	const TEXT_PATH_OVERSHOOT_EM = 1.35;
+
+	function extendedTextAngles(meta, fontSize) {
+		const radius = Math.max(1, textPathRadius(meta.r, meta.font, fontSize));
+		const span = ((meta.end - meta.start) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+		const room = Math.max(0, (Math.PI * 2 - span - 0.02) / 2);
+		const overshoot = Math.min((fontSize * TEXT_PATH_OVERSHOOT_EM) / radius, room);
+		return { radius, start: meta.start - overshoot, end: meta.end + overshoot, overshoot };
 	}
 
+	function applyTextPath(meta, fontSize) {
+		meta.fontSize = fontSize;
+		const { radius, start, end } = extendedTextAngles(meta, fontSize);
+		const d = arcPath(svgCx, svgCy, radius, start, end, 1);
+		if (d) meta.node.setAttribute("d", d);
+	}
 
 	function drawHitArc(g, cx, cy, r, start, end, width, arcKey) {
 		const d = arcPath(cx, cy, r, start, end, 1);
@@ -388,11 +412,15 @@ export function renderScopeArcsChart(container, payload) {
 		return d;
 	}
 
-	function registerTextPath(id, cx, cy, r, start, end, ringNum) {
-		const d = arcPath(cx, cy, ribbonTextRadius(r, ringNum), start, end, 1);
+	function registerTextPath(id, cx, cy, r, start, end, ringNum, font) {
+		const d = arcPath(cx, cy, r, start, end, 1);
 		if (!d) return false;
 		const node = defs.append("path").attr("id", id).attr("d", d).node();
-		if (node) textPathMeta.push({ ring: ringNum, node, r, start, end });
+		if (node) {
+			const meta = { ring: ringNum, node, r, start, end, font, fontSize: null };
+			textPathMeta.push(meta);
+			textPathById.set(id, meta);
+		}
 		return true;
 	}
 
@@ -414,8 +442,10 @@ export function renderScopeArcsChart(container, payload) {
 	/** @type {Array<{ ring: number, node: SVGPathElement, r: number, start: number, end: number, restThick: number }>} */
 	const clipMeta = [];
 
-	/** @type {Array<{ ring: number, node: SVGPathElement, r: number, start: number, end: number }>} */
+	/** @type {Array<{ ring: number, node: SVGPathElement, r: number, start: number, end: number, font: { family: string, style: string, weight: string | number }, fontSize: number | null }>} */
 	const textPathMeta = [];
+	/** @type {Map<string, { ring: number, node: SVGPathElement, r: number, start: number, end: number, font: { family: string, style: string, weight: string | number }, fontSize: number | null }>} */
+	const textPathById = new Map();
 
 	/** @type {Array<{ ring: number, node: SVGPathElement, name: string }>} */
 	const labelPathMeta = [];
@@ -472,7 +502,7 @@ export function renderScopeArcsChart(container, payload) {
 				leftSegs.remained.start, leftSegs.remained.end, COLORS.bandRemained, thickL, "left-remained"
 			);
 			if (hasLeftRem) {
-				registerTextPath(leftRemTextId, svgCx, svgCy, R_L, leftSegs.remained.start, leftSegs.remained.end, ringNum);
+				registerTextPath(leftRemTextId, svgCx, svgCy, R_L, leftSegs.remained.start, leftSegs.remained.end, ringNum, FONTS.remained);
 				addClip(leftRemClipId, R_L, leftSegs.remained.start, leftSegs.remained.end, thickL);
 			}
 		}
@@ -483,7 +513,7 @@ export function renderScopeArcsChart(container, payload) {
 				leftSegs.partial.start, leftSegs.partial.end, COLORS.bandRemoved, thickL, "left-removed"
 			);
 			if (hasRemoved) {
-				registerTextPath(removedTextId, svgCx, svgCy, R_L, leftSegs.partial.start, leftSegs.partial.end, ringNum);
+				registerTextPath(removedTextId, svgCx, svgCy, R_L, leftSegs.partial.start, leftSegs.partial.end, ringNum, FONTS.removed);
 				addClip(removedClipId, R_L, leftSegs.partial.start, leftSegs.partial.end, thickL);
 			}
 		}
@@ -494,7 +524,7 @@ export function renderScopeArcsChart(container, payload) {
 				rightSegs.remained.start, rightSegs.remained.end, COLORS.bandRemained, thickR, "right-remained"
 			);
 			if (hasRightRem) {
-				registerTextPath(rightRemTextId, svgCx, svgCy, R_R, rightSegs.remained.start, rightSegs.remained.end, ringNum);
+				registerTextPath(rightRemTextId, svgCx, svgCy, R_R, rightSegs.remained.start, rightSegs.remained.end, ringNum, FONTS.remained);
 				addClip(rightRemClipId, R_R, rightSegs.remained.start, rightSegs.remained.end, thickR);
 			}
 		}
@@ -505,7 +535,7 @@ export function renderScopeArcsChart(container, payload) {
 				rightSegs.partial.start, rightSegs.partial.end, COLORS.bandAdded, thickR, "right-added"
 			);
 			if (hasAdded) {
-				registerTextPath(addedTextId, svgCx, svgCy, R_R, rightSegs.partial.start, rightSegs.partial.end, ringNum);
+				registerTextPath(addedTextId, svgCx, svgCy, R_R, rightSegs.partial.start, rightSegs.partial.end, ringNum, FONTS.added);
 				addClip(addedClipId, R_R, rightSegs.partial.start, rightSegs.partial.end, thickR);
 			}
 		}
@@ -524,7 +554,7 @@ export function renderScopeArcsChart(container, payload) {
 		const addWords = (pathId, clipId, words, font, color, arcKey, prefix = "") => {
 			if (!words?.length || !pathId || !clipId) return;
 			const cycleText = buildWordStr(words, prefix);
-			const repeated = cycleText.repeat(marqueeRepeat);
+			const repeated = cycleText.repeat(marqueeRepeatMin);
 			const opticalScale = opticalScaleForFont(font);
 			const trackFontSize = wordFontSizeFor(font, wordFontSize);
 			const clipG = wordsG.append("g").attr("class", "sarc-word-clip").attr("clip-path", `url(#${clipId})`);
@@ -556,7 +586,9 @@ export function renderScopeArcsChart(container, payload) {
 					font,
 					opticalScale,
 					baseCycleLen: 0,
-					baseFontSize: trackFontSize
+					baseFontSize: trackFontSize,
+					pathMeta: textPathById.get(pathId) ?? null,
+					repeats: marqueeRepeatMin
 				});
 			}
 		};
@@ -640,6 +672,11 @@ export function renderScopeArcsChart(container, payload) {
 	const ringLayer = zoomG.selectAll(".sarc-ring");
 	const labelLayer = zoomG.selectAll(".sarc-ring-label");
 	const zoomRoot = zoomG;
+	const arcNodes = zoomG.selectAll(".sarc-arc").nodes();
+	const labelTextNodes = zoomG.selectAll(".sarc-ring-label-text").nodes();
+	let renderedScale = 1;
+	let renderedWordSize = wordFontSize;
+	let renderedNameSize = labelFontSize;
 
 	let scrollState = { visibleRings: 1, focusedRing: 1, overview: false };
 	let hoveredRing = null;
@@ -663,6 +700,11 @@ export function renderScopeArcsChart(container, payload) {
 		return tabletDownMq.matches && !finePointerMq.matches;
 	}
 
+	function overviewHoverEnabled() {
+		if (prefersReducedMotion || tapToggleActive) return false;
+		return finePointerMq?.matches !== false;
+	}
+
 	function setMarqueePaused(paused) {
 		marqueePaused = paused;
 		marqueeLoop.syncEngagement();
@@ -672,8 +714,10 @@ export function renderScopeArcsChart(container, payload) {
 		if (marqueePaused) return false;
 		const { visibleRings, focusedRing, overview } = scrollState;
 		if (track.ring > visibleRings) return false;
-		// Overview: no word ribbons / marquees on smaller screens
-		if (overview) return false;
+		if (overview) {
+			if (!overviewHoverEnabled() || hoveredRing == null || track.ring !== hoveredRing) return false;
+			return true;
+		}
 		if (!focusedRing || track.ring !== focusedRing) return false;
 		if (prefersReducedMotion) return track.arcKey === hoveredArcKey;
 		return true;
@@ -681,8 +725,8 @@ export function renderScopeArcsChart(container, payload) {
 
 	function ringAcceptsPointer(ring) {
 		const { visibleRings, focusedRing, overview } = scrollState;
-		if (overview) return false;
 		if (ring > visibleRings) return false;
+		if (overview) return overviewHoverEnabled();
 		return prefersReducedMotion && ring === focusedRing;
 	}
 
@@ -724,6 +768,27 @@ export function renderScopeArcsChart(container, payload) {
 		return probeLen;
 	}
 
+	function repeatsForTrack(track) {
+		const meta = track.pathMeta;
+		if (!meta || !track.baseCycleLen || !track.baseFontSize) return marqueeRepeatMin;
+		const focusScale = Math.max(zoomScaleForState({ focusedRing: track.ring, overview: false }), 0.01);
+		const fontSize = (wordFontSize / focusScale) * track.opticalScale;
+		const { radius, overshoot } = extendedTextAngles(meta, fontSize);
+		const span = ((meta.end - meta.start) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+		const arcLen = radius * (span + overshoot * 2);
+		const cycleLen = track.baseCycleLen * (fontSize / track.baseFontSize);
+		if (!(cycleLen > 0)) return marqueeRepeatMin;
+		// one extra cycle so startOffset can wrap by a full phrase without opening a gap.
+		return Math.max(marqueeRepeatMin, Math.ceil(arcLen / cycleLen) + 1);
+	}
+
+	function applyMarqueeRepeats(track) {
+		const repeats = repeatsForTrack(track);
+		if (track.repeats === repeats) return;
+		track.repeats = repeats;
+		track.tpNode.textContent = track.cycleText.repeat(repeats);
+	}
+
 	function initMarqueeBaseMeasurements() {
 		const MIN_CYCLE = 24;
 		for (const track of marqueeTracks) {
@@ -733,6 +798,7 @@ export function renderScopeArcsChart(container, payload) {
 				len = Math.max(MIN_CYCLE, track.cycleText.length * track.baseFontSize * 0.58);
 			}
 			track.baseCycleLen = len;
+			applyMarqueeRepeats(track);
 			track.cycleLen = len;
 			track.offset = -Math.random() * len;
 			track.tpNode.setAttribute("startOffset", track.offset);
@@ -749,6 +815,7 @@ export function renderScopeArcsChart(container, payload) {
 		for (const track of marqueeTracks) {
 			const trackSize = baseFontSize * track.opticalScale;
 			track.textEl.setAttribute("font-size", trackSize);
+			if (track.pathMeta) applyTextPath(track.pathMeta, trackSize);
 			const newCycle = Math.max(MIN_CYCLE, cycleLenForFontSize(track, trackSize));
 
 			if (resetOffsets) {
@@ -781,7 +848,7 @@ export function renderScopeArcsChart(container, payload) {
 
 	function wordsOpacity(ring) {
 		const { visibleRings, focusedRing, overview } = scrollState;
-		if (overview) return 0;
+		if (overview) return overviewHoverEnabled() && ring === hoveredRing ? 1 : 0;
 		return ring === focusedRing && ring <= visibleRings ? 1 : 0;
 	}
 
@@ -790,7 +857,7 @@ export function renderScopeArcsChart(container, payload) {
 		const transitionMs = animate ? (durationMs ?? zoomMs) : 0;
 		const fadeOnly = prefersReducedMotion;
 		const zoomEase = zoomingOut ? d3.easePolyOut.exponent(4) : d3.easeCubicIn;
-		const fadeEase = d3.easeCubicOut;
+		const fadeEase = d3.easeCubicIn;
 	
 		const fadeDelay = !fadeOnly && zoomingOut ? transitionMs * 0.25 : 0;
 		const fadeDuration = !fadeOnly && zoomingOut ? transitionMs - fadeDelay : transitionMs;
@@ -800,8 +867,13 @@ export function renderScopeArcsChart(container, payload) {
 		const ringVisible = (ring) => ring <= visibleRings;
 
 		
-		const activeRing =
-			!overview && focusedRing && focusedRing <= visibleRings ? focusedRing : null;
+		const activeRing = overview
+			? overviewHoverEnabled() && hoveredRing && hoveredRing <= visibleRings
+				? hoveredRing
+				: null
+			: focusedRing && focusedRing <= visibleRings
+				? focusedRing
+				: null;
 		const swellWidth = (resting) =>
 			activeRing == null ? resting : Math.max(resting, wordsBandPx / Math.max(scale, 0.01));
 
@@ -831,35 +903,9 @@ export function renderScopeArcsChart(container, payload) {
 			return ringAcceptsPointer(ring) ? "stroke" : "none";
 		});
 
-		const arcStroke = ringLayer.selectAll(".sarc-arc").interrupt("band-w");
-		const nextStrokeWidth = function () {
-			const ring = Number(this.parentNode?.getAttribute?.("data-ring"));
-			const resting = Number(this.getAttribute("data-thick")) || 0;
-			return ring === activeRing ? swellWidth(resting) : resting;
-		};
-		if (fadeOnly || !animate || transitionMs <= 0) {
-			arcStroke.attr("stroke-width", nextStrokeWidth);
-		} else {
-			arcStroke.transition("band-w").duration(transitionMs).ease(zoomEase).attr("stroke-width", nextStrokeWidth);
-		}
-
-		
 		for (const m of clipMeta) {
 			const w = m.ring === activeRing ? swellWidth(m.restThick) : m.restThick;
 			const d = arcBandClipD(svgCx, svgCy, m.r, w / 2, m.start, m.end);
-			if (d) m.node.setAttribute("d", d);
-		}
-
-		for (const m of textPathMeta) {
-			const overviewHover = overview && m.ring === activeRing;
-			const d = arcPath(
-				svgCx,
-				svgCy,
-				ribbonTextRadius(m.r, m.ring, { overviewHover }),
-				m.start,
-				m.end,
-				1
-			);
 			if (d) m.node.setAttribute("d", d);
 		}
 
@@ -870,16 +916,25 @@ export function renderScopeArcsChart(container, payload) {
 
 		labelLayer.style("pointer-events", "none");
 
-		ringLayer
-			.selectAll(".sarc-words")
-			.interrupt()
-			.transition("words")
-			.delay(fadeDelay)
-			.duration(fadeDuration)
-			.ease(fadeEase)
-			.style("opacity", function () {
-				return wordsOpacity(Number(this.getAttribute("data-ring")));
-			});
+		const wordsLayer = ringLayer.selectAll(".sarc-words");
+		const hoverReveal = overview && marqueeReset;
+		// Step zooms hide the words until the ring settles. Overview hover has no zoom, so the words fade with the band.
+		if (animate && transitionMs > 0 && !fadeOnly && !hoverReveal) {
+			wordsLayer.interrupt("words").style("visibility", "hidden").style("opacity", 0);
+		} else {
+			wordsLayer
+				.interrupt("words")
+				.style("visibility", function () {
+					return wordsOpacity(Number(this.getAttribute("data-ring"))) > 0 ? "visible" : "hidden";
+				})
+				.transition("words")
+				.delay(fadeDelay)
+				.duration(fadeDuration)
+				.ease(hoverReveal ? zoomEase : fadeEase)
+				.style("opacity", function () {
+					return wordsOpacity(Number(this.getAttribute("data-ring")));
+				});
+		}
 
 		labelLayer
 			.interrupt("labels")
@@ -895,42 +950,115 @@ export function renderScopeArcsChart(container, payload) {
 				return focusOpacity(Number(this.getAttribute("data-ring")));
 			});
 
-		const nextTransform = zoomTransform(scale);
-		const wordSize = wordFontSize / scale;
+		const toScale = scale;
+		const toWord = wordFontSize / Math.max(toScale, 0.01);
+		const toName = labelFontSize / Math.max(toScale, 0.01);
+		const animateMotion = animate && transitionMs > 0 && !fadeOnly;
 
-		const labelText = labelLayer.selectAll(".sarc-ring-label-text");
-
-		
-		if (animate && transitionMs > 0 && !fadeOnly) {
-			zoomRoot.interrupt().transition("zoom").duration(transitionMs).ease(zoomEase).attr("transform", nextTransform);
+		function paintZoomFrame(frameScale, wordSize, nameSize, liveRings) {
+			renderedScale = frameScale;
+			renderedWordSize = wordSize;
+			renderedNameSize = nameSize;
+			zoomRoot.node().setAttribute("transform", zoomTransform(frameScale));
+			const safe = Math.max(frameScale, 0.01);
+			const frameActive =
+				!overview && focusedRing && focusedRing <= visibleRings ? focusedRing : null;
+			for (const arc of arcNodes) {
+				const ring = Number(arc.parentNode?.getAttribute("data-ring"));
+				const resting = Number(arc.getAttribute("data-thick")) || 0;
+				const w = ring === frameActive ? Math.max(resting, wordsBandPx / safe) : resting;
+				arc.setAttribute("stroke-width", w);
+			}
+			for (const node of labelTextNodes) node.setAttribute("font-size", nameSize);
+			for (const item of centerLabelTspans) {
+				item.node.setAttribute("y", centerLabelY(item.lineIdx, item.lineCount, nameSize));
+			}
 			for (const track of marqueeTracks) {
-				const trackSize = wordSize * track.opticalScale;
-				d3.select(track.textEl)
-					.interrupt()
-					.transition("text-size")
-					.duration(transitionMs)
-					.ease(zoomEase)
-					.attr("font-size", trackSize);
-			}
-			labelText.interrupt().transition("text-size").duration(transitionMs).ease(zoomEase).attr("font-size", nameSize);
-			for (const { node, lineIdx, lineCount } of centerLabelTspans) {
-				d3.select(node)
-					.interrupt("text-size")
-					.transition("text-size")
-					.duration(transitionMs)
-					.ease(zoomEase)
-					.attr("y", centerLabelY(lineIdx, lineCount, nameSize));
-			}
-		} else {
-			zoomRoot.interrupt().attr("transform", nextTransform);
-			for (const track of marqueeTracks) {
-				track.textEl.setAttribute("font-size", wordSize * track.opticalScale);
-			}
-			labelText.attr("font-size", nameSize);
-			for (const { node, lineIdx, lineCount } of centerLabelTspans) {
-				node.setAttribute("y", centerLabelY(lineIdx, lineCount, nameSize));
+				if (liveRings && !liveRings.has(track.ring)) continue;
+				const size = wordSize * track.opticalScale;
+				const prev = track.pathMeta?.fontSize;
+				if (prev != null && Math.abs(prev - size) < 0.02) continue;
+				track.textEl.setAttribute("font-size", size);
+				if (track.pathMeta) applyTextPath(track.pathMeta, size);
 			}
 		}
+
+		function placeWords() {
+			renderedWordSize = toWord;
+			for (const track of marqueeTracks) {
+				const size = toWord * track.opticalScale;
+				track.textEl.setAttribute("font-size", size);
+				if (track.pathMeta) applyTextPath(track.pathMeta, size);
+			}
+		}
+
+		function fadeWordsIn() {
+			placeWords();
+			wordsLayer
+				.interrupt("words")
+				.style("visibility", function () {
+					return wordsOpacity(Number(this.getAttribute("data-ring"))) > 0 ? "visible" : "hidden";
+				})
+				.style("opacity", 0)
+				.transition("words")
+				.duration(wordsFadeMs)
+				.ease(fadeEase)
+				.style("opacity", function () {
+					return wordsOpacity(Number(this.getAttribute("data-ring")));
+				});
+		}
+
+		if (hoverReveal) placeWords();
+
+		if (!animateMotion) {
+			zoomRoot.interrupt("zoom");
+			paintZoomFrame(toScale, toWord, toName, null);
+		} else {
+			const scaleInterp = d3.interpolateNumber(renderedScale, toScale);
+			const nameInterp = d3.interpolateNumber(renderedNameSize, toName);
+			const strokeTweens = arcNodes.map((arc) => {
+				const ring = Number(arc.parentNode?.getAttribute("data-ring"));
+				const resting = Number(arc.getAttribute("data-thick")) || 0;
+				const target = ring === activeRing ? swellWidth(resting) : resting;
+				const from = Number(arc.getAttribute("stroke-width"));
+				return {
+					arc,
+					interp: d3.interpolateNumber(Number.isFinite(from) ? from : target, target)
+				};
+			});
+
+			zoomRoot
+				.interrupt("zoom")
+				.transition("zoom")
+				.duration(transitionMs)
+				.ease(zoomEase)
+				.tween("frame", () => (t) => {
+					const frameScale = scaleInterp(t);
+					const nameSize = nameInterp(t);
+					renderedScale = frameScale;
+					renderedNameSize = nameSize;
+					zoomRoot.node().setAttribute("transform", zoomTransform(frameScale));
+					for (const { arc, interp } of strokeTweens) arc.setAttribute("stroke-width", interp(t));
+					for (const node of labelTextNodes) node.setAttribute("font-size", nameSize);
+					for (const item of centerLabelTspans) {
+						item.node.setAttribute("y", centerLabelY(item.lineIdx, item.lineCount, nameSize));
+					}
+				})
+				.on("end", () => {
+					renderedScale = toScale;
+					renderedNameSize = toName;
+					zoomRoot.node().setAttribute("transform", zoomTransform(toScale));
+					for (const node of labelTextNodes) node.setAttribute("font-size", toName);
+					for (const item of centerLabelTspans) {
+						item.node.setAttribute("y", centerLabelY(item.lineIdx, item.lineCount, toName));
+					}
+					if (hoverReveal) return;
+					if (overview) placeWords();
+					else fadeWordsIn();
+				});
+		}
+
+		const wordSize = toWord;
 
 		const focusChanged =
 			marqueeInitialized && focusedRing !== prevFocusedRing && !overview;
@@ -971,11 +1099,23 @@ export function renderScopeArcsChart(container, payload) {
 
 	function setHoveredArc(ring, arcKey) {
 		if (tapToggleActive) return;
-		if (scrollState.overview) return;
-		if (!prefersReducedMotion) return;
-
 		const nextRing = ring == null ? null : Number(ring);
 		const nextArc = arcKey ?? null;
+
+		if (scrollState.overview) {
+			if (!overviewHoverEnabled()) return;
+			const ringChanged = hoveredRing !== nextRing;
+			const arcChanged = hoveredArcKey !== nextArc;
+			if (!ringChanged && !arcChanged) return;
+			hoveredRing = nextRing;
+			hoveredArcKey = nextRing != null ? nextArc : null;
+			if (ringChanged) applyVisualState(true, true, false, hoverMs);
+			else marqueeLoop.syncEngagement();
+			return;
+		}
+
+		if (!prefersReducedMotion) return;
+
 		const effectiveRing = nextRing != null && nextRing === scrollState.focusedRing ? nextRing : null;
 		const effectiveArc = effectiveRing != null ? nextArc : null;
 		if (hoveredRing === effectiveRing && hoveredArcKey === effectiveArc) return;
@@ -1046,11 +1186,18 @@ export function renderScopeArcsChart(container, payload) {
 			focusedRing: scrollState.focusedRing,
 			overview: scrollState.overview
 		});
-		scrollState = { ...scrollState, ...next };
+		const merged = { ...scrollState, ...next };
+		const unchanged =
+			merged.visibleRings === scrollState.visibleRings &&
+			merged.focusedRing === scrollState.focusedRing &&
+			Boolean(merged.overview) === Boolean(scrollState.overview);
+		scrollState = merged;
 		if (!scrollState.overview || !wasOverview) {
 			hoveredRing = null;
 			hoveredArcKey = null;
 		}
+
+		if (unchanged && animate) return;
 		const nextScale = zoomScaleForState({
 			focusedRing: scrollState.focusedRing,
 			overview: scrollState.overview
@@ -1061,6 +1208,30 @@ export function renderScopeArcsChart(container, payload) {
 	initMarqueeBaseMeasurements();
 	marqueeLoop.setPrefersReducedMotion(prefersReducedMotion);
 	applyScrollState(scrollState, false);
+
+	let disposed = false;
+	function realignTextPaths() {
+		if (disposed) return;
+		capCenterEmCache.clear();
+		const MIN_CYCLE = 24;
+		for (const track of marqueeTracks) {
+			const len = probeCycleLen(track, track.baseFontSize);
+			if (len >= MIN_CYCLE && Math.abs(len - track.baseCycleLen) > 1) {
+				track.baseCycleLen = len;
+				const fontSize = Number(track.textEl.getAttribute("font-size")) || track.baseFontSize;
+				track.cycleLen = cycleLenForFontSize(track, fontSize);
+				track.offset = wrapPathOffset(track.offset, track.cycleLen);
+				track.tpNode.setAttribute("startOffset", track.offset);
+			}
+			applyMarqueeRepeats(track);
+		}
+		for (const meta of textPathMeta) {
+			if (meta.fontSize == null) continue;
+			applyTextPath(meta, meta.fontSize);
+		}
+	}
+	document.fonts?.ready?.then(realignTextPaths);
+	document.fonts?.addEventListener?.("loadingdone", realignTextPaths);
 
 	return {
 		setScrollState(state) {
@@ -1079,6 +1250,8 @@ export function renderScopeArcsChart(container, payload) {
 			applyVisualState(true, false, false);
 		},
 		destroy() {
+			disposed = true;
+			document.fonts?.removeEventListener?.("loadingdone", realignTextPaths);
 			if (marqueeResumeTimer) {
 				clearTimeout(marqueeResumeTimer);
 				marqueeResumeTimer = 0;

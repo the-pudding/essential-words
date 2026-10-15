@@ -115,17 +115,52 @@
 		applyStepFocus();
 		reportExplorerStep("concreteness-bands", next, overlaySteps.length);
 	}
+	const STAGE_MIN_TOP = 8;
+
+	function visibleViewportHeight() {
+		return Math.round(window.visualViewport?.height ?? window.innerHeight);
+	}
+
+	function visibleChartSpan(svgEl) {
+		const svgBox = svgEl.getBoundingClientRect();
+		const nodes = svgEl.querySelectorAll(
+			".label, .endpoint-text, .concr-bands-axis-tick-label, .concr-bands-annotation-text"
+		);
+		let min = Infinity;
+		let max = -Infinity;
+		for (const node of nodes) {
+			const box = node.getBoundingClientRect();
+			if (box.height < 1 || box.width < 1) continue;
+			min = Math.min(min, box.top);
+			max = Math.max(max, box.bottom);
+		}
+		if (!Number.isFinite(min) || max - min < 1) {
+			return { height: svgBox.height, offset: 0 };
+		}
+		return { height: max - min, offset: min - svgBox.top };
+	}
+
 	function syncStageLayout() {
 		if (!chartMount || !scrollyMount) return;
 		const svgEl = chartMount.querySelector("svg");
-		if (!svgEl) return;
-		const chartH = Math.round(svgEl.getBoundingClientRect().height);
-		if (chartH < 1) return;
-		scrollyMount.style.setProperty("--chart-overlay-stage-height", `${chartH}px`);
+		const stage = scrollyMount.querySelector(".concr-bands-stage");
+		if (!svgEl || !stage) return;
+		const span = visibleChartSpan(svgEl);
+		if (span.height < 1) return;
+		const room = visibleViewportHeight() - span.height;
+		const inkTop = room >= STAGE_MIN_TOP * 2 ? Math.floor(room / 2) : STAGE_MIN_TOP;
+		const top = Math.max(STAGE_MIN_TOP, Math.round(inkTop - span.offset));
+		scrollyMount.style.setProperty("--chart-overlay-stage-height", `${Math.round(svgEl.getBoundingClientRect().height)}px`);
+		stage.style.setProperty("--chart-overlay-stage-top", `${top}px`);
+	}
+
+	function handleViewportResize() {
+		syncStageLayout();
 	}
 
 	function clearStageLayout() {
 		scrollyMount?.style.removeProperty("--chart-overlay-stage-height");
+		scrollyMount?.querySelector(".concr-bands-stage")?.style.removeProperty("--chart-overlay-stage-top");
 	}
 
 	function renderChart() {
@@ -222,6 +257,8 @@
 		chartSectionEl = rootMount?.closest?.(".story-section--chart") ?? null;
 		setupStepObserver();
 		setupVisibilityObserver();
+		window.addEventListener("resize", handleViewportResize);
+		window.visualViewport?.addEventListener("resize", handleViewportResize);
 		const resizeTarget = chartWrap ?? chartMount;
 		if (!resizeTarget) return;
 		resizeObserver = new ResizeObserver(() => scheduleRender());
@@ -233,6 +270,10 @@
 		prefersReducedMotionSub?.destroy();
 		if (typeof document !== "undefined") {
 			document.removeEventListener("visibilitychange", handleDocumentVisibility);
+		}
+		if (typeof window !== "undefined") {
+			window.removeEventListener("resize", handleViewportResize);
+			window.visualViewport?.removeEventListener("resize", handleViewportResize);
 		}
 		chartSectionEl?.classList.remove("is-concr-bands-overlay-active");
 		if (rafId) cancelAnimationFrame(rafId);
@@ -450,7 +491,7 @@
 
 	@media (max-width: 935px) {
 		.concr-bands {
-			--concr-bands-margin-top: 120px;
+			/* --concr-bands-margin-top: 120px; */
 			--concr-bands-margin-left: 16px;
 			--concr-bands-margin-right: 16px;
 			--concr-bands-center-gap: 24px;
@@ -472,10 +513,10 @@
 
 		}
 
-
+/* 
 		.concr-bands-stage {
 			--chart-overlay-stage-top: 10vh;
-		}
+		} */
 
 		:global(.story-section#concretenessBands .concr-bands) {
 			margin: 0;
@@ -488,8 +529,8 @@
 			--concr-bands-band-h: 28px;
 			--concr-bands-band-gap: 24px;
 			--concr-bands-marquee-font-size: 18px;
-			--concr-bands-margin-top: 80px;
-			/* --concr-bands-axis-tick-offset: 48px; */
+			/* --concr-bands-margin-top: 64px; */
+			--concr-bands-axis-tick-offset: 64px;
 			--concr-bands-margin-bottom: 48px;
 			--concr-bands-margin-left: 12px;
 			--concr-bands-margin-right: 12px;
@@ -510,10 +551,10 @@
 		}
 
 
-		.concr-bands-stage {
+		/* .concr-bands-stage {
 			--chart-overlay-stage-height: auto;
 			--chart-overlay-stage-top: 4vh;
-		}
+		} */
 	}
 
 
